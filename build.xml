@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+     SOAP web service proxy   
+                   
+     Karli                                                                
+     ====================================================================== -->
+<project name="soapproxy" default="deploy">
+  <property file="build.properties"/>
+  <property name="src.dir" value="src"/>
+  <property name="web.dir" value="war"/>
+  <property name="build.dir" value="${web.dir}/WEB-INF/classes/"/>
+  <property name="lib.dir" value="${web.dir}/WEB-INF/lib/"/>
+  <property name="name" value="soapproxy"/>
+
+  <!-- Arguments to gwtc and devmode targets -->
+  <property name="gwt.args" value=""/>
+
+  <!-- Configure path to GWT SDK -->
+  <property name="gwt.sdk" location="C:\AppServ\www\gwt-2.0.4"/>
+
+  <path id="project.class.path">
+    <!--<pathelement location="war/WEB-INF/classes"/>-->
+    <pathelement location="${gwt.sdk}/gwt-user.jar"/>
+    <fileset dir="${gwt.sdk}" includes="gwt-dev*.jar"/>
+    <!-- Add any additional non-server libs (such as JUnit) -->
+    <!--<fileset dir="war/WEB-INF/lib" includes="**/*.jar"/>-->
+  </path>
+
+  <path id="master-classpath">
+    <fileset dir="${lib.dir}">
+      <include name="*.jar"/>
+    </fileset>
+    <fileset dir="${appserver.lib}">
+      <include name="servlet*.jar"/>
+    </fileset>
+    <pathelement path="${build.dir}"/>
+  </path>
+
+  <target name="deploy" depends="build" description="Deploy application">
+    <copy todir="${deploy.path}/${name}" preservelastmodified="true">
+      <fileset dir="${web.dir}">
+        <include name="**/*.*"/>
+      </fileset>
+    </copy>
+  </target>
+
+
+  <target name="build" description="Compile main source java files">
+    <mkdir dir="${build.dir}"/>
+    <javac destdir="${build.dir}" debug="true" deprecation="false"
+           optimize="false" failonerror="true">
+      <src path="${src.dir}"/>
+      <classpath refid="master-classpath"/>
+    </javac>
+  </target>
+
+  <target name="gwtc" description="GWT compile to JavaScript">
+    <java failonerror="true" fork="true" classname="com.google.gwt.dev.Compiler">
+      <classpath>
+        <pathelement location="src"/>
+        <path refid="project.class.path"/>
+      </classpath>
+      <!-- add jvmarg -Xss16M or similar if you see a StackOverflowError -->
+      <jvmarg value="-Xmx256M"/>
+      <!-- Additional arguments like -style PRETTY or -logLevel DEBUG -->
+      <arg line="${gwt.args}"/>
+      <arg value="ee.stacc.transformer.TransformerWidget"/>
+    </java>
+  </target>
+
+  <target name="run">
+    <java classname="Launcher" fork="true" maxmemory="256m">
+      <jvmarg value="-Djetty.port=${jetty.port}"/>
+      <classpath>
+        <pathelement location="${build.dir}"/>
+        <fileset dir="${lib.dir}">
+          <include name="*.jar"/>
+        </fileset>
+      </classpath>
+    </java>
+  </target>
+
+  <target name="build-all" depends="build, gwtc"/>
+
+</project>

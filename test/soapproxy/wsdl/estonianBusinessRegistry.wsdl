@@ -1,0 +1,1345 @@
+<definitions name="EstonianBusinessRegistryService" targetNamespace="http://com.soatrader.eer/eer"
+             xmlns:tns="http://com.soatrader.eer/eer" xmlns:ns1="http://com.soatrader.eer/eer/types"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://datatypes.eer.soatrader.com/jaws"
+             xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:soat="http://ws.soatrader.com/" xmlns="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <types>
+        <schema targetNamespace="http://com.soatrader.eer/eer/types" xmlns="http://www.w3.org/2001/XMLSchema"
+                xmlns:ns2="http://datatypes.eer.soatrader.com/jaws"
+                xmlns:soap11-enc="http://schemas.xmlsoap.org/soap/encoding/"
+                xmlns:tns="http://com.soatrader.eer/eer/types" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <import namespace="http://datatypes.eer.soatrader.com/jaws"/>
+            <complexType name="findBusiness">
+                <sequence>
+                    <element name="registryCode" nillable="true" type="string"/>
+                    <element name="languageId" type="int"/>
+                </sequence>
+            </complexType>
+            <complexType name="findBusinessResponse">
+                <sequence>
+                    <element name="result" nillable="true" type="ns2:ListOfBusinesses"/>
+                </sequence>
+            </complexType>
+            <complexType name="findBusinesses">
+                <sequence>
+                    <element name="companyName" nillable="true" type="string"/>
+                    <element name="languageId" type="int"/>
+                </sequence>
+            </complexType>
+            <complexType name="findBusinessesResponse">
+                <sequence>
+                    <element name="result" nillable="true" type="ns2:ListOfBusinesses"/>
+                </sequence>
+            </complexType>
+            <complexType name="getAnnualReportData">
+                <sequence>
+                    <element name="registryCode" nillable="true" type="string"/>
+                    <element name="reportType" nillable="true" type="string"/>
+                    <element name="year" type="int"/>
+                    <element name="languageId" type="int"/>
+                </sequence>
+            </complexType>
+            <complexType name="getAnnualReportDataResponse">
+                <sequence>
+                    <element name="result" nillable="true" type="ns2:ListOfAnnualReportData"/>
+                </sequence>
+            </complexType>
+            <complexType name="getClassifiers">
+                <sequence>
+                    <element name="classifierName" nillable="true" type="string"/>
+                    <element name="languageId" type="int"/>
+                </sequence>
+            </complexType>
+            <complexType name="getClassifiersResponse">
+                <sequence>
+                    <element name="result" nillable="true" type="ns2:ListOfClassifiers"/>
+                </sequence>
+            </complexType>
+            <complexType name="getCommercialDeposits">
+                <sequence>
+                    <element name="registryCode" nillable="true" type="string"/>
+                    <element name="languageId" type="int"/>
+                </sequence>
+            </complexType>
+            <complexType name="getCommercialDepositsResponse">
+                <sequence>
+                    <element name="result" nillable="true" type="ns2:ListOfCommercialDeposits"/>
+                </sequence>
+            </complexType>
+            <complexType name="getCompanyAnnualReportURLs">
+                <sequence>
+                    <element name="registryCode" nillable="true" type="string"/>
+                    <element name="year" type="int"/>
+                    <element name="languageId" type="int"/>
+                </sequence>
+            </complexType>
+            <complexType name="getCompanyAnnualReportURLsResponse">
+                <sequence>
+                    <element name="result" nillable="true" type="ns2:ListOfCompanyReportURLs"/>
+                </sequence>
+            </complexType>
+            <complexType name="getCompanyArticlesOfAssociationURL">
+                <sequence>
+                    <element name="registryCode" nillable="true" type="string"/>
+                    <element name="languageId" type="int"/>
+                </sequence>
+            </complexType>
+            <complexType name="getCompanyArticlesOfAssociationURLResponse">
+                <sequence>
+                    <element name="result" nillable="true" type="ns2:ListOfCompanyReportURLs"/>
+                </sequence>
+            </complexType>
+            <complexType name="getCompanyDetails">
+                <sequence>
+                    <element name="registryCode" nillable="true" type="string"/>
+                    <element name="languageId" type="int"/>
+                </sequence>
+            </complexType>
+            <complexType name="getCompanyDetailsResponse">
+                <sequence>
+                    <element name="result" nillable="true" type="ns2:ListOfCompanyDetails"/>
+                </sequence>
+            </complexType>
+            <complexType name="getCompanyDetailsWithPersonDetails">
+                <sequence>
+                    <element name="registryCode" nillable="true" type="string"/>
+                    <element name="languageId" type="int"/>
+                </sequence>
+            </complexType>
+            <complexType name="getCompanyDetailsWithPersonDetailsResponse">
+                <sequence>
+                    <element name="result" nillable="true" type="ns2:ListOfCompanyDetails"/>
+                </sequence>
+            </complexType>
+            <complexType name="getCompanyHistoricalDetails">
+                <sequence>
+                    <element name="registryCode" nillable="true" type="string"/>
+                    <element name="languageId" type="int"/>
+                </sequence>
+            </complexType>
+            <complexType name="getCompanyHistoricalDetailsResponse">
+                <sequence>
+                    <element name="result" nillable="true" type="ns2:CompanyHistoricalDetails"/>
+                </sequence>
+            </complexType>
+            <complexType name="getCompanyHistoricalDetailsWithPersonDetails">
+                <sequence>
+                    <element name="registryCode" nillable="true" type="string"/>
+                    <element name="languageId" type="int"/>
+                </sequence>
+            </complexType>
+            <complexType name="getCompanyHistoricalDetailsWithPersonDetailsResponse">
+                <sequence>
+                    <element name="result" nillable="true" type="ns2:CompanyHistoricalDetails"/>
+                </sequence>
+            </complexType>
+            <complexType name="getListOfAnnualReports">
+                <sequence>
+                    <element name="registryCode" nillable="true" type="string"/>
+                    <element name="languageId" type="int"/>
+                </sequence>
+            </complexType>
+            <complexType name="getListOfAnnualReportsResponse">
+                <sequence>
+                    <element name="result" nillable="true" type="ns2:ListOfAnnualReports"/>
+                </sequence>
+            </complexType>
+            <complexType name="getPersonsWithRepresentationRight">
+                <sequence>
+                    <element name="registryCode" nillable="true" type="string"/>
+                    <element name="languageId" type="int"/>
+                </sequence>
+            </complexType>
+            <complexType name="getPersonsWithRepresentationRightResponse">
+                <sequence>
+                    <element name="result" nillable="true" type="ns2:PersonsWithRepresentationRight"/>
+                </sequence>
+            </complexType>
+            <complexType name="getRelatedCompanies">
+                <sequence>
+                    <element name="nationalIdCode" nillable="true" type="string"/>
+                    <element name="languageId" type="int"/>
+                </sequence>
+            </complexType>
+            <complexType name="getRelatedCompaniesResponse">
+                <sequence>
+                    <element name="result" nillable="true" type="ns2:ListOfRelatedCompanies"/>
+                </sequence>
+            </complexType>
+            <complexType name="verifyRepresentationRight">
+                <sequence>
+                    <element name="registryCode" nillable="true" type="string"/>
+                    <element name="nationalIdCode" nillable="true" type="string"/>
+                    <element name="languageId" type="int"/>
+                </sequence>
+            </complexType>
+            <complexType name="verifyRepresentationRightResponse">
+                <sequence>
+                    <element name="result" nillable="true" type="ns2:PersonsWithRepresentationRight"/>
+                </sequence>
+            </complexType>
+            <element name="findBusiness" type="tns:findBusiness"/>
+            <element name="findBusinessResponse" type="tns:findBusinessResponse"/>
+            <element name="findBusinesses" type="tns:findBusinesses"/>
+            <element name="findBusinessesResponse" type="tns:findBusinessesResponse"/>
+            <element name="getAnnualReportData" type="tns:getAnnualReportData"/>
+            <element name="getAnnualReportDataResponse" type="tns:getAnnualReportDataResponse"/>
+            <element name="getClassifiers" type="tns:getClassifiers"/>
+            <element name="getClassifiersResponse" type="tns:getClassifiersResponse"/>
+            <element name="getCommercialDeposits" type="tns:getCommercialDeposits"/>
+            <element name="getCommercialDepositsResponse" type="tns:getCommercialDepositsResponse"/>
+            <element name="getCompanyAnnualReportURLs" type="tns:getCompanyAnnualReportURLs"/>
+            <element name="getCompanyAnnualReportURLsResponse" type="tns:getCompanyAnnualReportURLsResponse"/>
+            <element name="getCompanyArticlesOfAssociationURL" type="tns:getCompanyArticlesOfAssociationURL"/>
+            <element name="getCompanyArticlesOfAssociationURLResponse"
+                     type="tns:getCompanyArticlesOfAssociationURLResponse"/>
+            <element name="getCompanyDetails" type="tns:getCompanyDetails"/>
+            <element name="getCompanyDetailsResponse" type="tns:getCompanyDetailsResponse"/>
+            <element name="getCompanyDetailsWithPersonDetails" type="tns:getCompanyDetailsWithPersonDetails"/>
+            <element name="getCompanyDetailsWithPersonDetailsResponse"
+                     type="tns:getCompanyDetailsWithPersonDetailsResponse"/>
+            <element name="getCompanyHistoricalDetails" type="tns:getCompanyHistoricalDetails"/>
+            <element name="getCompanyHistoricalDetailsResponse" type="tns:getCompanyHistoricalDetailsResponse"/>
+            <element name="getCompanyHistoricalDetailsWithPersonDetails"
+                     type="tns:getCompanyHistoricalDetailsWithPersonDetails"/>
+            <element name="getCompanyHistoricalDetailsWithPersonDetailsResponse"
+                     type="tns:getCompanyHistoricalDetailsWithPersonDetailsResponse"/>
+            <element name="getListOfAnnualReports" type="tns:getListOfAnnualReports"/>
+            <element name="getListOfAnnualReportsResponse" type="tns:getListOfAnnualReportsResponse"/>
+            <element name="getPersonsWithRepresentationRight" type="tns:getPersonsWithRepresentationRight"/>
+            <element name="getPersonsWithRepresentationRightResponse"
+                     type="tns:getPersonsWithRepresentationRightResponse"/>
+            <element name="getRelatedCompanies" type="tns:getRelatedCompanies"/>
+            <element name="getRelatedCompaniesResponse" type="tns:getRelatedCompaniesResponse"/>
+            <element name="verifyRepresentationRight" type="tns:verifyRepresentationRight"/>
+            <element name="verifyRepresentationRightResponse" type="tns:verifyRepresentationRightResponse"/>
+        </schema>
+        <schema targetNamespace="http://datatypes.eer.soatrader.com/jaws" xmlns="http://www.w3.org/2001/XMLSchema"
+                xmlns:soap11-enc="http://schemas.xmlsoap.org/soap/encoding/"
+                xmlns:tns="http://datatypes.eer.soatrader.com/jaws"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <complexType name="Address">
+                <sequence>
+                    <element name="districtName" nillable="true" type="string"/>
+                    <element name="ehakCode" nillable="true" type="string"/>
+                    <element name="postalCode" nillable="true" type="string"/>
+                    <element name="streetField" nillable="true" type="string"/>
+                </sequence>
+            </complexType>
+            <complexType name="AddressHistory">
+                <complexContent>
+                    <extension base="tns:Address">
+                        <sequence>
+                            <element name="attributes" nillable="true" type="tns:DataAttributes"/>
+                            <element name="validityExpirationDate" nillable="true" type="dateTime"/>
+                            <element name="validityStartDate" nillable="true" type="dateTime"/>
+                        </sequence>
+                    </extension>
+                </complexContent>
+            </complexType>
+            <complexType name="ApprovalDate">
+                <sequence>
+                    <element name="attributeValue" nillable="true" type="dateTime"/>
+                    <element name="attributes" nillable="true" type="tns:DataAttributes"/>
+                    <element name="validityExpirationDate" nillable="true" type="dateTime"/>
+                    <element name="validityStartDate" nillable="true" type="dateTime"/>
+                </sequence>
+            </complexType>
+            <complexType name="ArticlesOfAssociation">
+                <sequence>
+                    <element name="attributes" nillable="true" type="tns:DataAttributes"/>
+                    <element name="confirmationDate" nillable="true" type="dateTime"/>
+                    <element name="explanation" nillable="true" type="string"/>
+                    <element name="modificationDate" nillable="true" type="dateTime"/>
+                    <element name="validityExpirationDate" nillable="true" type="dateTime"/>
+                    <element name="validityStartDate" nillable="true" type="dateTime"/>
+                </sequence>
+            </complexType>
+            <complexType name="BusinessActivity">
+                <sequence>
+                    <element name="activity" nillable="true" type="string"/>
+                    <element name="emtakCode" nillable="true" type="string"/>
+                    <element name="naceCode" nillable="true" type="string"/>
+                </sequence>
+            </complexType>
+            <complexType name="BusinessActivityHistory">
+                <complexContent>
+                    <extension base="tns:BusinessActivity">
+                        <sequence>
+                            <element name="numberOfEmployees" type="int"/>
+                            <element name="validityExpirationDate" nillable="true" type="dateTime"/>
+                            <element name="validityStartDate" nillable="true" type="dateTime"/>
+                        </sequence>
+                    </extension>
+                </complexContent>
+            </complexType>
+            <complexType name="BusinessName">
+                <sequence>
+                    <element maxOccurs="unbounded" minOccurs="0" name="invalidBusinessName" nillable="true"
+                             type="string"/>
+                    <element name="validBusinessName" nillable="true" type="string"/>
+                </sequence>
+            </complexType>
+            <complexType name="BusinessRecord">
+                <sequence>
+                    <element maxOccurs="unbounded" minOccurs="0" name="businessAddress" nillable="true"
+                             type="tns:Address"/>
+                    <element name="businessName" nillable="true" type="string"/>
+                    <element name="businessRegistryCode" type="int"/>
+                    <element name="businessStatus" nillable="true" type="tns:BusinessStatus"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="capitalEntry" nillable="true"
+                             type="tns:Capital"/>
+                    <element name="deletionDateTime" nillable="true" type="dateTime"/>
+                    <element name="registrationDateTime" nillable="true" type="dateTime"/>
+                    <element name="registrationDistrict" nillable="true" type="tns:District"/>
+                </sequence>
+            </complexType>
+            <complexType name="BusinessRecordHistory">
+                <complexContent>
+                    <extension base="tns:BusinessRecord">
+                        <sequence>
+                            <element name="addressPart" nillable="true" type="string"/>
+                            <element name="attributes" nillable="true" type="tns:DataAttributes"/>
+                            <element name="contributionAmount" type="float"/>
+                            <element name="contributionCurrencyCode" nillable="true" type="string"/>
+                            <element name="contributionCurrencyName" nillable="true" type="string"/>
+                            <element name="countryCode" nillable="true" type="string"/>
+                            <element name="countryName" nillable="true" type="string"/>
+                            <element name="district" nillable="true" type="string"/>
+                            <element name="postalCode" nillable="true" type="string"/>
+                            <element name="validityExpirationDate" nillable="true" type="dateTime"/>
+                            <element name="validityStartDate" nillable="true" type="dateTime"/>
+                        </sequence>
+                    </extension>
+                </complexContent>
+            </complexType>
+            <complexType name="BusinessRegCode">
+                <sequence>
+                    <element name="estonianRegistrationCode" nillable="true" type="string"/>
+                    <element name="foreignRegistrationCode" nillable="true" type="string"/>
+                </sequence>
+            </complexType>
+            <complexType name="BusinessStatus">
+                <sequence>
+                    <element name="statusCode" nillable="true" type="string"/>
+                    <element name="statusDescription" nillable="true" type="string"/>
+                </sequence>
+            </complexType>
+            <complexType name="Capital">
+                <sequence>
+                    <element name="capitalCurrencyCode" nillable="true" type="string"/>
+                    <element name="capitalSize" type="float"/>
+                </sequence>
+            </complexType>
+            <complexType name="CapitalHistory">
+                <complexContent>
+                    <extension base="tns:Capital">
+                        <sequence>
+                            <element name="validityExpirationDate" nillable="true" type="dateTime"/>
+                            <element name="validityStartDate" nillable="true" type="dateTime"/>
+                        </sequence>
+                    </extension>
+                </complexContent>
+            </complexType>
+            <complexType name="Classifier">
+                <sequence>
+                    <element name="classifierCode" nillable="true" type="string"/>
+                    <element name="classifierName" nillable="true" type="string"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="value" nillable="true"
+                             type="tns:ClassifierValue"/>
+                </sequence>
+            </complexType>
+            <complexType name="ClassifierValue">
+                <sequence>
+                    <element name="valueCode" nillable="true" type="string"/>
+                    <element name="valueName" nillable="true" type="string"/>
+                </sequence>
+            </complexType>
+            <complexType name="CommercialDeposit">
+                <sequence>
+                    <element name="deletionDate" nillable="true" type="dateTime"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="deletionRemark" nillable="true"
+                             type="tns:DeletionRemark"/>
+                    <element name="depositNumber" type="int"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="lPledgee" nillable="true"
+                             type="tns:LegalPersonPledgee"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="pPledgee" nillable="true"
+                             type="tns:PhysicalPersonPledgee"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="pledgeAmount" nillable="true"
+                             type="tns:PledgeAmount"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="pledgorBusinessName" nillable="true"
+                             type="tns:PledgorBusinessName"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="pledgorLocation" nillable="true"
+                             type="tns:PledgorLocation"/>
+                    <element name="registrationDate" nillable="true" type="dateTime"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="remark" nillable="true" type="tns:Remark"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="sequenceNumber" nillable="true"
+                             type="tns:SequenceNumber"/>
+                    <element name="status" nillable="true" type="tns:PledgeStatus"/>
+                </sequence>
+            </complexType>
+            <complexType name="CompactBusinessRecord">
+                <sequence>
+                    <element name="businessAddress" nillable="true" type="tns:Address"/>
+                    <element name="businessName" nillable="true" type="string"/>
+                    <element name="businessRegistryCode" type="int"/>
+                    <element name="businessStatus" nillable="true" type="tns:BusinessStatus"/>
+                    <element name="registrationDate" nillable="true" type="dateTime"/>
+                    <element name="registrationDateInDistrict" nillable="true" type="dateTime"/>
+                    <element name="registrationDistrict" nillable="true" type="tns:District"/>
+                </sequence>
+            </complexType>
+            <complexType name="CompanyHistoricalDetails">
+                <sequence>
+                    <element maxOccurs="unbounded" minOccurs="0" name="articlesOfAssociation" nillable="true"
+                             type="tns:ArticlesOfAssociation"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="businessActivity" nillable="true"
+                             type="tns:ValidFromToString"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="businessAddress" nillable="true"
+                             type="tns:AddressHistory"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="businessAim" nillable="true"
+                             type="tns:ValidFromToString"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="businessContact" nillable="true"
+                             type="tns:ContactRecordHistory"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="businessName" nillable="true"
+                             type="tns:ValidFromToString"/>
+                    <element name="businessRegistryCode" nillable="true" type="string"/>
+                    <element name="businessStatus" nillable="true" type="tns:BusinessStatus"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="capitalEntry" nillable="true"
+                             type="tns:CapitalHistory"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="churchFoundationDate" nillable="true"
+                             type="tns:ApprovalDate"/>
+                    <element name="companyRegistryCode" nillable="true" type="string"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="compromiseExpiryDate" nillable="true"
+                             type="tns:ApprovalDate"/>
+                    <element name="deletionDateTime" nillable="true" type="dateTime"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="fiscalYear" nillable="true"
+                             type="tns:FiscalYear"/>
+                    <element name="foreignBusiness" nillable="true" type="tns:ForeignBusiness"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="foundationResolutionApprovalDate" nillable="true"
+                             type="tns:ApprovalDate"/>
+                    <element name="judEntry" nillable="true" type="tns:JudicialWindingUpEntry"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="legalForm" nillable="true"
+                             type="tns:CompanyTypeHistory"/>
+                    <element name="mainBusinessActivity" nillable="true" type="tns:BusinessActivityHistory"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="nonProfitAssociationEstablishmentDate"
+                             nillable="true" type="tns:ApprovalDate"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="operationExpiryDate" nillable="true"
+                             type="tns:ApprovalDate"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="otherLegalPerson" nillable="true"
+                             type="tns:BusinessRecordHistory"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="otherPhysicalPerson" nillable="true"
+                             type="tns:PersonRecordHistory"/>
+                    <element name="registrationDateTime" nillable="true" type="dateTime"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="registryDistrict" nillable="true"
+                             type="tns:DistrictHistory"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="relatedLegalPerson" nillable="true"
+                             type="tns:BusinessRecord"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="relatedPhysicalPerson" nillable="true"
+                             type="tns:PersonRecord"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="remark" nillable="true" type="tns:Remark"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="representationRightRegulation" nillable="true"
+                             type="tns:RepresentationRightRegulation"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="representationRightSpecialCondition"
+                             nillable="true" type="tns:RepresentationRightSpecialCondition"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="shareAtEstonianCentralRegisterOfSecurities"
+                             nillable="true" type="tns:ValidFromToString"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="statusChange" nillable="true"
+                             type="tns:StatusChange"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="subclass" nillable="true" type="tns:Subclass"/>
+                </sequence>
+            </complexType>
+            <complexType name="CompanyReport">
+                <sequence>
+                    <element name="reportDesc" nillable="true" type="tns:CompanyReportDescription"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="reportRow" nillable="true" type="tns:ReportRow"/>
+                </sequence>
+            </complexType>
+            <complexType name="CompanyReportDescription">
+                <sequence>
+                    <element name="periodEndDate" nillable="true" type="dateTime"/>
+                    <element name="periodStartDate" nillable="true" type="dateTime"/>
+                    <element name="reportName" nillable="true" type="string"/>
+                    <element name="reportTypeCode" nillable="true" type="string"/>
+                    <element name="reportYear" type="int"/>
+                </sequence>
+            </complexType>
+            <complexType name="CompanyReportURL">
+                <sequence>
+                    <element name="publishDate" nillable="true" type="dateTime"/>
+                    <element name="reportName" nillable="true" type="string"/>
+                    <element name="reportSize" type="int"/>
+                    <element name="reportType" nillable="true" type="string"/>
+                    <element name="reportURL" nillable="true" type="string"/>
+                    <element name="reportYear" type="int"/>
+                </sequence>
+            </complexType>
+            <complexType name="CompanyType">
+                <sequence>
+                    <element name="companyTypeIdentifier" nillable="true" type="string"/>
+                    <element name="companyTypeName" nillable="true" type="string"/>
+                </sequence>
+            </complexType>
+            <complexType name="CompanyTypeHistory">
+                <sequence>
+                    <element name="attributes" nillable="true" type="tns:DataAttributes"/>
+                    <element name="companyTypeIdentifier" nillable="true" type="string"/>
+                    <element name="companyTypeName" nillable="true" type="string"/>
+                    <element name="validFromDate" nillable="true" type="dateTime"/>
+                    <element name="validUntilDate" nillable="true" type="dateTime"/>
+                </sequence>
+            </complexType>
+            <complexType name="ContactRecord">
+                <sequence>
+                    <element name="contactTypeCode" nillable="true" type="string"/>
+                    <element name="contactTypeName" nillable="true" type="string"/>
+                    <element name="contactValue" nillable="true" type="string"/>
+                </sequence>
+            </complexType>
+            <complexType name="ContactRecordHistory">
+                <complexContent>
+                    <extension base="tns:ContactRecord">
+                        <sequence>
+                            <element name="validityExpirationDate" nillable="true" type="dateTime"/>
+                        </sequence>
+                    </extension>
+                </complexContent>
+            </complexType>
+            <complexType name="DataAttributes">
+                <sequence>
+                    <element name="cardNumber" nillable="true" type="string"/>
+                    <element name="cardType" nillable="true" type="string"/>
+                    <element name="columnNumber" nillable="true" type="string"/>
+                    <element name="isValid" type="boolean"/>
+                    <element name="markOnCard" nillable="true" type="string"/>
+                    <element name="recordNumber" nillable="true" type="string"/>
+                </sequence>
+            </complexType>
+            <complexType name="DeletionRemark">
+                <sequence>
+                    <element name="attributes" nillable="true" type="tns:DataAttributes"/>
+                    <element name="remarkContent" nillable="true" type="string"/>
+                    <element name="validFromDate" nillable="true" type="dateTime"/>
+                    <element name="validUntilDate" nillable="true" type="dateTime"/>
+                </sequence>
+            </complexType>
+            <complexType name="DetailedBusinessRecord">
+                <sequence>
+                    <element maxOccurs="unbounded" minOccurs="0" name="businessActivity" nillable="true" type="string"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="businessAddress" nillable="true"
+                             type="tns:Address"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="businessAim" nillable="true" type="string"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="businessContact" nillable="true"
+                             type="tns:ContactRecord"/>
+                    <element name="businessName" nillable="true" type="string"/>
+                    <element name="businessRegistryCode" nillable="true" type="string"/>
+                    <element name="businessStatus" nillable="true" type="tns:BusinessStatus"/>
+                    <element name="businessType" nillable="true" type="tns:CompanyType"/>
+                    <element name="mainBusinessActivity" nillable="true" type="tns:BusinessActivity"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="relatedLegalPerson" nillable="true"
+                             type="tns:SimpleBusinessRecord"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="relatedPhysicalPerson" nillable="true"
+                             type="tns:PersonRecord"/>
+                </sequence>
+            </complexType>
+            <complexType name="District">
+                <sequence>
+                    <element name="registryDistrictCode" type="int"/>
+                    <element name="registryDistrictName" nillable="true" type="string"/>
+                </sequence>
+            </complexType>
+            <complexType name="DistrictHistory">
+                <complexContent>
+                    <extension base="tns:District">
+                        <sequence>
+                            <element name="isValid" type="boolean"/>
+                            <element name="validityStartDate" nillable="true" type="dateTime"/>
+                        </sequence>
+                    </extension>
+                </complexContent>
+            </complexType>
+            <complexType name="FiscalYear">
+                <sequence>
+                    <element name="attributes" nillable="true" type="tns:DataAttributes"/>
+                    <element name="endDate" nillable="true" type="dateTime"/>
+                    <element name="startDate" nillable="true" type="dateTime"/>
+                    <element name="validityExpirationDate" nillable="true" type="dateTime"/>
+                    <element name="validityStartDate" nillable="true" type="dateTime"/>
+                </sequence>
+            </complexType>
+            <complexType name="ForeignBusiness">
+                <sequence>
+                    <element maxOccurs="unbounded" minOccurs="0" name="businessAddress" nillable="true"
+                             type="tns:GlobalAddress"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="businessName" nillable="true"
+                             type="tns:ValidFromToString"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="companyForeignRegistryCode" nillable="true"
+                             type="tns:ValidFromToString"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="countryNameOfLegalBasis" nillable="true"
+                             type="tns:ValidFromToString"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="descriptionOfAnnualReportingDuty" nillable="true"
+                             type="tns:ValidFromToString"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="foreignRegistryName" nillable="true"
+                             type="tns:ValidFromToString"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="remarkForCountryNameOfLegalBasis" nillable="true"
+                             type="tns:Remark"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="remarkForSimilarEstonianLegalForm"
+                             nillable="true" type="tns:Remark"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="similarEstonianLegalForm" nillable="true"
+                             type="tns:CompanyTypeHistory"/>
+                </sequence>
+            </complexType>
+            <complexType name="GlobalAddress">
+                <sequence>
+                    <element name="addressPart" nillable="true" type="string"/>
+                    <element name="attributes" nillable="true" type="tns:DataAttributes"/>
+                    <element name="countryCode" nillable="true" type="string"/>
+                    <element name="countryName" nillable="true" type="string"/>
+                    <element name="postalCode" nillable="true" type="string"/>
+                    <element name="validFromDate" nillable="true" type="dateTime"/>
+                    <element name="validUntilDate" nillable="true" type="dateTime"/>
+                </sequence>
+            </complexType>
+            <complexType name="IdentificationCode">
+                <sequence>
+                    <element name="estonianNationalId" nillable="true" type="string"/>
+                    <element name="foreignNationalId" nillable="true" type="string"/>
+                </sequence>
+            </complexType>
+            <complexType name="JudicialWindingUpEntry">
+                <sequence>
+                    <element name="courtAddress" nillable="true" type="string"/>
+                    <element name="courtName" nillable="true" type="string"/>
+                    <element name="entryBaseCode" nillable="true" type="string"/>
+                    <element name="entryBaseName" nillable="true" type="string"/>
+                    <element name="entryPublicationDate" nillable="true" type="dateTime"/>
+                    <element name="entrySubdivisionCode" nillable="true" type="string"/>
+                    <element name="entrySubdivisionDeterminationDate" nillable="true" type="dateTime"/>
+                    <element name="entrySubdivisionName" nillable="true" type="string"/>
+                    <element name="publishedContent" nillable="true" type="string"/>
+                    <element name="publisherCode" nillable="true" type="string"/>
+                    <element name="publisherName" nillable="true" type="string"/>
+                </sequence>
+            </complexType>
+            <complexType name="LegalPersonPledgee">
+                <sequence>
+                    <element name="attributes" nillable="true" type="tns:DataAttributes"/>
+                    <element name="businessAddress" nillable="true" type="tns:PledgeeAddress"/>
+                    <element name="businessName" nillable="true" type="string"/>
+                    <element name="idCode" nillable="true" type="tns:BusinessRegCode"/>
+                    <element name="pledgeShare" type="int"/>
+                    <element name="validFromDate" nillable="true" type="dateTime"/>
+                    <element name="validUntilDate" nillable="true" type="dateTime"/>
+                </sequence>
+            </complexType>
+            <complexType name="ListOfAnnualReportData">
+                <sequence>
+                    <element maxOccurs="unbounded" minOccurs="0" name="report" nillable="true"
+                             type="tns:CompanyReport"/>
+                </sequence>
+            </complexType>
+            <complexType name="ListOfAnnualReports">
+                <sequence>
+                    <element maxOccurs="unbounded" minOccurs="0" name="report" nillable="true"
+                             type="tns:CompanyReportDescription"/>
+                </sequence>
+            </complexType>
+            <complexType name="ListOfBusinesses">
+                <sequence>
+                    <element maxOccurs="unbounded" minOccurs="0" name="business" nillable="true"
+                             type="tns:CompactBusinessRecord"/>
+                    <element name="recordCount" type="int"/>
+                </sequence>
+            </complexType>
+            <complexType name="ListOfClassifiers">
+                <sequence>
+                    <element maxOccurs="unbounded" minOccurs="0" name="classifier" nillable="true"
+                             type="tns:Classifier"/>
+                    <element name="recordCount" type="int"/>
+                </sequence>
+            </complexType>
+            <complexType name="ListOfCommercialDeposits">
+                <sequence>
+                    <element maxOccurs="unbounded" minOccurs="0" name="deposit" nillable="true"
+                             type="tns:CommercialDeposit"/>
+                    <element name="recordCount" type="int"/>
+                </sequence>
+            </complexType>
+            <complexType name="ListOfCompanyDetails">
+                <sequence>
+                    <element maxOccurs="unbounded" minOccurs="0" name="business" nillable="true"
+                             type="tns:DetailedBusinessRecord"/>
+                    <element name="recordCount" type="int"/>
+                </sequence>
+            </complexType>
+            <complexType name="ListOfCompanyReportURLs">
+                <sequence>
+                    <element maxOccurs="unbounded" minOccurs="0" name="report" nillable="true"
+                             type="tns:CompanyReportURL"/>
+                </sequence>
+            </complexType>
+            <complexType name="ListOfRelatedCompanies">
+                <sequence>
+                    <element maxOccurs="unbounded" minOccurs="0" name="business" nillable="true"
+                             type="tns:RelatedCompanyRecord"/>
+                    <element name="recordCount" type="int"/>
+                </sequence>
+            </complexType>
+            <complexType name="Person">
+                <sequence>
+                    <element name="idCode" nillable="true" type="tns:PersonIdCode"/>
+                    <element name="isValid" type="boolean"/>
+                    <element name="name" nillable="true" type="tns:PersonName"/>
+                </sequence>
+            </complexType>
+            <complexType name="PersonIdCode">
+                <sequence>
+                    <element name="estonianIdCode" nillable="true" type="string"/>
+                    <element name="foreignIdCode" nillable="true" type="string"/>
+                </sequence>
+            </complexType>
+            <complexType name="PersonName">
+                <sequence>
+                    <element name="firstName" nillable="true" type="string"/>
+                    <element name="lastName" nillable="true" type="string"/>
+                </sequence>
+            </complexType>
+            <complexType name="PersonRecord">
+                <sequence>
+                    <element name="birthDate" nillable="true" type="dateTime"/>
+                    <element name="mandateEndDate" nillable="true" type="dateTime"/>
+                    <element name="name" nillable="true" type="tns:PersonName"/>
+                    <element name="nationalIdCode" nillable="true" type="tns:PersonIdCode"/>
+                    <element name="personRole" nillable="true" type="tns:Role"/>
+                </sequence>
+            </complexType>
+            <complexType name="PersonRecordHistory">
+                <complexContent>
+                    <extension base="tns:PersonRecord">
+                        <sequence>
+                            <element name="addressCountryCode" nillable="true" type="string"/>
+                            <element name="addressCountryName" nillable="true" type="string"/>
+                            <element name="addressDistrict" nillable="true" type="string"/>
+                            <element name="attributes" nillable="true" type="tns:DataAttributes"/>
+                            <element name="contributionAmount" type="float"/>
+                            <element name="contributionCurrencyCode" nillable="true" type="string"/>
+                            <element name="contributionCurrencyName" nillable="true" type="string"/>
+                            <element name="validityExpirationDate" nillable="true" type="dateTime"/>
+                            <element name="validityStartDate" nillable="true" type="dateTime"/>
+                        </sequence>
+                    </extension>
+                </complexContent>
+            </complexType>
+            <complexType name="PersonsWithRepresentationRight">
+                <sequence>
+                    <element name="businessName" nillable="true" type="string"/>
+                    <element name="businessRegistryCode" type="int"/>
+                    <element name="businessStatus" nillable="true" type="tns:BusinessStatus"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="personWithRight" nillable="true"
+                             type="tns:Representative"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="rightException" nillable="true" type="string"/>
+                </sequence>
+            </complexType>
+            <complexType name="PhysicalPersonPledgee">
+                <sequence>
+                    <element name="attributes" nillable="true" type="tns:DataAttributes"/>
+                    <element name="birthDate" nillable="true" type="dateTime"/>
+                    <element name="homeAddress" nillable="true" type="tns:PledgeeAddress"/>
+                    <element name="idCode" nillable="true" type="tns:IdentificationCode"/>
+                    <element name="personName" nillable="true" type="tns:PersonName"/>
+                    <element name="pledgeShare" type="int"/>
+                    <element name="validFromDate" nillable="true" type="dateTime"/>
+                    <element name="validUntilDate" nillable="true" type="dateTime"/>
+                </sequence>
+            </complexType>
+            <complexType name="PledgeAmount">
+                <sequence>
+                    <element name="amount" type="float"/>
+                    <element name="attributes" nillable="true" type="tns:DataAttributes"/>
+                    <element name="currencyCode" nillable="true" type="string"/>
+                    <element name="validFromDate" nillable="true" type="dateTime"/>
+                    <element name="validUntilDate" nillable="true" type="dateTime"/>
+                </sequence>
+            </complexType>
+            <complexType name="PledgeStatus">
+                <sequence>
+                    <element name="stateCode" nillable="true" type="string"/>
+                    <element name="stateName" nillable="true" type="string"/>
+                </sequence>
+            </complexType>
+            <complexType name="PledgeeAddress">
+                <sequence>
+                    <element name="countryCode" nillable="true" type="string"/>
+                    <element name="countryName" nillable="true" type="string"/>
+                    <element name="district" nillable="true" type="string"/>
+                </sequence>
+            </complexType>
+            <complexType name="PledgorBusinessName">
+                <sequence>
+                    <element name="attributes" nillable="true" type="tns:DataAttributes"/>
+                    <element name="businessName" nillable="true" type="string"/>
+                    <element name="validFromDate" nillable="true" type="dateTime"/>
+                    <element name="validUntilDate" nillable="true" type="dateTime"/>
+                </sequence>
+            </complexType>
+            <complexType name="PledgorLocation">
+                <sequence>
+                    <element name="address" nillable="true" type="string"/>
+                    <element name="attributes" nillable="true" type="tns:DataAttributes"/>
+                    <element name="district" nillable="true" type="string"/>
+                    <element name="postalCode" nillable="true" type="string"/>
+                    <element name="validFromDate" nillable="true" type="dateTime"/>
+                    <element name="validUntilDate" nillable="true" type="dateTime"/>
+                </sequence>
+            </complexType>
+            <complexType name="RelatedCompanyRecord">
+                <sequence>
+                    <element name="businessName" nillable="true" type="tns:BusinessName"/>
+                    <element name="businessRegistryCode" type="int"/>
+                    <element name="businessStatus" nillable="true" type="tns:BusinessStatus"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="capitalEntry" nillable="true"
+                             type="tns:Capital"/>
+                    <element name="companyRegistryCode" type="int"/>
+                    <element name="deletionDateTime" nillable="true" type="dateTime"/>
+                    <element name="legalForm" nillable="true" type="tns:CompanyType"/>
+                    <element maxOccurs="unbounded" minOccurs="0" name="person" nillable="true" type="tns:Person"/>
+                    <element name="registrationDateTime" nillable="true" type="dateTime"/>
+                </sequence>
+            </complexType>
+            <complexType name="Remark">
+                <sequence>
+                    <element name="attributes" nillable="true" type="tns:DataAttributes"/>
+                    <element name="remarkContent" nillable="true" type="string"/>
+                    <element name="validFromDate" nillable="true" type="dateTime"/>
+                    <element name="validUntilDate" nillable="true" type="dateTime"/>
+                </sequence>
+            </complexType>
+            <complexType name="ReportColumn">
+                <sequence>
+                    <element name="code" nillable="true" type="string"/>
+                    <element name="name" nillable="true" type="string"/>
+                    <element name="value" type="float"/>
+                </sequence>
+            </complexType>
+            <complexType name="ReportRow">
+                <sequence>
+                    <element maxOccurs="unbounded" minOccurs="0" name="column" nillable="true" type="tns:ReportColumn"/>
+                    <element name="rowName" nillable="true" type="string"/>
+                    <element name="rowNumber" type="int"/>
+                </sequence>
+            </complexType>
+            <complexType name="RepresentationRightRegulation">
+                <sequence>
+                    <element name="regulationContent" nillable="true" type="string"/>
+                    <element name="regulationRoleCode" nillable="true" type="string"/>
+                    <element name="regulationRoleName" nillable="true" type="string"/>
+                </sequence>
+            </complexType>
+            <complexType name="RepresentationRightSpecialCondition">
+                <sequence>
+                    <element name="attributes" nillable="true" type="tns:DataAttributes"/>
+                    <element name="conditionContent" nillable="true" type="string"/>
+                    <element name="conditionRoleCode" nillable="true" type="string"/>
+                    <element name="conditionRoleName" nillable="true" type="string"/>
+                    <element name="conditionTypeCode" nillable="true" type="string"/>
+                    <element name="conditionTypeName" nillable="true" type="string"/>
+                    <element name="validityExpirationDate" nillable="true" type="dateTime"/>
+                    <element name="validityStartDate" nillable="true" type="dateTime"/>
+                </sequence>
+            </complexType>
+            <complexType name="Representative">
+                <sequence>
+                    <element name="birthDate" nillable="true" type="dateTime"/>
+                    <element name="nationalIdCode" nillable="true" type="string"/>
+                    <element name="personName" nillable="true" type="tns:PersonName"/>
+                    <element name="personRole" nillable="true" type="tns:Role"/>
+                    <element name="soleRepresentationRight" nillable="true" type="string"/>
+                </sequence>
+            </complexType>
+            <complexType name="Role">
+                <sequence>
+                    <element name="roleCode" nillable="true" type="string"/>
+                    <element name="roleName" nillable="true" type="string"/>
+                </sequence>
+            </complexType>
+            <complexType name="SequenceNumber">
+                <sequence>
+                    <element name="attributes" nillable="true" type="tns:DataAttributes"/>
+                    <element name="sequenceNumber" type="int"/>
+                    <element name="sequenceText" nillable="true" type="string"/>
+                    <element name="validFromDate" nillable="true" type="dateTime"/>
+                    <element name="validUntilDate" nillable="true" type="dateTime"/>
+                </sequence>
+            </complexType>
+            <complexType name="SimpleBusinessRecord">
+                <sequence>
+                    <element name="businessName" nillable="true" type="string"/>
+                    <element name="businessRegistryCode" nillable="true" type="tns:BusinessRegCode"/>
+                    <element name="businessRole" nillable="true" type="tns:Role"/>
+                </sequence>
+            </complexType>
+            <complexType name="StatusChange">
+                <sequence>
+                    <element name="attributes" nillable="true" type="tns:DataAttributes"/>
+                    <element name="description" nillable="true" type="string"/>
+                    <element name="typeCode" nillable="true" type="string"/>
+                    <element name="typeName" nillable="true" type="string"/>
+                    <element name="validityExpirationDate" nillable="true" type="dateTime"/>
+                    <element name="validityStartDate" nillable="true" type="dateTime"/>
+                </sequence>
+            </complexType>
+            <complexType name="Subclass">
+                <sequence>
+                    <element name="attributes" nillable="true" type="tns:DataAttributes"/>
+                    <element name="subclassCode" nillable="true" type="string"/>
+                    <element name="subclassName" nillable="true" type="string"/>
+                    <element name="validityExpirationDate" nillable="true" type="dateTime"/>
+                    <element name="validityStartDate" nillable="true" type="dateTime"/>
+                </sequence>
+            </complexType>
+            <complexType name="ValidFromToString">
+                <sequence>
+                    <element name="attributeValue" nillable="true" type="string"/>
+                    <element name="attributes" nillable="true" type="tns:DataAttributes"/>
+                    <element name="validityExpirationDate" nillable="true" type="dateTime"/>
+                    <element name="validityStartDate" nillable="true" type="dateTime"/>
+                </sequence>
+            </complexType>
+        </schema>
+        <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+                   targetNamespace="http://ws.soatrader.com/" xmlns:soat="http://ws.soatrader.com/">
+            <xs:element name="SOATraderLicense" type="xs:string"/>
+            <xs:element name="SOATraderUsageStatistics" type="soat:SOATraderUsageStatistics"/>
+            <xs:complexType name="SOATraderUsageStatistics">
+                <xs:sequence>
+                    <xs:element name="HitsMade" type="xs:decimal"/>
+                    <xs:element name="HitsLeft" type="xs:decimal"/>
+                </xs:sequence>
+            </xs:complexType>
+        </xs:schema>
+    </types>
+    <message name="BusinessRegistry_getCompanyDetails">
+        <part name="parameters" element="ns1:getCompanyDetails">
+        </part>
+    </message>
+    <message name="BusinessRegistry_findBusinesses">
+        <part name="parameters" element="ns1:findBusinesses">
+        </part>
+    </message>
+    <message name="BusinessRegistry_getCommercialDepositsResponse">
+        <part name="result" element="ns1:getCommercialDepositsResponse">
+        </part>
+    </message>
+    <message name="BusinessRegistry_findBusinessesResponse">
+        <part name="result" element="ns1:findBusinessesResponse">
+        </part>
+    </message>
+    <message name="BusinessRegistry_getPersonsWithRepresentationRight">
+        <part name="parameters" element="ns1:getPersonsWithRepresentationRight">
+        </part>
+    </message>
+    <message name="BusinessRegistry_getCompanyDetailsWithPersonDetails">
+        <part name="parameters" element="ns1:getCompanyDetailsWithPersonDetails">
+        </part>
+    </message>
+    <message name="SOATraderLicense">
+        <part name="SOATraderLicense" element="soat:SOATraderLicense">
+        </part>
+    </message>
+    <message name="BusinessRegistry_findBusiness">
+        <part name="parameters" element="ns1:findBusiness">
+        </part>
+    </message>
+    <message name="BusinessRegistry_getCompanyAnnualReportURLsResponse">
+        <part name="result" element="ns1:getCompanyAnnualReportURLsResponse">
+        </part>
+    </message>
+    <message name="BusinessRegistry_getListOfAnnualReportsResponse">
+        <part name="result" element="ns1:getListOfAnnualReportsResponse">
+        </part>
+    </message>
+    <message name="BusinessRegistry_getCompanyHistoricalDetailsResponse">
+        <part name="result" element="ns1:getCompanyHistoricalDetailsResponse">
+        </part>
+    </message>
+    <message name="BusinessRegistry_findBusinessResponse">
+        <part name="result" element="ns1:findBusinessResponse">
+        </part>
+    </message>
+    <message name="BusinessRegistry_getCompanyArticlesOfAssociationURLResponse">
+        <part name="result" element="ns1:getCompanyArticlesOfAssociationURLResponse">
+        </part>
+    </message>
+    <message name="BusinessRegistry_getCommercialDeposits">
+        <part name="parameters" element="ns1:getCommercialDeposits">
+        </part>
+    </message>
+    <message name="BusinessRegistry_getClassifiersResponse">
+        <part name="result" element="ns1:getClassifiersResponse">
+        </part>
+    </message>
+    <message name="SOATraderUsageStatistics">
+        <part name="SOATraderUsageStatistics" element="soat:SOATraderUsageStatistics">
+        </part>
+    </message>
+    <message name="BusinessRegistry_getCompanyHistoricalDetailsWithPersonDetails">
+        <part name="parameters" element="ns1:getCompanyHistoricalDetailsWithPersonDetails">
+        </part>
+    </message>
+    <message name="BusinessRegistry_getCompanyDetailsResponse">
+        <part name="result" element="ns1:getCompanyDetailsResponse">
+        </part>
+    </message>
+    <message name="BusinessRegistry_verifyRepresentationRight">
+        <part name="parameters" element="ns1:verifyRepresentationRight">
+        </part>
+    </message>
+    <message name="BusinessRegistry_getListOfAnnualReports">
+        <part name="parameters" element="ns1:getListOfAnnualReports">
+        </part>
+    </message>
+    <message name="BusinessRegistry_getCompanyDetailsWithPersonDetailsResponse">
+        <part name="result" element="ns1:getCompanyDetailsWithPersonDetailsResponse">
+        </part>
+    </message>
+    <message name="BusinessRegistry_getCompanyAnnualReportURLs">
+        <part name="parameters" element="ns1:getCompanyAnnualReportURLs">
+        </part>
+    </message>
+    <message name="BusinessRegistry_getRelatedCompanies">
+        <part name="parameters" element="ns1:getRelatedCompanies">
+        </part>
+    </message>
+    <message name="BusinessRegistry_getPersonsWithRepresentationRightResponse">
+        <part name="result" element="ns1:getPersonsWithRepresentationRightResponse">
+        </part>
+    </message>
+    <message name="BusinessRegistry_getClassifiers">
+        <part name="parameters" element="ns1:getClassifiers">
+        </part>
+    </message>
+    <message name="BusinessRegistry_getAnnualReportData">
+        <part name="parameters" element="ns1:getAnnualReportData">
+        </part>
+    </message>
+    <message name="BusinessRegistry_getRelatedCompaniesResponse">
+        <part name="result" element="ns1:getRelatedCompaniesResponse">
+        </part>
+    </message>
+    <message name="BusinessRegistry_verifyRepresentationRightResponse">
+        <part name="result" element="ns1:verifyRepresentationRightResponse">
+        </part>
+    </message>
+    <message name="BusinessRegistry_getCompanyArticlesOfAssociationURL">
+        <part name="parameters" element="ns1:getCompanyArticlesOfAssociationURL">
+        </part>
+    </message>
+    <message name="BusinessRegistry_getCompanyHistoricalDetails">
+        <part name="parameters" element="ns1:getCompanyHistoricalDetails">
+        </part>
+    </message>
+    <message name="BusinessRegistry_getAnnualReportDataResponse">
+        <part name="result" element="ns1:getAnnualReportDataResponse">
+        </part>
+    </message>
+    <message name="BusinessRegistry_getCompanyHistoricalDetailsWithPersonDetailsResponse">
+        <part name="result" element="ns1:getCompanyHistoricalDetailsWithPersonDetailsResponse">
+        </part>
+    </message>
+    <portType name="BusinessRegistry">
+        <operation name="findBusiness">
+            <input message="tns:BusinessRegistry_findBusiness">
+            </input>
+            <output message="tns:BusinessRegistry_findBusinessResponse">
+            </output>
+        </operation>
+        <operation name="findBusinesses">
+            <input message="tns:BusinessRegistry_findBusinesses">
+            </input>
+            <output message="tns:BusinessRegistry_findBusinessesResponse">
+            </output>
+        </operation>
+        <operation name="getAnnualReportData">
+            <input message="tns:BusinessRegistry_getAnnualReportData">
+            </input>
+            <output message="tns:BusinessRegistry_getAnnualReportDataResponse">
+            </output>
+        </operation>
+        <operation name="getClassifiers">
+            <input message="tns:BusinessRegistry_getClassifiers">
+            </input>
+            <output message="tns:BusinessRegistry_getClassifiersResponse">
+            </output>
+        </operation>
+        <operation name="getCommercialDeposits">
+            <input message="tns:BusinessRegistry_getCommercialDeposits">
+            </input>
+            <output message="tns:BusinessRegistry_getCommercialDepositsResponse">
+            </output>
+        </operation>
+        <operation name="getCompanyAnnualReportURLs">
+            <input message="tns:BusinessRegistry_getCompanyAnnualReportURLs">
+            </input>
+            <output message="tns:BusinessRegistry_getCompanyAnnualReportURLsResponse">
+            </output>
+        </operation>
+        <operation name="getCompanyArticlesOfAssociationURL">
+            <input message="tns:BusinessRegistry_getCompanyArticlesOfAssociationURL">
+            </input>
+            <output message="tns:BusinessRegistry_getCompanyArticlesOfAssociationURLResponse">
+            </output>
+        </operation>
+        <operation name="getCompanyDetails">
+            <input message="tns:BusinessRegistry_getCompanyDetails">
+            </input>
+            <output message="tns:BusinessRegistry_getCompanyDetailsResponse">
+            </output>
+        </operation>
+        <operation name="getCompanyDetailsWithPersonDetails">
+            <input message="tns:BusinessRegistry_getCompanyDetailsWithPersonDetails">
+            </input>
+            <output message="tns:BusinessRegistry_getCompanyDetailsWithPersonDetailsResponse">
+            </output>
+        </operation>
+        <operation name="getCompanyHistoricalDetails">
+            <input message="tns:BusinessRegistry_getCompanyHistoricalDetails">
+            </input>
+            <output message="tns:BusinessRegistry_getCompanyHistoricalDetailsResponse">
+            </output>
+        </operation>
+        <operation name="getCompanyHistoricalDetailsWithPersonDetails">
+            <input message="tns:BusinessRegistry_getCompanyHistoricalDetailsWithPersonDetails">
+            </input>
+            <output message="tns:BusinessRegistry_getCompanyHistoricalDetailsWithPersonDetailsResponse">
+            </output>
+        </operation>
+        <operation name="getListOfAnnualReports">
+            <input message="tns:BusinessRegistry_getListOfAnnualReports">
+            </input>
+            <output message="tns:BusinessRegistry_getListOfAnnualReportsResponse">
+            </output>
+        </operation>
+        <operation name="getPersonsWithRepresentationRight">
+            <input message="tns:BusinessRegistry_getPersonsWithRepresentationRight">
+            </input>
+            <output message="tns:BusinessRegistry_getPersonsWithRepresentationRightResponse">
+            </output>
+        </operation>
+        <operation name="getRelatedCompanies">
+            <input message="tns:BusinessRegistry_getRelatedCompanies">
+            </input>
+            <output message="tns:BusinessRegistry_getRelatedCompaniesResponse">
+            </output>
+        </operation>
+        <operation name="verifyRepresentationRight">
+            <input message="tns:BusinessRegistry_verifyRepresentationRight">
+            </input>
+            <output message="tns:BusinessRegistry_verifyRepresentationRightResponse">
+            </output>
+        </operation>
+    </portType>
+    <binding name="BusinessRegistryBinding" type="tns:BusinessRegistry">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="findBusiness">
+            <soap:operation soapAction=""/>
+            <input>
+                <soap:body use="literal"/>
+                <soap:header message="tns:SOATraderLicense" part="SOATraderLicense" use="literal">
+                </soap:header>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+                <soap:header message="tns:SOATraderUsageStatistics" part="SOATraderUsageStatistics" use="literal">
+                </soap:header>
+            </output>
+        </operation>
+        <operation name="findBusinesses">
+            <soap:operation soapAction=""/>
+            <input>
+                <soap:body use="literal"/>
+                <soap:header message="tns:SOATraderLicense" part="SOATraderLicense" use="literal">
+                </soap:header>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+                <soap:header message="tns:SOATraderUsageStatistics" part="SOATraderUsageStatistics" use="literal">
+                </soap:header>
+            </output>
+        </operation>
+        <operation name="getAnnualReportData">
+            <soap:operation soapAction=""/>
+            <input>
+                <soap:body use="literal"/>
+                <soap:header message="tns:SOATraderLicense" part="SOATraderLicense" use="literal">
+                </soap:header>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+                <soap:header message="tns:SOATraderUsageStatistics" part="SOATraderUsageStatistics" use="literal">
+                </soap:header>
+            </output>
+        </operation>
+        <operation name="getClassifiers">
+            <soap:operation soapAction=""/>
+            <input>
+                <soap:body use="literal"/>
+                <soap:header message="tns:SOATraderLicense" part="SOATraderLicense" use="literal">
+                </soap:header>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+                <soap:header message="tns:SOATraderUsageStatistics" part="SOATraderUsageStatistics" use="literal">
+                </soap:header>
+            </output>
+        </operation>
+        <operation name="getCommercialDeposits">
+            <soap:operation soapAction=""/>
+            <input>
+                <soap:body use="literal"/>
+                <soap:header message="tns:SOATraderLicense" part="SOATraderLicense" use="literal">
+                </soap:header>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+                <soap:header message="tns:SOATraderUsageStatistics" part="SOATraderUsageStatistics" use="literal">
+                </soap:header>
+            </output>
+        </operation>
+        <operation name="getCompanyAnnualReportURLs">
+            <soap:operation soapAction=""/>
+            <input>
+                <soap:body use="literal"/>
+                <soap:header message="tns:SOATraderLicense" part="SOATraderLicense" use="literal">
+                </soap:header>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+                <soap:header message="tns:SOATraderUsageStatistics" part="SOATraderUsageStatistics" use="literal">
+                </soap:header>
+            </output>
+        </operation>
+        <operation name="getCompanyArticlesOfAssociationURL">
+            <soap:operation soapAction=""/>
+            <input>
+                <soap:body use="literal"/>
+                <soap:header message="tns:SOATraderLicense" part="SOATraderLicense" use="literal">
+                </soap:header>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+                <soap:header message="tns:SOATraderUsageStatistics" part="SOATraderUsageStatistics" use="literal">
+                </soap:header>
+            </output>
+        </operation>
+        <operation name="getCompanyDetails">
+            <soap:operation soapAction=""/>
+            <input>
+                <soap:body use="literal"/>
+                <soap:header message="tns:SOATraderLicense" part="SOATraderLicense" use="literal">
+                </soap:header>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+                <soap:header message="tns:SOATraderUsageStatistics" part="SOATraderUsageStatistics" use="literal">
+                </soap:header>
+            </output>
+        </operation>
+        <operation name="getCompanyDetailsWithPersonDetails">
+            <soap:operation soapAction=""/>
+            <input>
+                <soap:body use="literal"/>
+                <soap:header message="tns:SOATraderLicense" part="SOATraderLicense" use="literal">
+                </soap:header>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+                <soap:header message="tns:SOATraderUsageStatistics" part="SOATraderUsageStatistics" use="literal">
+                </soap:header>
+            </output>
+        </operation>
+        <operation name="getCompanyHistoricalDetails">
+            <soap:operation soapAction=""/>
+            <input>
+                <soap:body use="literal"/>
+                <soap:header message="tns:SOATraderLicense" part="SOATraderLicense" use="literal">
+                </soap:header>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+                <soap:header message="tns:SOATraderUsageStatistics" part="SOATraderUsageStatistics" use="literal">
+                </soap:header>
+            </output>
+        </operation>
+        <operation name="getCompanyHistoricalDetailsWithPersonDetails">
+            <soap:operation soapAction=""/>
+            <input>
+                <soap:body use="literal"/>
+                <soap:header message="tns:SOATraderLicense" part="SOATraderLicense" use="literal">
+                </soap:header>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+                <soap:header message="tns:SOATraderUsageStatistics" part="SOATraderUsageStatistics" use="literal">
+                </soap:header>
+            </output>
+        </operation>
+        <operation name="getListOfAnnualReports">
+            <soap:operation soapAction=""/>
+            <input>
+                <soap:body use="literal"/>
+                <soap:header message="tns:SOATraderLicense" part="SOATraderLicense" use="literal">
+                </soap:header>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+                <soap:header message="tns:SOATraderUsageStatistics" part="SOATraderUsageStatistics" use="literal">
+                </soap:header>
+            </output>
+        </operation>
+        <operation name="getPersonsWithRepresentationRight">
+            <soap:operation soapAction=""/>
+            <input>
+                <soap:body use="literal"/>
+                <soap:header message="tns:SOATraderLicense" part="SOATraderLicense" use="literal">
+                </soap:header>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+                <soap:header message="tns:SOATraderUsageStatistics" part="SOATraderUsageStatistics" use="literal">
+                </soap:header>
+            </output>
+        </operation>
+        <operation name="getRelatedCompanies">
+            <soap:operation soapAction=""/>
+            <input>
+                <soap:body use="literal"/>
+                <soap:header message="tns:SOATraderLicense" part="SOATraderLicense" use="literal">
+                </soap:header>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+                <soap:header message="tns:SOATraderUsageStatistics" part="SOATraderUsageStatistics" use="literal">
+                </soap:header>
+            </output>
+        </operation>
+        <operation name="verifyRepresentationRight">
+            <soap:operation soapAction=""/>
+            <input>
+                <soap:body use="literal"/>
+                <soap:header message="tns:SOATraderLicense" part="SOATraderLicense" use="literal">
+                </soap:header>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+                <soap:header message="tns:SOATraderUsageStatistics" part="SOATraderUsageStatistics" use="literal">
+                </soap:header>
+            </output>
+        </operation>
+    </binding>
+    <service name="EstonianBusinessRegistryService">
+        <port name="BusinessRegistryPort" binding="tns:BusinessRegistryBinding">
+            <soap:address location="http://ws.soatrader.com/soatrader.com/2.0.1/EstonianBusinessRegistry"/>
+        </port>
+    </service>
+</definitions>

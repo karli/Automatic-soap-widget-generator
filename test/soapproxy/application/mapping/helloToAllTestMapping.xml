@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<frames>
+	<frame>
+		<topic outgoing_only="true">org.example.topics.name.output</topic>
+		<format>json</format>
+		<mappings>
+			<mapping>
+				<global_ref>http://ws.soatrader.com/ontology/BaseOntology.owl#Phrase</global_ref>
+        <path>/return</path>
+			</mapping>
+		</mappings>
+	</frame>
+	<frame>
+		<topic>org.example.topics.name.input</topic>
+		<format>json</format>
+    <schema>defaultSchema.js</schema>
+		<mappings>
+			<mapping>
+				<global_ref>http://ws.soatrader.com/ontology/BaseOntology.owl#Name</global_ref>
+        <path>/name</path>
+			</mapping>
+		</mappings>
+	</frame>
+</frames>

@@ -1,0 +1,19 @@
+{"description":"A schema for representing geographical coordinates with timestamp",
+	"type":"object",
+	"properties":{
+		"location":{
+			"type":"object",
+			"properties":{
+				"coordinates":{
+					"type":"object",
+					"properties":{
+						"latitude":{"type":"number"},
+						"longitude":{"type":"number"},
+						"srs":{"type":"string"}
+					}
+				},
+				"timestamp":{"type":"integer"}
+			}
+		}
+	}
+}

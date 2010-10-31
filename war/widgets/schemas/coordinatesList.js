@@ -1,0 +1,21 @@
+{"description":"A schema for representing geographical coordinates",
+	"type":"object",
+	"properties":{
+		"location":{
+			"type":"object",
+			"properties":{
+				"placename":{"type":"string"},
+				"coordinates":{
+					"type":"array",
+					"items":{
+						"type":"object",
+						"properties":{
+							"latitude":{"type":"number"},
+							"longitude":{"type":"number"}
+						}
+					}
+				}
+			}
+		}
+	}
+}
