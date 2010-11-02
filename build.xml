@@ -4,7 +4,7 @@
                    
      Karli                                                                
      ====================================================================== -->
-<project name="soapproxy" default="deploy">
+<project name="soapproxy" default="build-all">
   <property file="build.properties"/>
   <property name="src.dir" value="src"/>
   <property name="web.dir" value="war"/>
@@ -36,8 +36,9 @@
   <target name="build" description="Compile main source java files">
     <mkdir dir="${build.dir}"/>
     <javac destdir="${build.dir}" debug="true" deprecation="false"
-           optimize="false" failonerror="true">
-      <src path="${src.dir}"/>
+           optimize="false" failonerror="true" srcdir="${src.dir}">
+      <include name="Launcher.java"/>
+      <include name="soapproxy/**/*.*"/>
       <classpath refid="master-classpath"/>
     </javac>
   </target>
@@ -68,6 +69,6 @@
     </java>
   </target>
 
-  <target name="build-all" depends="build, gwtc"/>
+  <target name="build-all" depends="gwtc, build"/>
 
 </project>
