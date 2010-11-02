@@ -30,20 +30,8 @@
     <fileset dir="${lib.dir}">
       <include name="*.jar"/>
     </fileset>
-    <fileset dir="${appserver.lib}">
-      <include name="servlet*.jar"/>
-    </fileset>
     <pathelement path="${build.dir}"/>
   </path>
-
-  <target name="deploy" depends="build" description="Deploy application">
-    <copy todir="${deploy.path}/${name}" preservelastmodified="true">
-      <fileset dir="${web.dir}">
-        <include name="**/*.*"/>
-      </fileset>
-    </copy>
-  </target>
-
 
   <target name="build" description="Compile main source java files">
     <mkdir dir="${build.dir}"/>
