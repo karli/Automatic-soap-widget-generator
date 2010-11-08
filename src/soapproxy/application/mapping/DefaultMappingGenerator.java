@@ -8,8 +8,12 @@ import org.apache.xmlbeans.SchemaLocalElement;
 import org.apache.xmlbeans.SchemaParticle;
 import org.apache.xmlbeans.SchemaType;
 import org.dom4j.dom.DOMElement;
+import org.mortbay.jetty.Request;
 import org.w3c.dom.Element;
 
+import javax.servlet.Servlet;
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import javax.wsdl.BindingOperation;
 import javax.wsdl.Definition;
 import javax.wsdl.Part;
@@ -21,9 +25,11 @@ public class DefaultMappingGenerator extends AbstractMappingGenerator {
   private String wsdlUri;
   private String operationName;
   public static final QName MODEL_REFERENCE_ATTRIBUTE = new QName("http://www.w3.org/ns/sawsdl", "modelReference");
+  private ServletRequest httpServletRequest;
 
-  public DefaultMappingGenerator(String wsdlUri, String operationName) {
+  public DefaultMappingGenerator(String wsdlUri, String operationName, HttpServletRequest httpServletRequest) {
     super(wsdlUri, operationName);
+    this.httpServletRequest = httpServletRequest;
     this.setWsdlUri(wsdlUri);
     this.setOperationName(operationName);
     setWsdlContext(new WsdlContext(wsdlUri));
@@ -75,7 +81,7 @@ public class DefaultMappingGenerator extends AbstractMappingGenerator {
   }
 
   public String getInputSchemaLocation() {
-    return "http://127.0.0.1:8888/json-schema?wsdl=" + getWsdlUri() + "&operation=" + getOperationName() + "&message=input";
+    return ((Request)httpServletRequest).getRootURL() + "/json-schema?wsdl=" + getWsdlUri() + "&operation=" + getOperationName() + "&message=input";
 //    return "http://localhost/SoapServiceWidget/widgets/schemas/personName.js";
   }
 
@@ -295,5 +301,14 @@ public class DefaultMappingGenerator extends AbstractMappingGenerator {
 
   public void setOperationName(String operationName) {
     this.operationName = operationName;
+  }
+
+
+  public ServletRequest getHttpServletRequest() {
+    return httpServletRequest;
+  }
+
+  public void setHttpServletRequest(ServletRequest httpServletRequest) {
+    this.httpServletRequest = httpServletRequest;
   }
 }

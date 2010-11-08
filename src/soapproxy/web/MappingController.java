@@ -22,7 +22,7 @@ public class MappingController extends AbstractController {
 
     PrintWriter out = httpServletResponse.getWriter();
 
-    MappingGenerator mappingGenerator = new SMBMappingGenerator(wsdlUri, operationName);
+    MappingGenerator mappingGenerator = new SMBMappingGenerator(wsdlUri, operationName, httpServletRequest);
 
     out.print(mappingGenerator.getMapping());
 //    String test = "<?xml version=\"1.0\" encoding=\"windows-1257\"?>\n" +

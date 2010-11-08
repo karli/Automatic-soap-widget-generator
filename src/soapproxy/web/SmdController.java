@@ -1,5 +1,6 @@
 package soapproxy.web;
 
+import org.mortbay.jetty.Request;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
@@ -26,7 +27,7 @@ public class SmdController extends AbstractController {
               "    services: {\n" +
               "      " + operationName + ": {\n" +
               "        // this defines the URL to connect for the services\n" +
-              "        target:   \"http://127.0.0.1:8888/proxy?wsdl=" + wsdlUri + "&operation=" + operationName + "\"\n" +
+              "        target:   \"" + ((Request)httpServletRequest).getRootURL() + "/proxy?wsdl=" + wsdlUri + "&operation=" + operationName + "\"\n" +
               "      }\n" +
               "    }\n" +
               "  }");

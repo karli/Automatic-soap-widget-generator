@@ -12,6 +12,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import soapproxy.util.SoapMessageBuilder;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.wsdl.BindingOperation;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -20,8 +21,8 @@ public class SMBMappingGenerator extends DefaultMappingGenerator {
 
   private SoapMessageBuilder smb;
 
-  public SMBMappingGenerator(String wsdlUri, String operationName) {
-    super(wsdlUri, operationName);
+  public SMBMappingGenerator(String wsdlUri, String operationName, HttpServletRequest httpServletRequest) {
+    super(wsdlUri, operationName, httpServletRequest);
     setSmb(new SoapMessageBuilder(getWsdlContext()));
   }
 

@@ -2,6 +2,7 @@ package soapproxy.application.mapping;
 
 import org.apache.xmlbeans.XmlObject;
 import org.junit.Test;
+import org.springframework.mock.web.MockHttpServletRequest;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -31,7 +32,8 @@ public class DefaultMappingGeneratorTest {
     String wsdlUri = path + "/helloTest.wsdl";
     String mappingContent = getFileContent(path + "/" + mappingResultFile);
     XmlObject mappingXml = XmlObject.Factory.parse(mappingContent);
-    DefaultMappingGenerator mappingGenerator = new DefaultMappingGenerator(wsdlUri, operationName);
+    MockHttpServletRequest servletRequest = new MockHttpServletRequest("GET", "http://localhost:8080/mapping");
+    DefaultMappingGenerator mappingGenerator = new DefaultMappingGenerator(wsdlUri, operationName, servletRequest);
     String result = mappingGenerator.generateMapping();
     XmlObject resultXml = XmlObject.Factory.parse(result);
     assertEquals(mappingXml.toString(), resultXml.toString());
