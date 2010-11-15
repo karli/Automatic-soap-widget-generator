@@ -143,7 +143,7 @@ public class MappingsXmlParser {
 	 * To load mappings from a repeating element group.
 	 * 
 	 * @param repeatingGroupNode	repeating element group node.
-	 * @param parentMappings	mappings of the parent repeating mapping group.
+	 * @param parentMappingsGroup	mappings of the parent repeating mapping group.
 	 * @param dataFrame	data frame the mappings belong to.
 	 */
 	private void loadRepeatingElementGroupToDataFrame(Element repeatingGroupNode, RepeatingMappingsGroup parentMappingsGroup, DataFrame dataFrame) {
@@ -185,7 +185,7 @@ public class MappingsXmlParser {
 			}
 		}
 	}
-	
+
 	/**
 	 * To load a regular mapping element from a node.
 	 * @param node	node representing the mapping element.

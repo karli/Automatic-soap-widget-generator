@@ -76,7 +76,8 @@ public class SMBMappingGenerator extends DefaultMappingGenerator {
             // no
             addMappings(repeatingElement, element, path);
           } else {
-            // TODO: repeating element that is of simple type
+            // repeating element that is of a simple type
+            addMapping(repeatingElement, null, getGlobalReference(element));
           }
           // unset flag
           repeatingElementFlag = false;
@@ -107,8 +108,17 @@ public class SMBMappingGenerator extends DefaultMappingGenerator {
 
 
   private String getGlobalReference(Element element) {
-    if (element.hasAttributes() && element.hasAttributeNS(MODEL_REFERENCE_ATTRIBUTE.getNamespaceURI(), MODEL_REFERENCE_ATTRIBUTE.getLocalPart())) {
-      return element.getAttributeNodeNS(MODEL_REFERENCE_ATTRIBUTE.getNamespaceURI(), MODEL_REFERENCE_ATTRIBUTE.getLocalPart()).getNodeValue();
+    if (element.hasAttributes()) {
+      for (int i = 0; i < element.getAttributes().getLength();i++) {
+        Node attribute = element.getAttributes().item(i);
+        String attributeName = attribute.getNodeName();
+        int localPartIndex = attributeName.indexOf(":") == -1 ? 0 : attributeName.indexOf(":") + 1;
+        String localPart = attributeName.substring(localPartIndex);
+        if (localPart.equals(MODEL_REFERENCE_ATTRIBUTE.getLocalPart())) {
+          return attribute.getNodeValue();
+        }
+      }
+//      return element.getAttributeNodeNS(MODEL_REFERENCE_ATTRIBUTE.getNamespaceURI(), MODEL_REFERENCE_ATTRIBUTE.getLocalPart()).getNodeValue();
     }
     return null;
   }

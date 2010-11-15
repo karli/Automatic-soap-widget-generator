@@ -240,6 +240,11 @@ public class DefaultMappingGenerator extends AbstractMappingGenerator {
   }
 
   protected void addMapping(Element mappings, String path, String globalReference) {
+
+    if (path == null && globalReference == null){
+      return;
+    }
+    
     Element mapping = new DOMElement("mapping");
     mappings.appendChild(mapping);
 
@@ -249,9 +254,11 @@ public class DefaultMappingGenerator extends AbstractMappingGenerator {
       mapping.appendChild(globalRefElement);
     }
 
-    Element pathElement = new DOMElement("path");
-    pathElement.setNodeValue(path);
-    mapping.appendChild(pathElement);
+    if (path != null) {
+      Element pathElement = new DOMElement("path");
+      pathElement.setNodeValue(path);
+      mapping.appendChild(pathElement);
+    }
   }
 
   protected void addMappingWithAttributes(Element mappings, String path, String globalReference) {
