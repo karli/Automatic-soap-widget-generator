@@ -2,11 +2,9 @@ package soapproxy.application.mapping;
 
 import com.eviware.soapui.impl.wsdl.support.soap.SoapUtils;
 import com.eviware.soapui.impl.wsdl.support.soap.SoapVersion;
-import org.apache.tools.ant.filters.StringInputStream;
 import org.apache.xmlbeans.XmlObject;
 import org.dom4j.dom.DOMElement;
 import org.w3c.dom.Comment;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -14,8 +12,6 @@ import soapproxy.util.SoapMessageBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.wsdl.BindingOperation;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 
 public class SMBMappingGenerator extends DefaultMappingGenerator {
 
@@ -37,7 +33,7 @@ public class SMBMappingGenerator extends DefaultMappingGenerator {
   }
 
   private Element generateFrame(String soapMessage, boolean outgoingOnly, String topic, String schemaLocation) throws Exception {
-    Element frame = new DOMElement("frame");
+    DOMElement frame = new DOMElement("frame");
     addTopic(frame, outgoingOnly, topic);
     // TODO format might not only be json, but also simple string
     addFormat(frame);
@@ -66,8 +62,8 @@ public class SMBMappingGenerator extends DefaultMappingGenerator {
         }
       }
       if (node instanceof Element) {
-        Element element = (Element)node;
-        String path = currentPath + "/" + element.getNodeName();
+        Element element = (Element) node;
+        String path = currentPath + "/" + element.getLocalName();
         if (repeatingElementFlag) {
           // add repeating element
           Element repeatingElement = addRepeatingElementGroup(mappings, path);
@@ -81,8 +77,7 @@ public class SMBMappingGenerator extends DefaultMappingGenerator {
           }
           // unset flag
           repeatingElementFlag = false;
-        }
-        else {
+        } else {
           if (hasChildElements(element)) {
             addMappings(mappings, element, path);
           } else {
@@ -108,17 +103,8 @@ public class SMBMappingGenerator extends DefaultMappingGenerator {
 
 
   private String getGlobalReference(Element element) {
-    if (element.hasAttributes()) {
-      for (int i = 0; i < element.getAttributes().getLength();i++) {
-        Node attribute = element.getAttributes().item(i);
-        String attributeName = attribute.getNodeName();
-        int localPartIndex = attributeName.indexOf(":") == -1 ? 0 : attributeName.indexOf(":") + 1;
-        String localPart = attributeName.substring(localPartIndex);
-        if (localPart.equals(MODEL_REFERENCE_ATTRIBUTE.getLocalPart())) {
-          return attribute.getNodeValue();
-        }
-      }
-//      return element.getAttributeNodeNS(MODEL_REFERENCE_ATTRIBUTE.getNamespaceURI(), MODEL_REFERENCE_ATTRIBUTE.getLocalPart()).getNodeValue();
+    if (element.hasAttributeNS(MODEL_REFERENCE_ATTRIBUTE.getNamespaceURI(), MODEL_REFERENCE_ATTRIBUTE.getLocalPart())) {
+      return element.getAttributeNodeNS(MODEL_REFERENCE_ATTRIBUTE.getNamespaceURI(), MODEL_REFERENCE_ATTRIBUTE.getLocalPart()).getNodeValue();
     }
     return null;
   }
@@ -126,9 +112,7 @@ public class SMBMappingGenerator extends DefaultMappingGenerator {
   private Element getBodyElement(String soapMessage) throws Exception {
     XmlObject soapMessageObject = XmlObject.Factory.parse(soapMessage);
     XmlObject bodyObject = SoapUtils.getBodyElement(soapMessageObject, SoapVersion.Soap11);
-    DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-    Document document = documentBuilder.parse(new StringInputStream(bodyObject.xmlText()));
-    return document.getDocumentElement();
+    return (Element) bodyObject.getDomNode();
   }
 
   public SoapMessageBuilder getSmb() {
