@@ -121,6 +121,7 @@ public class DefaultJsonSchemaConverter implements JsonSchemaConverter {
           propertiesStack.push(newNode.putObject("properties"));
           cursor.pop();
         } else {
+          newNode.put("type","string");
           // dummy
           propertiesStack.push(null);
         }
