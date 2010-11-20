@@ -20,5 +20,20 @@
             </repeating_element_group>
 		</mappings>
 	</frame>
+    <frame>	<!-- Specifies semantics for messages with the given topic -->
+		<topic outgoing_only="true">org.example.topics.regcode</topic> <!-- Unique for each frame, topic name requirements: http://www.openajax.org/member/wiki/OpenAjax_Hub_2.0_Specification_Topic_Names -->
+		<!-- outgoing_only=true means that the package is only sent out by a widget and therefore the schema is not necessary -->
+		<format>json</format>
+		<mappings>
+			<mapping>	<!-- One entry for each atomic element in the schema -->
+				<global_ref>http://ws.soatrader.com/ontology/BaseOntology.owl#BusinessRegistryCode</global_ref>	<!-- Identifier in a predefined data model, such as an ontology -->
+                <path>/regCode</path>
+			</mapping>
+			<mapping>	<!-- One entry for each atomic element in the schema -->
+				<global_ref>http://ws.soatrader.com/ontology/BaseOntology.owl#LanguageIdAtEER</global_ref>	<!-- Identifier in a predefined data model, such as an ontology -->
+                <path>/languageId</path>
+			</mapping>
+		</mappings>
+	</frame>
 
 </frames>

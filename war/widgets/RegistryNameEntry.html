@@ -1,0 +1,46 @@
+<html>
+<head>
+  <title>RegistryNameEntry Widget </title>
+
+  <!-- Load the OpenAjax Hub. This example uses the "release/all" configuration -->
+  <script src="pagebus.js"></script>
+  <script type="text/javascript">
+    function client3SecurityAlertHandler(source, alertType) {
+      // Handle security alerts
+    }
+
+    /* Callback that is invoked upon successful connection to the Managed Hub */
+    function connectCompleted ( hubClient, success, error ) {
+      if (success) {
+        /* Call hubClient.publish(...) to publish messages  */
+        /* Call hubClient.subscribe(...) to subscribe to message topics */
+      }
+    }
+
+    /* Application initializes in response to document load event */
+    function loadEventHandler() {
+      hubClient = new OpenAjax.hub.IframeHubClient({
+        HubClient: {
+          onSecurityAlert: client3SecurityAlertHandler
+        }
+      });
+
+      // Connect to the ManagedHub
+      hubClient.connect( connectCompleted );
+    }
+
+    function clickEvent() {
+      hubClient.publish('org.example.topics.regcode',{"regCode" : document.getElementById('registryCode').value, "languageId":"0"});
+    }
+  </script>
+</head>
+<body onload="loadEventHandler();">
+  <div style="border:black">
+    <h3>RegistryNameEntry content</h3>
+	<p>
+    <input type="text" id="registryCode" />
+	  <input type="button" value="Click to send registry code" onclick="clickEvent()"/>
+	</p>
+  </div>
+</body>
+</html>

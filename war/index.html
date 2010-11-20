@@ -17,9 +17,11 @@
 
       //Widgets' urls
       var soapServiceWidget = url + 'widgets/SoapServiceWidget.html';
-      var helloWorldWidget = url + "widgets/SoapServiceWidget.html?wsdl=http://blah/webservice/soap/semanticSoap.wsdl&operation=sayHello";
+      //var transformerWidget = url + "./TransformerWidget.html?gwt.codesvr=127.0.0.1:9997";
       var transformerWidget = url + "./TransformerWidget.html";
       var nameEntryWidget = url + "widgets/NameEntryWidget.html";
+      var regCodeWidget = url + "widgets/RegistryNameEntry.html";
+      var messageDumpWidget = url + "widgets/MessageDumpWidget.html";
 
       var managedHub = null;
       var mashupArea = null;
@@ -106,6 +108,53 @@
 		  }
 		);
 
+        //Initiating widget 2
+		var div3 = document.createElement( "span" );
+		mashupArea.appendChild(div3);
+		var container2 = new OpenAjax.hub.IframeContainer(managedHub , "client3",
+		  {
+		    Container: {
+		      onSecurityAlert: onClientSecurityAlert,
+		      onConnect:       onClientConnect,
+		      onDisconnect:    onClientDisconnect
+		    },
+		    IframeContainer: {
+		      // DOM element that is parent of this container:
+		      parent:      div3,
+		      // Container's iframe will have these CSS styles:
+		      iframeAttrs: { id: "widgetBox2" },
+		      // Container's iframe loads the following URL:
+		      uri: regCodeWidget,
+		      // Tunnel URL required by IframeHubClient. This particular tunnel URL
+		      // is the one that corresponds to release/all/OpenAjaxManagedHub-all.js:
+		      tunnelURI:  tunnel
+		    }
+		  }
+		);
+
+		var div4 = document.createElement( "span" );
+		mashupArea.appendChild(div4);
+		var container2 = new OpenAjax.hub.IframeContainer(managedHub , "client1",
+		  {
+		    Container: {
+		      onSecurityAlert: onClientSecurityAlert,
+		      onConnect:       onClientConnect,
+		      onDisconnect:    onClientDisconnect
+		    },
+		    IframeContainer: {
+		      // DOM element that is parent of this container:
+		      parent:      div3,
+		      // Container's iframe will have these CSS styles:
+		      iframeAttrs: { id: "widgetBox3" },
+		      // Container's iframe loads the following URL:
+		      uri: messageDumpWidget,
+		      // Tunnel URL required by IframeHubClient. This particular tunnel URL
+		      // is the one that corresponds to release/all/OpenAjaxManagedHub-all.js:
+		      tunnelURI:  tunnel
+		    }
+		  }
+		);
+
 
       //Initiating widget 4 (Transformer Widget)
       var div4 = document.createElement( "span" );
@@ -142,7 +191,7 @@
           var operation = document.getElementById('operation').value;
           var widgetUri = soapServiceWidget + '?wsdl=' + wsdlUri + '&operation=' + operation;
 
-          var serviceWidgetName = 'helloWorld';
+          var serviceWidgetName = widgetUri;
 
           if (soapServiceWidgets[serviceWidgetName] != null) {
             alert('Avoiding adding duplicate service widget for ' + serviceWidgetName);
