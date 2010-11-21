@@ -65,7 +65,7 @@ public class Matcher {
 				//If the mapping element is a regular atomic data element then 
 				//add it to the map.
 				MappingElement mappingElement = mapping.isMappingElement();
-				String globalReference = mappingElement.getGlobalReference();
+				String globalReference = mappingElement.getFirstGlobalReference();
 				if(referenceMappingsToFrames.containsKey(globalReference)) {
 					referenceMappingsToFrames.get(globalReference).add(frame);
 				}
@@ -152,7 +152,7 @@ public class Matcher {
 			//update data packages with the atomic data element.
 			
 			//Get the global reference of the data element.
-			String globalReference = mapping.isMappingElement().getGlobalReference();
+			String globalReference = mapping.isMappingElement().getFirstGlobalReference();
 			
 			if(referenceMappingsToFrames.containsKey(globalReference)) {
 				//If there are any data frames that can use the data with given global reference then

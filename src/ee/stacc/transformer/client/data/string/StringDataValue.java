@@ -19,12 +19,11 @@ import ee.stacc.transformer.client.mapping.MappingElement;
 public class StringDataValue extends AtomicDataValue {
 	
 	private String value;
-	private MappingElement collectedMapping;
 
-	public StringDataValue(String data, MappingElement mapping) {
-		this.value = data;
-		this.collectedMapping = mapping;
-	}
+  public StringDataValue(String data, MappingElement mapping) {
+    super(mapping);
+    this.value = data;
+  }
 	
 	public void setValue(String value) {
 		this.value = value;
@@ -51,7 +50,7 @@ public class StringDataValue extends AtomicDataValue {
 		
 		if(mapping.isMappingElement() != null) {
 			StringDataValue dataValue = new StringDataValue((String)data, mapping.isMappingElement());
-			String globalRef = mapping.isMappingElement().getGlobalReference();
+			String globalRef = mapping.isMappingElement().getFirstGlobalReference();
 			dataValue.setGlobalReference(globalRef);
 			return dataValue;
 		}
@@ -59,8 +58,4 @@ public class StringDataValue extends AtomicDataValue {
 		return null;
 	}
 
-	@Override
-	public MappingElement getCollectedMapping() {
-		return collectedMapping;
-	}
 }

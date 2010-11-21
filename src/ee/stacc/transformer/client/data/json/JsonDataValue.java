@@ -28,13 +28,12 @@ public class JsonDataValue extends AtomicDataValue {
 	public static String INTEGER = "integer";
 	
 	private JSONValue value;
-	private MappingElement collectedMapping;
 	
 	public JsonDataValue(JSONValue value, MappingElement collectedMapping) {
 		this.value = value;
 		this.collectedMapping = collectedMapping;
 	}
-	
+
 	/**
 	 * To generate JSON value from a string according to the type.
 	 * @param data
@@ -108,9 +107,5 @@ public class JsonDataValue extends AtomicDataValue {
 	public void setValue(JSONValue value) {
 		this.value = value;
 	}
-
-	@Override
-	public Mapping getCollectedMapping() {
-		return collectedMapping;
-	}
+  
 }

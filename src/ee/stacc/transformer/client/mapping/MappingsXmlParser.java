@@ -1,7 +1,6 @@
 package ee.stacc.transformer.client.mapping;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.xml.client.Document;
@@ -108,8 +107,9 @@ public class MappingsXmlParser {
 			if(node.getNodeName().equalsIgnoreCase(MAPPING)) {
 				//If the node is a mapping element
 				MappingElement mappingElement = retrieveMappingElementFromNode(node, dataFrame);
-				String globalRef = mappingElement.getGlobalReference();
-				mappings.put(globalRef, mappingElement);
+        for (String globalRef : mappingElement.getGlobalReference()) {
+          mappings.put(globalRef, mappingElement);
+        }
 			}
 			else if(node.getNodeName().equalsIgnoreCase(REPEATING_ELEMENT_GROUP)) {
 				//If the node is a repeating element group
@@ -155,7 +155,7 @@ public class MappingsXmlParser {
 		}
 		else
 			path = repeatingGroupNode.getAttribute(PATH);
-		
+
 		RepeatingMappingsGroup mappingsGroup = new RepeatingMappingsGroup(path, dataFrame, parentMappingsGroup);
 		
 		//Go through every child node in the repeating element group.
@@ -170,7 +170,7 @@ public class MappingsXmlParser {
 			if(node.getNodeName().equalsIgnoreCase(MAPPING)) {
 				//If the node is a regular mapping node
 				MappingElement mappingElement = retrieveMappingElementFromNode(node, dataFrame);
-				String globalRef = mappingElement.getGlobalReference();
+				String globalRef = mappingElement.getFirstGlobalReference();
 				
 				//Put the mapping element to the element group's mappings map
 				mappingsGroup.propagateMapping(mappingElement, globalRef);
@@ -209,7 +209,7 @@ public class MappingsXmlParser {
 		else if(node.getAttribute(PATH) != null)
 			path = node.getAttribute(PATH);
 		
-		MappingElement mapping = new MappingElement(path, globalRef);
+		MappingElement mapping = new MappingElement(path, getGlobalReferences(globalRef));
 		
 		//Load a default value if set.
 		if(node.getElementsByTagName(DEFAULT).getLength() > 0) {
@@ -224,7 +224,21 @@ public class MappingsXmlParser {
 		return mapping;
 	}
 
-	private void processDefaultValue(String defaultValue, MappingElement mapping, DataFrame dataFrame) {
+  /**
+   *
+   * @param globalRef string of space-separated global references
+   * @return list of global references
+   */
+  private List<String> getGlobalReferences(String globalRef) {
+    if (globalRef == null) {
+      return new ArrayList<String>();
+    }
+    // split string by space
+    return Arrays.asList(globalRef.split("\\s+"));
+  }
+
+
+  private void processDefaultValue(String defaultValue, MappingElement mapping, DataFrame dataFrame) {
 		mapping.setHasDefaultValue(true);
 		dataFrame.getConstantValues().put(mapping.getPath(), defaultValue);
 	}

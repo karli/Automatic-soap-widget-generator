@@ -96,7 +96,6 @@ public class TransformerWidget implements EntryPoint {
 		GWT.log("onIncomeData: "+topic+", data: "+publisherData+", subscriberData: "+subscriberData,null);
 
     if (TOPIC_ADD_URL_MAPPING.equals(topic)) {
-      // TODO add mapping
       addUrlMapping(publisherData);
       return;
     }

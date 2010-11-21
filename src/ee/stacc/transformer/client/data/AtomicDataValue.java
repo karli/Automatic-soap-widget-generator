@@ -1,6 +1,7 @@
 package ee.stacc.transformer.client.data;
 
 import com.google.gwt.json.client.JSONValue;
+import ee.stacc.transformer.client.mapping.MappingElement;
 
 /**
  * Abstract class for all the atomic data value classes.
@@ -19,8 +20,16 @@ public abstract class AtomicDataValue implements CollectedDataValue, GeneratedDa
 	 * the global reference of the atomic data value
 	 */
 	private String globalReference;
-	
-	/**
+  protected MappingElement collectedMapping;
+
+  public AtomicDataValue(MappingElement mapping) {
+    this.collectedMapping = mapping;
+  }
+
+  public AtomicDataValue() {
+  }
+
+  /**
 	 * To get the data value in JSON format according to the type.
 	 * @param type	JSON data type.
 	 * @return	the data value in JSON.
@@ -64,4 +73,9 @@ public abstract class AtomicDataValue implements CollectedDataValue, GeneratedDa
 	public GeneratedDataGroupsCollection isGeneratedDataGroupsCollection() {
 		return null;
 	}
+
+  @Override
+  public MappingElement getCollectedMapping() {
+    return collectedMapping;
+  }
 }

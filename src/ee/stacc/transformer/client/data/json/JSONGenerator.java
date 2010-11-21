@@ -17,6 +17,7 @@ import ee.stacc.transformer.client.data.AtomicDataValue;
 import ee.stacc.transformer.client.data.CollectedDataGroup;
 import ee.stacc.transformer.client.data.CollectedDataGroupsCollection;
 import ee.stacc.transformer.client.mapping.Mapping;
+import ee.stacc.transformer.client.mapping.MappingElement;
 import ee.stacc.transformer.client.mapping.RepeatingMappingsGroup;
 
 /**
@@ -173,7 +174,6 @@ public class JSONGenerator {
 
 	/***
 	 * Generate data values groups collection out of the json data.
-	 * @param data	data to generate the data out of.
 	 * @param mappingGroup	mappings group that describes the data.
 	 * @return	collection of data value groups.
 	 */
@@ -192,10 +192,11 @@ public class JSONGenerator {
 				
 				if(mapping.isMappingElement() != null) {
 					JSONValue jsonDataValue = getJsonDataValue(jsonData, path);
-					String globalRef = mapping.isMappingElement().getGlobalReference();
-					JsonDataValue dataValue = new JsonDataValue(jsonDataValue, mapping.isMappingElement());
-					dataValue.setGlobalReference(globalRef);
-					valuesGroup.addDataValue(globalRef, dataValue);
+          MappingElement mappingElement = mapping.isMappingElement();
+          JsonDataValue dataValue = new JsonDataValue(jsonDataValue, mappingElement);
+          for (String globalRef : mappingElement.getGlobalReference()) {
+            valuesGroup.addDataValue(globalRef, dataValue);
+          }
 				}
 				else if(mapping.isRepeatingMappingsGroup() != null) {
 					
@@ -219,7 +220,8 @@ public class JSONGenerator {
 		
 		if(mapping.isMappingElement() != null) {
 			JsonDataValue dataValue = new JsonDataValue(jsonDataValue, mapping.isMappingElement());
-			String globalRef = mapping.isMappingElement().getGlobalReference();
+      // at this point, data value must have a certain semantic reference
+			String globalRef = mapping.isMappingElement().getFirstGlobalReference();
 			dataValue.setGlobalReference(globalRef);
 			return dataValue;
 		}
