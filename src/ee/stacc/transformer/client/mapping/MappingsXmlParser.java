@@ -148,13 +148,10 @@ public class MappingsXmlParser {
 	 */
 	private void loadRepeatingElementGroupToDataFrame(Element repeatingGroupNode, RepeatingMappingsGroup parentMappingsGroup, DataFrame dataFrame) {
 		
-		//Get the path.
-		String path;
-		if(repeatingGroupNode.getElementsByTagName(PATH).getLength() > 0) {
-			path =  repeatingGroupNode.getElementsByTagName(PATH).item(0).getFirstChild().getNodeValue();
-		}
-		else
-			path = repeatingGroupNode.getAttribute(PATH);
+    String path = null;
+    if (repeatingGroupNode.hasAttribute(PATH)) {
+      path = repeatingGroupNode.getAttribute(PATH);
+    }
 
 		RepeatingMappingsGroup mappingsGroup = new RepeatingMappingsGroup(path, dataFrame, parentMappingsGroup);
 		
