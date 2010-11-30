@@ -20,6 +20,7 @@ import com.eviware.soapui.impl.wsdl.support.xsd.SchemaUtils;
 import com.eviware.soapui.settings.WsdlSettings;
 import com.eviware.soapui.support.StringUtils;
 import org.apache.xmlbeans.*;
+import org.apache.xmlbeans.impl.schema.SchemaLocalElementImpl;
 import org.apache.xmlbeans.impl.util.Base64;
 import org.apache.xmlbeans.impl.util.HexBin;
 import org.apache.xmlbeans.soap.SOAPArrayType;
@@ -151,7 +152,7 @@ public class SampleXmlUtil {
    * Cursor position Before: <theElement>^</theElement> After:
    * <theElement><lots of stuff/>^</theElement>
    */
-  public void createSampleForType(SchemaType stype, XmlCursor xmlc) {
+  public void createSampleForType(SchemaType stype, XmlCursor xmlc, SchemaLocalElement element) {
     _exampleContent = SoapUI.getSettings().getBoolean(WsdlSettings.XML_GENERATION_TYPE_EXAMPLE_VALUE);
     _typeComment = SoapUI.getSettings().getBoolean(WsdlSettings.XML_GENERATION_TYPE_COMMENT_TYPE);
     _skipComments = SoapUI.getSettings().getBoolean(WsdlSettings.XML_GENERATION_SKIP_COMMENTS);
@@ -181,6 +182,19 @@ public class SampleXmlUtil {
       // <theElement>^</theElement>
       processAttributes(stype, xmlc);
 
+      // if attributes exist
+      if (stype.getAttributeProperties().length > 0) {
+        // do not create 
+        // add special value node to the element
+        xmlc.insertElement("_value_");
+        // if source element exists, try to fetch semantic annotation
+        if (element != null) {
+          processSemanticAnnotation(element, xmlc);
+        }
+        return;
+
+      }
+
       // <theElement attri1="string">^</theElement>
       switch (stype.getContentType()) {
         case SchemaType.NOT_COMPLEX_TYPE:
@@ -208,6 +222,10 @@ public class SampleXmlUtil {
     finally {
       _typeStack.remove(_typeStack.size() - 1);
     }
+  }
+
+  public void createSampleForType(SchemaType stype, XmlCursor xmlc) {
+    createSampleForType(stype, xmlc, null);
   }
 
   private void processSimpleType(SchemaType stype, XmlCursor xmlc) {
@@ -1045,12 +1063,12 @@ public class SampleXmlUtil {
     else if (sp.isDefault())
       xmlc.insertChars(sp.getDefaultText());
     else
-      createSampleForType(element.getType(), xmlc);
+      createSampleForType(element.getType(), xmlc, element);
     // -> <elem>stuff</elem>^
     xmlc.toNextToken();
   }
 
-  private void processSemanticAnnotation(SchemaLocalElement element, XmlCursor xmlc) {
+  private void processSemanticAnnotation(SchemaAnnotated element, XmlCursor xmlc) {
     if (element.getAnnotation() == null) {
       return;
     }
@@ -1104,9 +1122,9 @@ public class SampleXmlUtil {
       }
     }
 
-    SchemaProperty[] attrProps = stype.getAttributeProperties();
-    for (int i = 0; i < attrProps.length; i++) {
-      SchemaProperty attr = attrProps[i];
+    SchemaLocalAttribute[] schemaLocalAttributes = stype.getAttributeModel().getAttributes();
+    for (int i = 0; i < schemaLocalAttributes.length; i++) {
+      SchemaLocalAttribute attr = schemaLocalAttributes[i];
       if (attr.getMinOccurs().intValue() == 0 && ignoreOptional)
         continue;
 
@@ -1139,7 +1157,14 @@ public class SampleXmlUtil {
       if (value == null)
         value = sampleDataForSimpleType(attr.getType());
 
-      xmlc.insertAttributeWithValue(attr.getName(), value);
+      // xmlc.insertAttributeWithValue(attr.getName(), value);
+      // add attributes as elements
+      xmlc.insertElement("_attr_" + attr.getName().getLocalPart());
+      // add semantic annotation, if exists
+      processSemanticAnnotation(attr, xmlc);
+      xmlc.toPrevToken();
+      xmlc.insertChars("?");
+      xmlc.toNextToken();
     }
   }
 
@@ -1160,6 +1185,10 @@ public class SampleXmlUtil {
       xmlc.insertComment("You have a CHOICE of the next " + String.valueOf(spc.length) + " items at this level");
 
     for (int i = 0; i < spc.length; i++) {
+      // if choice element has maxOccurs > 1, then this means that any of the choice elements can occur more than once
+      if (sp.getIntMaxOccurs() > 1 && spc[i] instanceof SchemaLocalElementImpl) {
+        ((SchemaLocalElementImpl)spc[i]).setMaxOccurs(null);
+      }
       processParticle(spc[i], xmlc, mixed);
     }
   }

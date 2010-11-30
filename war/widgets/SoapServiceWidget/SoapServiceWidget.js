@@ -21,8 +21,8 @@ function callService(smd, requestData, operation, hubClient, outputTopic){
   var deferred = services[operation](requestData);
   deferred.addCallback(function(result){
      // TODO publish returned value into hub 
-    alert(result["return"]);
-    hubClient.publish(outputTopic, result['return']);
+    alert(result);
+    hubClient.publish(outputTopic, result);
   });
   deferred.addErrback(function (){alert("Error")});
   return deferred;

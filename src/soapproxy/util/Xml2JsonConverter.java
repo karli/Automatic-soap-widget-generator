@@ -7,6 +7,7 @@ import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
 import org.codehaus.jackson.node.ObjectNode;
 import org.codehaus.jackson.node.TextNode;
+import soapproxy.application.Json2Soap;
 
 import java.io.StringReader;
 
@@ -56,13 +57,19 @@ public class Xml2JsonConverter {
     }
     JsonNode node = JsonNodeFactory.instance.nullNode();
     // process children
-    if (element.getChildElements().size() > 0) {
-      node = new ObjectNode(JsonNodeFactory.instance);
-      int childCount = element.getChildCount();
-      for (int i = 0; i < childCount; i++) {
-        Node child = element.getChild(i);
-        if (child instanceof Element) {
-          setOrAccumulate((ObjectNode)node, (Element)child);
+    if (element.getChildElements().size() > 0 || element.getAttributeCount() > 0) {
+      ObjectNode objectNode = new ObjectNode(JsonNodeFactory.instance);
+      node = objectNode;
+      addAttributesAsChildren(objectNode, element);
+      if (element.getChildElements().size() == 0) {
+        // add value to a special value node
+        objectNode.put(Json2Soap.VALUE_ELEMENT_NAME, element.getValue());
+      } else {
+        for (int i = 0; i < element.getChildCount(); i++) {
+          Node child = element.getChild(i);
+          if (child instanceof Element) {
+            setOrAccumulate(objectNode, (Element)child);
+          }
         }
       }
     } else {
@@ -99,6 +106,14 @@ public class Xml2JsonConverter {
         arrayNode = (ArrayNode)existingNode;
       }
       arrayNode.add(processElement(element));
+    }
+  }
+
+  private void addAttributesAsChildren(ObjectNode newNode, Element element) {
+    // process attributes
+    for (int i = 0; i < element.getAttributeCount(); i++) {
+      Attribute attr = element.getAttribute(i);
+      newNode.put(Json2Soap.ATTRIBUTE_ELEMENT_PREFIX + attr.getLocalName(), attr.getValue());
     }
   }
 

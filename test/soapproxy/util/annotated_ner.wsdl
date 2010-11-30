@@ -1,0 +1,159 @@
+<definitions name='NerService' targetNamespace='http://ner.ekktt.cs.ut.ee/' xmlns='http://schemas.xmlsoap.org/wsdl/' xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/' xmlns:tns='http://ner.ekktt.cs.ut.ee/' xmlns:xsd='http://www.w3.org/2001/XMLSchema'  xmlns:sawsdl='http://www.w3.org/ns/sawsdl'>
+ <types>
+  <xs:schema elementFormDefault='qualified' targetNamespace='http://ner.ekktt.cs.ut.ee/' version='1.0' xmlns:tns='http://ner.ekktt.cs.ut.ee/' xmlns:xs='http://www.w3.org/2001/XMLSchema'>
+   <xs:element name='Gpe' nillable='true' type='tns:Gpe' sawsdl:modelReference='http://www.eesti.ee/estonto/2009/R1#1649'/>
+   <xs:element name='Location' nillable='true' type='tns:Location' sawsdl:modelReference='http://www.eesti.ee/estonto/2009/R1#147'/>
+   <xs:element name='Organisation' nillable='true' type='tns:Organisation' sawsdl:modelReference='http://www.eesti.ee/estonto/2009/R1#393'/>
+   <xs:element name='Person' nillable='true' type='tns:Person'  sawsdl:modelReference='http://www.eesti.ee/estonto/2009/R1#442'/>
+   <xs:element name='PostalAddress' nillable='true' type='tns:PostalAddress' sawsdl:modelReference='http://www.eesti.ee/estonto/2009/R1#2265'/>
+   <xs:element name='Street' nillable='true' type='tns:Street' sawsdl:modelReference='http://www.eesti.ee/estonto/2009/R1#3060'/>
+   <xs:element name='Timex' nillable='true' type='tns:Timex' sawsdl:modelReference='http://www.eesti.ee/estonto/2009/R1#1580'/>
+   <xs:element name='entities' nillable='true' type='tns:Entities'/>
+    <xs:element name='entity' nillable='true' type='tns:NamedEntity'/>
+   <xs:element name='fullText' nillable='true' type='xs:string'/>
+   <xs:element name='nerResult' nillable='true' type='tns:nerResult'/>
+   <xs:element name='parse' type='tns:parse'/>
+   <xs:element name='parseResponse' type='tns:parseResponse'/>
+   <xs:complexType name='parse'>
+    <xs:sequence>
+     <xs:element form='unqualified' minOccurs='0' name='nerInput' type='tns:nerInput'/>
+     <xs:element form='unqualified' minOccurs='0' name='date' sawsdl:modelReference='http://www.eesti.ee/estonto/2009/R1#3412' type='xs:dateTime'/>
+     <xs:element form='unqualified' maxOccurs='unbounded' minOccurs='0' name='parsers' sawsdl:modelReference='http://www.eesti.ee/estonto/2009/R1#327' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='nerInput'>
+    <xs:sequence>
+     <xs:element form='unqualified' minOccurs='0' name='articleURL' sawsdl:modelReference='http://www.eesti.ee/estonto/2009/R1#1699' type='xs:string'/>
+     <xs:element form='unqualified' minOccurs='0' name='textualContent' sawsdl:modelReference='http://www.eesti.ee/estonto/2009/R1#2932' type='xs:string'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='parseResponse'>
+    <xs:sequence>
+     <xs:element form='unqualified' minOccurs='0' name='NerResult' type='tns:nerResult'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='nerResult'>
+    <xs:sequence>
+     <xs:element minOccurs='0' name='fullText' sawsdl:modelReference='http://www.eesti.ee/estonto/2009/R1#2932' type='xs:string'/>
+     <xs:element minOccurs='0' name='entities' type='tns:Entities'/>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='Entities'>
+    <xs:sequence>
+     <xs:choice maxOccurs='unbounded' minOccurs='0'>
+      <xs:element ref='tns:entity'/>
+      <xs:element ref='tns:Timex' />
+      <xs:element ref='tns:Person'/>
+      <xs:element ref='tns:Street' />
+      <xs:element ref='tns:Organisation' />
+      <xs:element ref='tns:Gpe' />
+      <xs:element ref='tns:Location' />
+      <xs:element ref='tns:PostalAddress' />
+     </xs:choice>
+    </xs:sequence>
+   </xs:complexType>
+   <xs:complexType name='NamedEntity'>
+    <xs:simpleContent>
+     <xs:extension base='xs:string'>
+      <xs:attribute name='endPos' sawsdl:modelReference='http://www.eesti.ee/estonto/2009/R1#1205' type='xs:int'/>
+      <xs:attribute name='startPos' sawsdl:modelReference='http://www.eesti.ee/estonto/2009/R1#7652' type='xs:int'/>
+      <xs:attribute name='value' type='xs:string' sawsdl:modelReference='http://www.eesti.ee/estonto/2009/R1#1580 http://www.eesti.ee/estonto/2009/R1#442 http://www.eesti.ee/estonto/2009/R1#3060 http://www.eesti.ee/estonto/2009/R1#393 http://www.eesti.ee/estonto/2009/R1#1649 http://www.eesti.ee/estonto/2009/R1#147 http://www.eesti.ee/estonto/2009/R1#2265' use='required'/>
+      <xs:attribute name='namedEntityId' sawsdl:modelReference='http://www.eesti.ee/estonto/2009/R1#1913' type='xs:int' use='required'/>
+     </xs:extension>
+    </xs:simpleContent>
+   </xs:complexType>
+   <xs:complexType name='Street'>
+    <xs:simpleContent>
+     <xs:extension base='tns:NamedEntity'/>
+    </xs:simpleContent>
+   </xs:complexType>
+   <xs:complexType name='Timex'>
+    <xs:simpleContent>
+     <xs:extension base='tns:NamedEntity'>
+      <xs:attribute name='modifier1' type='tns:timexModifierEnum'/>
+      <xs:attribute name='modifier2' type='tns:timexModifierEnum'/>
+      <xs:attribute name='type' type='tns:timexTypeEnum'/>
+      <xs:attribute name='value2' type='xs:string'/>
+     </xs:extension>
+    </xs:simpleContent>
+   </xs:complexType>
+   <xs:complexType name='Location'>
+    <xs:simpleContent>
+     <xs:extension base='tns:NamedEntity'/>
+    </xs:simpleContent>
+   </xs:complexType>
+   <xs:complexType name='Organisation'>
+    <xs:simpleContent>
+     <xs:extension base='tns:NamedEntity'/>
+    </xs:simpleContent>
+   </xs:complexType>
+   <xs:complexType name='PostalAddress'>
+    <xs:simpleContent>
+     <xs:extension base='tns:NamedEntity'/>
+    </xs:simpleContent>
+   </xs:complexType>
+   <xs:complexType name='Gpe'>
+    <xs:simpleContent>
+     <xs:extension base='tns:NamedEntity'/>
+    </xs:simpleContent>
+   </xs:complexType>
+   <xs:complexType name='Person'>
+    <xs:simpleContent>
+     <xs:extension base='tns:NamedEntity'>
+      <xs:attribute name='firstName' sawsdl:modelReference='http://www.eesti.ee/estonto/2009/R1#2873' type='xs:string'/>
+      <xs:attribute name='lastName' sawsdl:modelReference='http://www.eesti.ee/estonto/2009/R1#2876' type='xs:string'/>
+      <xs:attribute name='middleNames' sawsdl:modelReference='http://www.eesti.ee/estonto/2009/R1#2873' type='xs:string'/>
+     </xs:extension>
+    </xs:simpleContent>
+   </xs:complexType>
+   <xs:simpleType name='timexModifierEnum'>
+    <xs:restriction base='xs:string'>
+     <xs:enumeration value='APPROX'/>
+     <xs:enumeration value='START'/>
+     <xs:enumeration value='MID'/>
+     <xs:enumeration value='END'/>
+     <xs:enumeration value='FIRST_HALF'/>
+     <xs:enumeration value='SECOND_HALF'/>
+    </xs:restriction>
+   </xs:simpleType>
+   <xs:simpleType name='timexTypeEnum'>
+    <xs:restriction base='xs:string'>
+     <xs:enumeration value='POINT'/>
+     <xs:enumeration value='INTERVAL'/>
+     <xs:enumeration value='RECURRENCE'/>
+     <xs:enumeration value='DURATION'/>
+     <xs:enumeration value='UNK'/>
+    </xs:restriction>
+   </xs:simpleType>
+  </xs:schema>
+ </types>
+ <message name='NerServiceEndpoint_parseResponse'>
+  <part element='tns:parseResponse' name='parseResponse'></part>
+ </message>
+ <message name='NerServiceEndpoint_parse'>
+  <part element='tns:parse' name='parse'></part>
+ </message>
+ <portType name='NerServiceEndpoint'>
+  <operation name='parse' parameterOrder='parse'>
+   <input message='tns:NerServiceEndpoint_parse'></input>
+   <output message='tns:NerServiceEndpoint_parseResponse'></output>
+  </operation>
+ </portType>
+ <binding name='NerServiceEndpointBinding' type='tns:NerServiceEndpoint'>
+  <soap:binding style='document' transport='http://schemas.xmlsoap.org/soap/http'/>
+  <operation name='parse'>
+   <soap:operation soapAction=''/>
+   <input>
+    <soap:body use='literal'/>
+   </input>
+   <output>
+    <soap:body use='literal'/>
+   </output>
+  </operation>
+ </binding>
+ <service name='NerService'>
+  <port binding='tns:NerServiceEndpointBinding' name='NerPort'>
+   <soap:address location='http://193.40.36.80:10008/ner/ner'/>
+  </port>
+ </service>
+</definitions>

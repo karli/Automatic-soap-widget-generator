@@ -41,11 +41,13 @@ public class Json2Soap {
 
   public static final String SOATRADER_LICENSE = "5fad0242f085efedd81272894c739f092854c4a6cc6932feb3f7f0000000ffff";
   public static final QName SOATRADER_LICENSE_ELEMENT = new QName("http://ws.soatrader.com/", "SOATraderLicense");
+  public static final String ATTRIBUTE_ELEMENT_PREFIX = "_attr_";
+  public static final String VALUE_ELEMENT_NAME = "_value_";
 
   public static void main(String[] args) throws Exception {
     Json2Soap j2s = new Json2Soap();
     String jsonRequest = "{\"getListOfAnnualReports\":{\"registryCode\":\"11224441\", \"languageId\":\"0\"}}";
-    String wsdlUri = "http://localhost:80/EstonianBusinessRegistryService_v2.wsdl";
+    String wsdlUri = "http://xml-services.ioc.ee:8080/ioc.ee:8080/0.1/EstonianBusinessRegistryService?wsdl";
     String operationName = "getListOfAnnualReports";
     String jsonResponse = j2s.convert(jsonRequest, wsdlUri, operationName);
     System.out.println(jsonResponse);
@@ -68,14 +70,6 @@ public class Json2Soap {
     // NO SUPPORT FOR HEADERS at the moment
     XmlObject responseBody = SoapUtils.getBodyElement(responseXml, getSoapVersion());
     XmlObject attributelessResponseBody = this.removeAttributes(responseBody);
-
-    // convert the response to JSON
-//    XMLSerializer xmlSerializer = new XMLSerializer();
-//    xmlSerializer.setRemoveNamespacePrefixFromElements(true);
-//    xmlSerializer.setSkipNamespaces(true);
-//    xmlSerializer.setForceTopLevelObject(true);
-//    xmlSerializer.setTypeHintsCompatibility(false);
-//    xmlSerializer.setTypeHintsEnabled(false);
 
 //    JSON json = xmlSerializer.read(attributelessResponseBody.xmlText());
     Xml2JsonConverter converter = new Xml2JsonConverter();
@@ -144,13 +138,6 @@ public class Json2Soap {
     XmlObject bodyObject = SoapUtils.getBodyElement(template, getSoapVersion());
     XmlCursor cursor = bodyObject.newCursor();
 
-//    if (isRpc) {
-//      cursor.toNextToken();
-//      while (!cursor.isContainer() && !cursor.isEnddoc()) {
-//        cursor.toNextToken();
-//      }
-//    }
-
     if (jsonRequestParams.isArray()) {
       jsonRequestParams = jsonRequestParams.get(0);
     }
@@ -173,7 +160,6 @@ public class Json2Soap {
    * @param cursor
    */
   private void transferValues(JsonNode jsonNode, XmlCursor cursor) {
-    // TODO: arrays
     // save current location before navigating forward
     cursor.push();
 
@@ -214,36 +200,34 @@ public class Json2Soap {
       for (Iterator<String> it = jsonNode.getFieldNames(); it.hasNext();) {
         String fieldName = it.next();
         JsonNode field = jsonNode.get(fieldName);
+        // check for attribute and value nodes
+        if (field.equals(VALUE_ELEMENT_NAME)) {
+          cursor.setTextValue(field.getValueAsText());
+          continue;
+        }
+        if (fieldName.startsWith(ATTRIBUTE_ELEMENT_PREFIX)) {
+          String attributeName = fieldName.replaceFirst(ATTRIBUTE_ELEMENT_PREFIX, "");
+          setAttributeValue(attributeName, jsonNode.getValueAsText(), cursor);
+          continue;
+        }
         cursor.push();
         if (moveCursorByLocalName(cursor, fieldName)) {
           transferValues(field, cursor);
         }
         cursor.pop();
       }
-//      select all the children of the soap message body item (excluding rpc element, that has been left out earlier)
-//      cursor.selectPath("$this/*");
-//      while (cursor.toNextSelection()) {
-//        String localName = cursor.getDomNode().getLocalName();
-//        // find the related node in json object
-//        JsonNode node = findJsonNode(jsonNode, localName);
-//        if (node == null) {
-//          cursor.removeXml();
-//          continue;
-//        }
-//
-//        cursor.selectPath("$this/*");
-//
-//        // if we have reached the leaf node, then transfer the text value
-//        if (cursor.getSelectionCount() == 0) {
-//          cursor.setTextValue(node.getValueAsText());
-//        }
-//        // else keep searching
-//        else {
-//          transferValues(node, cursor, path);
-//        }
-//      }
     } else if (jsonNode.isValueNode()) {
       cursor.setTextValue(jsonNode.getValueAsText());
+    }
+    cursor.pop();
+  }
+
+  private void setAttributeValue(String attributeName, String value, XmlCursor cursor) {
+    cursor.push();
+    while(!cursor.toNextToken().isEnd()) {
+      if (cursor.isAttr() && cursor.getName().getLocalPart().equals(attributeName)) {
+        cursor.setTextValue(value);
+      }
     }
     cursor.pop();
   }

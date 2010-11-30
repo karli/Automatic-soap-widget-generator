@@ -57,7 +57,7 @@ public class SMBMappingGenerator extends DefaultMappingGenerator {
     for (int i = 0; i < nodeList.getLength(); i++) {
       Node node = nodeList.item(i);
       if (node instanceof Comment) {
-        if ("Zero or more repetitions:".equals(node.getNodeValue())) {
+        if (node.getNodeValue() != null && node.getNodeValue().contains("or more repetitions:")) {
           repeatingElementFlag = true;
         }
       }
