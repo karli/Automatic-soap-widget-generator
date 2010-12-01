@@ -233,9 +233,10 @@ public abstract class DataPackage {
 					//Otherwise check if there exists a corresponding data value 
 					String path = mappingElement.getPath();
 					
-					//If there isn't any data values associated with that mapping then the data package is not ready to be published.
+					//If there isn't any data values associated with that mapping
+          // then the data package is ready only if mapping is optional
 					if(dataValues.containsKey(path) == false)
-						return false;
+						return mapping.isOptional();
 				}
 			}
 			else if(mapping.isRepeatingMappingsGroup() != null) {
@@ -244,7 +245,7 @@ public abstract class DataPackage {
 				
 				String repeatableElementPath = mapping.isRepeatingMappingsGroup().getPath();
 				if(dataValues.containsKey(repeatableElementPath) == false)
-					return false;
+					return mapping.isOptional();
 				
 				GeneratedDataGroupsCollection dataCollection = dataValues.get(repeatableElementPath).isGeneratedDataGroupsCollection();
 				

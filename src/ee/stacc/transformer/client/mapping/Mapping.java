@@ -7,6 +7,8 @@ package ee.stacc.transformer.client.mapping;
  *
  */
 public abstract class Mapping {
+
+  private boolean optional = true;
 	
 	//Path is optional when the data doesn't have any structure
 	private String path;
@@ -34,4 +36,12 @@ public abstract class Mapping {
 	public String toString() {
 		return path;
 	}
+
+  public boolean isOptional() {
+    return optional;
+  }
+
+  public void setOptional(boolean optional) {
+    this.optional = optional;
+  }
 }
