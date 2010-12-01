@@ -35,5 +35,15 @@
 			</mapping>
 		</mappings>
 	</frame>
+    <frame>
+		<topic outgoing_only="true">org.example.topics.textualcontent</topic>
+		<format>json</format>
+		<mappings>
+			<mapping>
+				<global_ref>http://www.eesti.ee/estonto/2009/R1#2932</global_ref>
+                <path>/textualContent</path>
+			</mapping>
+		</mappings>
+	</frame>
 
 </frames>

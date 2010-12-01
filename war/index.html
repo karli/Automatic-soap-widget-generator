@@ -22,6 +22,7 @@
       var nameEntryWidget = url + "widgets/NameEntryWidget.html";
       var regCodeWidget = url + "widgets/RegistryNameEntry.html";
       var messageDumpWidget = url + "widgets/MessageDumpWidget.html";
+      var textualContentWidget = url + "widgets/TextualContent.html";
 
       var managedHub = null;
       var mashupArea = null;
@@ -125,6 +126,30 @@
 		      iframeAttrs: { id: "widgetBox2" },
 		      // Container's iframe loads the following URL:
 		      uri: regCodeWidget,
+		      // Tunnel URL required by IframeHubClient. This particular tunnel URL
+		      // is the one that corresponds to release/all/OpenAjaxManagedHub-all.js:
+		      tunnelURI:  tunnel
+		    }
+		  }
+		);
+
+     //Initiating widget 2
+		var textualContent = document.createElement( "span" );
+		mashupArea.appendChild(textualContent);
+		var container2 = new OpenAjax.hub.IframeContainer(managedHub , "textualContentWidget",
+		  {
+		    Container: {
+		      onSecurityAlert: onClientSecurityAlert,
+		      onConnect:       onClientConnect,
+		      onDisconnect:    onClientDisconnect
+		    },
+		    IframeContainer: {
+		      // DOM element that is parent of this container:
+		      parent:      textualContent,
+		      // Container's iframe will have these CSS styles:
+		      iframeAttrs: { id: "widgetBox2" },
+		      // Container's iframe loads the following URL:
+		      uri: textualContentWidget,
 		      // Tunnel URL required by IframeHubClient. This particular tunnel URL
 		      // is the one that corresponds to release/all/OpenAjaxManagedHub-all.js:
 		      tunnelURI:  tunnel
