@@ -69,11 +69,11 @@ public class Json2Soap {
 
     // NO SUPPORT FOR HEADERS at the moment
     XmlObject responseBody = SoapUtils.getBodyElement(responseXml, getSoapVersion());
-    XmlObject attributelessResponseBody = this.removeAttributes(responseBody);
+//    XmlObject attributelessResponseBody = this.removeAttributes(responseBody);
 
 //    JSON json = xmlSerializer.read(attributelessResponseBody.xmlText());
     Xml2JsonConverter converter = new Xml2JsonConverter();
-    JsonNode jsonNode = converter.convert(attributelessResponseBody.xmlText());
+    JsonNode jsonNode = converter.convert(responseBody.xmlText());
 
     return jsonNode.toString();
   }
