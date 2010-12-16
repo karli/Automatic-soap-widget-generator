@@ -59,20 +59,8 @@ public abstract class DataFrame {
 	 * @return	data type.
 	 */
 	public abstract String getDataType();
-	
-	/**
-	 * Load data frames from the xml document.
-	 * @param xml	xml document containing with mappings configuration.
-	 * @return	map of data frames (key: topic).
-	 */
-	public static Map<String, DataFrame> loadDataFrames(Document xml) {
-		MappingsXmlParser parser = new MappingsXmlParser();
-		Map<String, DataFrame> dataFrames = parser.loadDataFrames(xml);
-		
-		return dataFrames;
-	}
-	
-	/**
+
+  /**
 	 * Fetch the schema according to the schema url.
 	 */
 	public void loadSchema() {

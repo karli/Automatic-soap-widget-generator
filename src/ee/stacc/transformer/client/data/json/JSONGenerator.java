@@ -18,7 +18,7 @@ import ee.stacc.transformer.client.data.CollectedDataGroup;
 import ee.stacc.transformer.client.data.CollectedDataGroupsCollection;
 import ee.stacc.transformer.client.mapping.Mapping;
 import ee.stacc.transformer.client.mapping.MappingElement;
-import ee.stacc.transformer.client.mapping.RepeatingMappingsGroup;
+import ee.stacc.transformer.client.mapping.RepeatingElementGroup;
 
 /**
  * To generate JSON messages.
@@ -177,7 +177,7 @@ public class JSONGenerator {
 	 * @param mappingGroup	mappings group that describes the data.
 	 * @return	collection of data value groups.
 	 */
-	public static CollectedDataGroupsCollection getJsonDataGroups(JSONArray jsonArray, RepeatingMappingsGroup mappingGroup) {
+	public static CollectedDataGroupsCollection getJsonDataGroups(JSONArray jsonArray, RepeatingElementGroup mappingGroup) {
 		CollectedDataGroupsCollection groupsCollection = new CollectedDataGroupsCollection(mappingGroup);
 		
 		String superElementPaht = mappingGroup.getPath();
@@ -204,11 +204,11 @@ public class JSONGenerator {
           }
         }
 				else if(mapping.isRepeatingMappingsGroup() != null) {
-          RepeatingMappingsGroup repMappingsGroup = mapping.isRepeatingMappingsGroup();
+          RepeatingElementGroup repElementGroup = mapping.isRepeatingMappingsGroup();
           JSONArray jsonArrayValue = jsonDataValue.isArray();
-					CollectedDataGroupsCollection collectedCollection = getJsonDataGroups(jsonArrayValue, repMappingsGroup);
+					CollectedDataGroupsCollection collectedCollection = getJsonDataGroups(jsonArrayValue, repElementGroup);
 					
-					for(String globalRef: repMappingsGroup.getMappings().keySet()) {
+					for(String globalRef: repElementGroup.getMappings().keySet()) {
 						valuesGroup.addDataValue(globalRef, collectedCollection);
 					}
 					
@@ -230,7 +230,7 @@ public class JSONGenerator {
 			return dataValue;
 		}
 		else if(mapping.isRepeatingMappingsGroup() != null) {
-			RepeatingMappingsGroup mappingGroup = mapping.isRepeatingMappingsGroup();
+			RepeatingElementGroup mappingGroup = mapping.isRepeatingMappingsGroup();
 			JSONArray jsonArray = jsonDataValue.isArray();
       // if element is set as repeating element, but is not an array
       // (probably because only one element was included in the response)

@@ -4,8 +4,9 @@
   <inherits name="com.google.gwt.user.User" />
   <inherits name="com.google.gwt.json.JSON" />
   <inherits name="com.google.gwt.xml.XML" />
+    <inherits name="com.google.gwt.junit.JUnit"/>
 
-  <!-- Inherit the default GWT style sheet.  You can change       -->
+    <!-- Inherit the default GWT style sheet.  You can change       -->
   <!-- the theme of your GWT application by uncommenting          -->
   <!-- any one of the following lines.                            -->
   <!-- <inherits name='com.google.gwt.user.theme.standard.Standard'/> -->

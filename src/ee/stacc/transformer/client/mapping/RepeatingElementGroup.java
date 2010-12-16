@@ -12,9 +12,9 @@ import ee.stacc.transformer.client.data.DataFrame;
  * @author Rainer Villido
  *
  */
-public class RepeatingMappingsGroup extends Mapping {
+public class RepeatingElementGroup extends Mapping {
 	
-	RepeatingMappingsGroup parentMappingsGroup;
+	RepeatingElementGroup parentMappingsGroup;
 	DataFrame dataFrame;
 	
 	//Mappings that the repeating element group contains.
@@ -23,13 +23,13 @@ public class RepeatingMappingsGroup extends Mapping {
 	//Mappings contained only in this group.
 	private Set<Mapping> mappingsSet = new HashSet<Mapping>();
 	
-	public RepeatingMappingsGroup(String path, DataFrame dataFrame, RepeatingMappingsGroup parentMappingsGroup) {
+	public RepeatingElementGroup(String path, DataFrame dataFrame, RepeatingElementGroup parentMappingsGroup) {
 		setPath(path);
 		this.dataFrame = dataFrame;
 		this.parentMappingsGroup = parentMappingsGroup;
 	}
-	
-	/**
+
+  /**
 	 * To add a mapping to the repeating mappings group and 
 	 * to all of the ancestors of the repeating mappings group.
 	 * 
@@ -56,7 +56,7 @@ public class RepeatingMappingsGroup extends Mapping {
 	}
 
 	@Override
-	public RepeatingMappingsGroup isRepeatingMappingsGroup() {
+	public RepeatingElementGroup isRepeatingMappingsGroup() {
 		return this;
 	}
 

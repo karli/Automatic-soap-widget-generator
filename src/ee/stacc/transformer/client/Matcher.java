@@ -19,7 +19,7 @@ import ee.stacc.transformer.client.data.DataPackage;
 import ee.stacc.transformer.client.data.InstanceFactory;
 import ee.stacc.transformer.client.mapping.Mapping;
 import ee.stacc.transformer.client.mapping.MappingElement;
-import ee.stacc.transformer.client.mapping.RepeatingMappingsGroup;
+import ee.stacc.transformer.client.mapping.RepeatingElementGroup;
 
 /**
  * The main class for logic of aggregating data from messages.
@@ -28,17 +28,11 @@ import ee.stacc.transformer.client.mapping.RepeatingMappingsGroup;
  */
 public class Matcher {
 	
-	private Map<String, DataFrame> dataFrames;	//Key: topic; Value: data frame with that topic.
+	private Map<String, DataFrame> dataFrames = new HashMap<String, DataFrame>();	//Key: topic; Value: data frame with that topic.
 	private Map<String, Set<DataFrame>> referenceMappingsToFrames = new HashMap<String, Set<DataFrame>>();	//Key: global reference to an ontology; Value: set of data frames that contain that global reference.
-	private Map<String, List<DataPackage>> unfinishedDataPackages;	//Key: topic; value: unfinished data package
+	private Map<String, List<DataPackage>> unfinishedDataPackages = new HashMap<String, List<DataPackage>>();	//Key: topic; value: unfinished data package
 	private List<DataPackage> finishedDataPackages = new ArrayList<DataPackage>();	//List of finished data packages
 	private String incomingTopic;	//Name of the topic of the received message.
-	
-	public Matcher() {
-		dataFrames = new HashMap<String, DataFrame>();
-		unfinishedDataPackages = new HashMap<String, List<DataPackage>>();
-	}
-	
 	
 	/**
 	 * This operation loads all the global references to the map where each global reference has the set of data frames that contain that global reference.
@@ -82,7 +76,7 @@ public class Matcher {
 				//If the mapping is a repeatable mapping group (i.e. represents an array) then
 				//get mappings of the repeatable mapping group and 
 				//recursively process those mappings.
-				RepeatingMappingsGroup mappingsGroup = mapping.isRepeatingMappingsGroup();
+				RepeatingElementGroup mappingsGroup = mapping.isRepeatingMappingsGroup();
 				Collection<Mapping> groupMappings = mappingsGroup.getMappingsSet();
 				processMappingsForFrame(groupMappings, frame);
 			}
@@ -331,11 +325,6 @@ public class Matcher {
 			if(dataPackageLists.size() <= 0)
 				dataPackageListsIterator.remove();
 		}
-		
-	}
-
-	public void setDataFrames(Map<String, DataFrame> dataFrames) {
-		this.dataFrames = dataFrames;
 	}
 
   public void addDataFrames(Map<String, DataFrame> dataFrames) {
@@ -343,5 +332,13 @@ public class Matcher {
 
     //Make a map object from the mappings.
     loadMappingsToMap(dataFrames);
+  }
+
+  public Map<String, Set<DataFrame>> getReferenceMappingsToFrames() {
+    return referenceMappingsToFrames;
+  }
+
+  public Map<String, DataFrame> getDataFrames() {
+    return dataFrames;
   }
 }

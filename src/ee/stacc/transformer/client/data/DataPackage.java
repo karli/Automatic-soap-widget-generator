@@ -7,7 +7,7 @@ import java.util.Map;
 
 import ee.stacc.transformer.client.mapping.Mapping;
 import ee.stacc.transformer.client.mapping.MappingElement;
-import ee.stacc.transformer.client.mapping.RepeatingMappingsGroup;
+import ee.stacc.transformer.client.mapping.RepeatingElementGroup;
 
 /**
  * Data package keeps data about messages that are being generated. It stores aggregated data values necessary
@@ -39,7 +39,7 @@ public abstract class DataPackage {
 	 * @param mapping
 	 * @param globalRef
 	 */
-	private void addDataValueToGroup(AtomicDataValue dataValue, RepeatingMappingsGroup mapping, String globalRef) {
+	private void addDataValueToGroup(AtomicDataValue dataValue, RepeatingElementGroup mapping, String globalRef) {
 		//If mappings contain repeatable element groups then add this value as a group.
 		
 		//Get the path.

@@ -17,6 +17,7 @@ import com.google.gwt.xml.client.XMLParser;
 
 import ee.stacc.transformer.client.data.DataFrame;
 import ee.stacc.transformer.client.data.DataPackage;
+import ee.stacc.transformer.client.mapping.MappingsXmlParser;
 
 /**
  * The main class for the transformer widget.
@@ -34,16 +35,14 @@ public class TransformerWidget implements EntryPoint {
 	private TransformerHubProxy hubProxy = new TransformerHubProxy();
 	
 	//Matcher is doing the main transformation and aggregation logic.
-	private Matcher matcher;
+	private Matcher matcher = new Matcher();
 	
 	//Lately published topics are recent topics that the transformer widget has published. It is used to keep the transformer for recursively transforming its own messages. 
 	private Map<String, Integer> latelyPublishedTopics = new HashMap<String, Integer>();
 
   @Override
 	public void onModuleLoad() {
-		matcher = new Matcher();
-		
-		//Load all the mappings from the mappings file.
+    //Load all the mappings from the mappings file.
 		fetchMappings();
 		
 		//Connect to the hub after all the initialization has been done
@@ -112,7 +111,7 @@ public class TransformerWidget implements EntryPoint {
 			
 			try {
 				//Get all the data packages which have been finished after aggregating data from the publisherData.
-				List<DataPackage> packages = matcher.getUpdatedPackets(topic, publisherData);
+				List<DataPackage> packages = getMatcher().getUpdatedPackets(topic, publisherData);
 				GWT.log("Got "+packages.size()+" of packages", null);
 				
 				//Publish all the finished packages ready to be sent to other widgets.
@@ -254,8 +253,8 @@ public class TransformerWidget implements EntryPoint {
 			Document xml = XMLParser.parse(mappingsXml);
 			
 			//Load data frames from the xml
-			Map<String, DataFrame> dataFrames = DataFrame.loadDataFrames(xml);
-      matcher.addDataFrames(dataFrames);
+      Map<String, DataFrame> dataFrames = MappingsXmlParser.loadDataFrames(xml);
+      getMatcher().addDataFrames(dataFrames);
 
 			//Load schemas for each data frame
 			for(DataFrame dataFrame: dataFrames.values()) {
@@ -278,4 +277,7 @@ public class TransformerWidget implements EntryPoint {
 		RootPanel.get("messageArea").add(new Label(msg));
 	}
 
+  public Matcher getMatcher() {
+    return matcher;
+  }
 }

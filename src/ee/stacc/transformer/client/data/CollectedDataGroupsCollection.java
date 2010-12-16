@@ -3,7 +3,7 @@ package ee.stacc.transformer.client.data;
 import java.util.ArrayList;
 import java.util.List;
 
-import ee.stacc.transformer.client.mapping.RepeatingMappingsGroup;
+import ee.stacc.transformer.client.mapping.RepeatingElementGroup;
 
 /**
  * For keeping an array of data element groups that are collected from a message that contains repeatable data element groups.
@@ -17,9 +17,9 @@ import ee.stacc.transformer.client.mapping.RepeatingMappingsGroup;
  */
 public class CollectedDataGroupsCollection implements CollectedDataValue {
 	
-	private RepeatingMappingsGroup collectedMapping;
+	private RepeatingElementGroup collectedMapping;
 	
-	public CollectedDataGroupsCollection(RepeatingMappingsGroup collectedMapping) {
+	public CollectedDataGroupsCollection(RepeatingElementGroup collectedMapping) {
 		this.collectedMapping = collectedMapping;
 	}
 	
@@ -59,7 +59,7 @@ public class CollectedDataGroupsCollection implements CollectedDataValue {
 	}
 
 	@Override
-	public RepeatingMappingsGroup getCollectedMapping() {
+	public RepeatingElementGroup getCollectedMapping() {
 		return collectedMapping;
 	}
 

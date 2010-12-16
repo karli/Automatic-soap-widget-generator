@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ee.stacc.transformer.client.mapping.Mapping;
-import ee.stacc.transformer.client.mapping.RepeatingMappingsGroup;
+import ee.stacc.transformer.client.mapping.RepeatingElementGroup;
 
 /**
  * For holding a group of data elements for assembling a new message.
@@ -17,7 +17,7 @@ public class GeneratedDataGroup {
 	/**
 	 * Mappings that represent the group of data elements to be assembled.
 	 */
-	private RepeatingMappingsGroup groupMappings;
+	private RepeatingElementGroup groupMappings;
 	
 	/**
 	 * Data elements grouped together to be assembled to a new message. The map key is global reference of a data element.
@@ -28,7 +28,7 @@ public class GeneratedDataGroup {
 	 * Constructor.
 	 * @param groupMappings	mappings that represent the group of data elements to be assembled to a new message.
 	 */
-	public GeneratedDataGroup(RepeatingMappingsGroup groupMappings) {
+	public GeneratedDataGroup(RepeatingElementGroup groupMappings) {
 		this.groupMappings = groupMappings;
 	}
 	
@@ -66,7 +66,7 @@ public class GeneratedDataGroup {
 			assembledData.put(path, dataValue);
 		}
 		else if (mapping.isRepeatingMappingsGroup() != null) {//TODO: also check if data value is CollectedDataGroupsCollection
-			RepeatingMappingsGroup mappingGroup = mapping.isRepeatingMappingsGroup();
+			RepeatingElementGroup mappingGroup = mapping.isRepeatingMappingsGroup();
 			Mapping subMapping = mappingGroup.getMapping(globalRef);
 			addDataValue(dataValue, globalRef, subMapping);
 		}
