@@ -6,6 +6,7 @@
       <title>HelloWorldWidget test</title>
       <link type="text/css" rel="stylesheet" href="test.css">
       <script type='text/javascript' language="javascript" src="widgets/pagebus.js"></script>
+      <script type='text/javascript' language="javascript" src="widgets/SoapServiceUtils.js"></script>
 
       <script type="text/javascript">
 
@@ -16,7 +17,7 @@
       var tunnel = url + "tunnel.html";
 
       //Widgets' urls
-      var soapServiceWidget = url + 'widgets/SoapServiceWidget.html';
+      var serviceWidgetUri = url + 'widgets/SoapServiceWidget.html';
       //var transformerWidget = url + "./TransformerWidget.html?gwt.codesvr=127.0.0.1:9997";
       var transformerWidget = url + "./TransformerWidget.html";
       var nameEntryWidget = url + "widgets/NameEntryWidget.html";
@@ -207,48 +208,12 @@
 
       }
 
-        function generateWidget() {
-          function onClientSecurityAlert(source, alertType) {  /* Handle client-side security alerts */  }
-          function onClientConnect(container) {        /* Called when client connects */   }
-          function onClientDisconnect(container) {     /* Called when client disconnects */ }
-
-          var wsdlUri = document.getElementById('wsdlUri').value;
-          var operation = document.getElementById('operation').value;
-          var widgetUri = soapServiceWidget + '?wsdl=' + wsdlUri + '&operation=' + operation;
-
-          var serviceWidgetName = widgetUri;
-
-          if (soapServiceWidgets[serviceWidgetName] != null) {
-            alert('Avoiding adding duplicate service widget for ' + serviceWidgetName);
-            return;
-          }
-
-          // Soap Service Widget
-          soapServiceWidgets[serviceWidgetName] = document.createElement( "span" );
-          mashupArea.appendChild(soapServiceWidgets[serviceWidgetName] );
-          var container4 = new OpenAjax.hub.IframeContainer(managedHub , serviceWidgetName,
-            {
-              Container: {
-                onSecurityAlert: onClientSecurityAlert,
-                onConnect:       onClientConnect,
-                onDisconnect:    onClientDisconnect
-              },
-              IframeContainer: {
-                // DOM element that is parent of this container:
-                parent:      soapServiceWidgets[serviceWidgetName],
-                // Container's iframe will have these CSS styles:
-                iframeAttrs: { id: "smallHidden" },
-                // Container's iframe loads the following URL:
-                uri: widgetUri,
-                // Tunnel URL required by IframeHubClient. This particular tunnel URL
-                // is the one that corresponds to release/all/OpenAjaxManagedHub-all.js:
-                tunnelURI:  tunnel
-              }
-            }
-          );
-          
-        }
-    </script>
+      function generateWidgetAction() {
+        var wsdlUri = document.getElementById('wsdlUri').value;
+        var operation = document.getElementById('operation').value;
+        generateWidget(wsdlUri, operation, serviceWidgetUri, soapServiceWidgets);
+      }
+      </script>
     </head>
     <body onload="loadEventHandler()">
       <div id="mashupArea"></div>
@@ -256,7 +221,7 @@
       <div id="addWidget">
         <input type="text" id="wsdlUri" />
         <input type="text" id="operation" />
-        <input type="button" value="Generate widget" onclick="generateWidget()"/>
+        <input type="button" value="Generate widget" onclick="generateWidgetAction()"/>
       </div>
     </body>
   </html>
