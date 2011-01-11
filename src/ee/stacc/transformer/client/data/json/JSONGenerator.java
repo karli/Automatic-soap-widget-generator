@@ -163,7 +163,8 @@ public class JSONGenerator {
 	 * @return
 	 */
 	public static JSONValue getJsonDataValue(JavaScriptObject data, String path, Mapping mapping) {
-		if(mapping.isRepeatingMappingsGroup() != null && path.equals("/")) {
+    // TODO: why the path must equal "/"
+		if(mapping.isRepeatingElementGroup() != null && path.equals("/")) {
 			return getJsonDataValue(new JSONArray(data), path);
 		}
 		else {
@@ -174,19 +175,19 @@ public class JSONGenerator {
 
 	/***
 	 * Generate data values groups collection out of the json data.
-	 * @param mappingGroup	mappings group that describes the data.
+	 * @param repeatingElementGroup	mappings group that describes the data.
 	 * @return	collection of data value groups.
 	 */
-	public static CollectedDataGroupsCollection getJsonDataGroups(JSONArray jsonArray, RepeatingElementGroup mappingGroup) {
-		CollectedDataGroupsCollection groupsCollection = new CollectedDataGroupsCollection(mappingGroup);
+	public static CollectedDataGroupsCollection getJsonDataGroups(JSONArray jsonArray, RepeatingElementGroup repeatingElementGroup) {
+		CollectedDataGroupsCollection groupsCollection = new CollectedDataGroupsCollection(repeatingElementGroup);
 		
-		String superElementPaht = mappingGroup.getPath();
+		String superElementPaht = repeatingElementGroup.getPath();
 		
 		for(int i = 0; i < jsonArray.size(); i++) {
 			JSONValue jsonData = jsonArray.get(i);
 			
-			CollectedDataGroup valuesGroup = new CollectedDataGroup(mappingGroup);
-			for(Mapping mapping: mappingGroup.getMappingsSet()) {
+			CollectedDataGroup collectedDataGroup = new CollectedDataGroup(repeatingElementGroup);
+			for(Mapping mapping: repeatingElementGroup.getMappingsSet()) {
 				String longPath = mapping.getPath();
 				String path = longPath.replaceFirst(superElementPaht, "");
         JSONValue jsonDataValue = getJsonDataValue(jsonData, path);
@@ -200,21 +201,22 @@ public class JSONGenerator {
           MappingElement mappingElement = mapping.isMappingElement();
           JsonDataValue dataValue = new JsonDataValue(jsonDataValue, mappingElement);
           for (String globalRef : mappingElement.getGlobalReference()) {
-            valuesGroup.addDataValue(globalRef, dataValue);
+            collectedDataGroup.addDataValue(globalRef, dataValue);
           }
         }
-				else if(mapping.isRepeatingMappingsGroup() != null) {
-          RepeatingElementGroup repElementGroup = mapping.isRepeatingMappingsGroup();
+				else if(mapping.isRepeatingElementGroup() != null) {
+          RepeatingElementGroup repElementGroup = mapping.isRepeatingElementGroup();
           JSONArray jsonArrayValue = jsonDataValue.isArray();
 					CollectedDataGroupsCollection collectedCollection = getJsonDataGroups(jsonArrayValue, repElementGroup);
 					
 					for(String globalRef: repElementGroup.getMappings().keySet()) {
-						valuesGroup.addDataValue(globalRef, collectedCollection);
+
+						collectedDataGroup.addDataValue(globalRef, collectedCollection);
 					}
 					
 				}
 			}
-			groupsCollection.addCollectedDataGroup(valuesGroup);
+			groupsCollection.addCollectedDataGroup(collectedDataGroup);
 		}
 		
 		return groupsCollection;
@@ -224,13 +226,10 @@ public class JSONGenerator {
 		
 		if(mapping.isMappingElement() != null) {
 			JsonDataValue dataValue = new JsonDataValue(jsonDataValue, mapping.isMappingElement());
-      // at this point, data value must have a certain semantic reference
-			String globalRef = mapping.isMappingElement().getFirstGlobalReference();
-			dataValue.setGlobalReference(globalRef);
 			return dataValue;
 		}
-		else if(mapping.isRepeatingMappingsGroup() != null) {
-			RepeatingElementGroup mappingGroup = mapping.isRepeatingMappingsGroup();
+		else if(mapping.isRepeatingElementGroup() != null) {
+			RepeatingElementGroup repeatingElementGroup = mapping.isRepeatingElementGroup();
 			JSONArray jsonArray = jsonDataValue.isArray();
       // if element is set as repeating element, but is not an array
       // (probably because only one element was included in the response)
@@ -238,7 +237,7 @@ public class JSONGenerator {
         jsonArray = new JSONArray();
         jsonArray.set(0, jsonDataValue);
       }
-			CollectedDataGroupsCollection groupsCollection = JSONGenerator.getJsonDataGroups(jsonArray, mappingGroup);
+			CollectedDataGroupsCollection groupsCollection = JSONGenerator.getJsonDataGroups(jsonArray, repeatingElementGroup);
 			return groupsCollection;
 		}
 		

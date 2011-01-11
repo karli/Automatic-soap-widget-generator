@@ -56,7 +56,7 @@ public class RepeatingElementGroup extends Mapping {
 	}
 
 	@Override
-	public RepeatingElementGroup isRepeatingMappingsGroup() {
+	public RepeatingElementGroup isRepeatingElementGroup() {
 		return this;
 	}
 

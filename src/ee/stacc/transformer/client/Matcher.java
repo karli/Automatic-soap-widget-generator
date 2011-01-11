@@ -72,11 +72,11 @@ public class Matcher {
 				}
 				
 			}
-			else if(mapping.isRepeatingMappingsGroup() != null) {
+			else if(mapping.isRepeatingElementGroup() != null) {
 				//If the mapping is a repeatable mapping group (i.e. represents an array) then
 				//get mappings of the repeatable mapping group and 
 				//recursively process those mappings.
-				RepeatingElementGroup mappingsGroup = mapping.isRepeatingMappingsGroup();
+				RepeatingElementGroup mappingsGroup = mapping.isRepeatingElementGroup();
 				Collection<Mapping> groupMappings = mappingsGroup.getMappingsSet();
 				processMappingsForFrame(groupMappings, frame);
 			}

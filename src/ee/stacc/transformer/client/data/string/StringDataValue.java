@@ -50,8 +50,6 @@ public class StringDataValue extends AtomicDataValue {
 		
 		if(mapping.isMappingElement() != null) {
 			StringDataValue dataValue = new StringDataValue((String)data, mapping.isMappingElement());
-			String globalRef = mapping.isMappingElement().getFirstGlobalReference();
-			dataValue.setGlobalReference(globalRef);
 			return dataValue;
 		}
 		

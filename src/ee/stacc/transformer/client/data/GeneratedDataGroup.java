@@ -65,8 +65,8 @@ public class GeneratedDataGroup {
 			String path = mapping.getPath();
 			assembledData.put(path, dataValue);
 		}
-		else if (mapping.isRepeatingMappingsGroup() != null) {//TODO: also check if data value is CollectedDataGroupsCollection
-			RepeatingElementGroup mappingGroup = mapping.isRepeatingMappingsGroup();
+		else if (mapping.isRepeatingElementGroup() != null) {//TODO: also check if data value is CollectedDataGroupsCollection
+			RepeatingElementGroup mappingGroup = mapping.isRepeatingElementGroup();
 			Mapping subMapping = mappingGroup.getMapping(globalRef);
 			addDataValue(dataValue, globalRef, subMapping);
 		}

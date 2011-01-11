@@ -16,10 +16,6 @@ import ee.stacc.transformer.client.mapping.MappingElement;
  */
 public abstract class AtomicDataValue implements CollectedDataValue, GeneratedDataValue {
 	
-	/**
-	 * the global reference of the atomic data value
-	 */
-	private String globalReference;
   protected MappingElement collectedMapping;
 
   public AtomicDataValue(MappingElement mapping) {
@@ -47,14 +43,10 @@ public abstract class AtomicDataValue implements CollectedDataValue, GeneratedDa
 	 * @return	global reference of the atomic data value.
 	 */
 	public String getGlobalReference() {
-		return this.globalReference;
+		return this.collectedMapping.getFirstGlobalReference();
 	}
-	
-	public void setGlobalReference(String globalReference) {
-		this.globalReference = globalReference;
-	}
-	
-	@Override
+
+  @Override
 	public AtomicDataValue isAtomicDataValue() {
 		return this;
 	}

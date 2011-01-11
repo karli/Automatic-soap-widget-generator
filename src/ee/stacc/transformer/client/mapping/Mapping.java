@@ -23,7 +23,7 @@ public abstract class Mapping {
 	 * If the mapping element represents a repeating mapping group 
 	 * @return	repeating mappings group element representing the data value, null otherwise.
 	 */
-	public abstract RepeatingElementGroup isRepeatingMappingsGroup();
+	public abstract RepeatingElementGroup isRepeatingElementGroup();
 	
 	public String getPath() {
 		return path;

@@ -14,11 +14,8 @@ import ee.stacc.transformer.client.data.DataPackage;
  */
 public class JsonDataPackage extends DataPackage {
 	
-	private JsonDataFrame dataFrame;	//The data frame corresponding to the data package
-
 	public JsonDataPackage(JsonDataFrame dataFrame) {
 		super(dataFrame);
-		this.dataFrame = dataFrame;
 	}
 
 	@Override
@@ -34,10 +31,15 @@ public class JsonDataPackage extends DataPackage {
 
 	@Override
 	public String toString() {
-		return new JSONObject((JavaScriptObject)getObjectToPublish()).toString();
+    if (getObjectToPublish() != null) {
+      return new JSONObject((JavaScriptObject)getObjectToPublish()).toString();
+    }
+    else {
+      return null;
+    }
 	}
 
 	public JSONObject getJsonSchema() {
-		return dataFrame.getJsonSchema();
+		return ((JsonDataFrame)getDataFrame()).getJsonSchema();
 	}
 }

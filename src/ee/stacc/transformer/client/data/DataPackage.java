@@ -60,7 +60,7 @@ public abstract class DataPackage {
 		
 		//If there are no data groups with that global reference, then create a new one.
 		if(group == null) {
-			group = new GeneratedDataGroup(mapping.isRepeatingMappingsGroup());
+			group = new GeneratedDataGroup(mapping.isRepeatingElementGroup());
 			dataCollection.addUnfinishedDataGroup(group);
 		}
 		
@@ -113,9 +113,9 @@ public abstract class DataPackage {
 			String path = outgoingMapping.getPath();
 			getDataValues().put(path, atomicDataValue);
 		}
-		else if(outgoingMapping.isRepeatingMappingsGroup() != null) {
+		else if(outgoingMapping.isRepeatingElementGroup() != null) {
 			//If mappings contain repeatable element groups then add this value as a group.
-			addDataValueToGroup(atomicDataValue, outgoingMapping.isRepeatingMappingsGroup(), globalRef);
+			addDataValueToGroup(atomicDataValue, outgoingMapping.isRepeatingElementGroup(), globalRef);
 		}
 	}
 	
@@ -124,7 +124,8 @@ public abstract class DataPackage {
 	 * @param collectedDataGroup
 	 */
 	private void addDataGroupToPackage(CollectedDataGroup collectedDataGroup) {
-		//For each global reference in the group, find what data values are needed by this data package (and then add them). 
+		//For each global reference in the group, find what data values are needed by this data package (and then add them).
+    // TODO: add support for recursive data groups
 		for(CollectedDataValue collectedDataValue: collectedDataGroup.getCollectedAtomicData()) {
 			//Add the data value to the package.
 			addDataValue(collectedDataValue);
@@ -168,7 +169,7 @@ public abstract class DataPackage {
 		else if(mapping.isMappingElement() != null) {
 			return true;
 		}
-		else if(mapping.isRepeatingMappingsGroup() != null) {
+		else if(mapping.isRepeatingElementGroup() != null) {
 			return false;
 		}
 		else
@@ -239,11 +240,11 @@ public abstract class DataPackage {
 						return mapping.isOptional();
 				}
 			}
-			else if(mapping.isRepeatingMappingsGroup() != null) {
+			else if(mapping.isRepeatingElementGroup() != null) {
 				//For each repeatable mappings group, check if all of its data collections are ready.
 				//If all the data collections are ready, then the data package is ready to be published.
 				
-				String repeatableElementPath = mapping.isRepeatingMappingsGroup().getPath();
+				String repeatableElementPath = mapping.isRepeatingElementGroup().getPath();
 				if(dataValues.containsKey(repeatableElementPath) == false)
 					return mapping.isOptional();
 				
@@ -256,7 +257,7 @@ public abstract class DataPackage {
 					List<GeneratedDataGroup> unfinishedDataGroups = dataCollection.getUnfinishedDataGroups();
 					for(GeneratedDataGroup dataGroup: unfinishedDataGroups) {
 						Map<String, GeneratedDataValue> generatedDataValues = dataGroup.getAssembledData();
-						Collection<Mapping> repeatableElementGroupMappings = mapping.isRepeatingMappingsGroup().getMappings().values();
+						Collection<Mapping> repeatableElementGroupMappings = mapping.isRepeatingElementGroup().getMappings().values();
 						if(areDataValuesPublishable(generatedDataValues, repeatableElementGroupMappings) == false)
 							return false;
 					}

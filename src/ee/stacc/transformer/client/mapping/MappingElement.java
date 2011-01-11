@@ -49,7 +49,7 @@ public class MappingElement extends Mapping{
 	}
 
 	@Override
-	public RepeatingElementGroup isRepeatingMappingsGroup() {
+	public RepeatingElementGroup isRepeatingElementGroup() {
 		return null;
 	}
 
