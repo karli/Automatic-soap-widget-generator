@@ -222,8 +222,7 @@ public abstract class DataPackage {
 	 * @return
 	 */
 	private boolean areDataValuesPublishable(Map<String, GeneratedDataValue> dataValues, Collection<Mapping> mappings) {
-		//Check is all the necessary data has been aggregated.
-		
+		//Check if all the necessary data has been aggregated.
 		for(Mapping mapping: mappings) {
 			
 			if(mapping.isMappingElement() != null) {
