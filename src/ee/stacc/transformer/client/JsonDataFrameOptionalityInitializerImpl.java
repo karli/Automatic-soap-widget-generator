@@ -14,9 +14,9 @@ public class JsonDataFrameOptionalityInitializerImpl implements JsonDataFrameOpt
   }
 
   private void initMappingOptionality(Mapping mapping, JSONObject jsonSchema) {
-    if (jsonSchema == null) {
-      return;
+    if (jsonSchema != null) {
+      JSONObject mappingSchemaElement = JsonSchemaUtil.findElementByPath(jsonSchema, mapping.getPath());
+      mapping.setOptional(!JsonSchemaUtil.isSchemaElementRequired(mappingSchemaElement));
     }
-    JSONObject mappingSchemaElement = JsonSchemaUtil.findElementByPath(jsonSchema, mapping.getPath());
   }
 }

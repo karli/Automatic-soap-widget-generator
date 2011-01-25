@@ -143,4 +143,9 @@ public abstract class DataFrame {
 	public Map<String, String> getConstantValues() {
 		return constantValues;
 	}
+
+  public void addMapping(Mapping mapping, String globalRef) {
+    this.mappings.put(globalRef, mapping);
+    this.mappingsSet.add(mapping);
+  }
 }
