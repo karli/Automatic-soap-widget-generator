@@ -103,18 +103,30 @@ public class DefaultJsonSchemaConverter implements JsonSchemaConverter {
   private void addToJsonSchema2(XmlCursor cursor, ObjectNode properties) {
     Stack<ObjectNode> propertiesStack = new Stack<ObjectNode>();
     propertiesStack.push(properties);
+    boolean required = true;
     while (!cursor.toNextToken().isNone()) {
       if (cursor.isComment()) {
         if ("Zero or more repetitions:".equals(cursor.getTextValue())) {
           properties.put("type", "array");
           properties = properties.putObject("items");
-
+        }
+        if ("Optional:".equals(cursor.getTextValue())) {
+          required = false;
         }
       }
       if (cursor.isStart()) {
         // add to schema
         ObjectNode currentProps = propertiesStack.lastElement();
         ObjectNode newNode = currentProps.putObject(cursor.getName().getLocalPart());
+
+        // set required if needed
+        if (required) {
+          newNode.put("required", true);
+        }
+        else {
+          // reset
+          required = true;
+        }
         cursor.push();
         if (cursor.toFirstChild()) {
           newNode.put("type", "object");
