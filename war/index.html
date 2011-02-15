@@ -87,28 +87,28 @@
          */
 
     //Initiating widget 2
-		var div2 = document.createElement( "span" );
-		mashupArea.appendChild(div2);
-		var container2 = new OpenAjax.hub.IframeContainer(managedHub , "client2",
-		  {
-		    Container: {
-		      onSecurityAlert: onClientSecurityAlert,
-		      onConnect:       onClientConnect,
-		      onDisconnect:    onClientDisconnect
-		    },
-		    IframeContainer: {
-		      // DOM element that is parent of this container:
-		      parent:      div2,
-		      // Container's iframe will have these CSS styles:
-		      iframeAttrs: { id: "widgetBox" },
-		      // Container's iframe loads the following URL:
-		      uri: nameEntryWidget,
-		      // Tunnel URL required by IframeHubClient. This particular tunnel URL
-		      // is the one that corresponds to release/all/OpenAjaxManagedHub-all.js:
-		      tunnelURI:  tunnel
-		    }
-		  }
-		);
+//		var div2 = document.createElement( "span" );
+//		mashupArea.appendChild(div2);
+//		var container2 = new OpenAjax.hub.IframeContainer(managedHub , "client2",
+//		  {
+//		    Container: {
+//		      onSecurityAlert: onClientSecurityAlert,
+//		      onConnect:       onClientConnect,
+//		      onDisconnect:    onClientDisconnect
+//		    },
+//		    IframeContainer: {
+//		      // DOM element that is parent of this container:
+//		      parent:      div2,
+//		      // Container's iframe will have these CSS styles:
+//		      iframeAttrs: { id: "widgetBox" },
+//		      // Container's iframe loads the following URL:
+//		      uri: nameEntryWidget,
+//		      // Tunnel URL required by IframeHubClient. This particular tunnel URL
+//		      // is the one that corresponds to release/all/OpenAjaxManagedHub-all.js:
+//		      tunnelURI:  tunnel
+//		    }
+//		  }
+//		);
 
         //Initiating widget 2
 		var div3 = document.createElement( "span" );
@@ -135,28 +135,28 @@
 		);
 
      //Initiating widget 2
-		var textualContent = document.createElement( "span" );
-		mashupArea.appendChild(textualContent);
-		var container2 = new OpenAjax.hub.IframeContainer(managedHub , "textualContentWidget",
-		  {
-		    Container: {
-		      onSecurityAlert: onClientSecurityAlert,
-		      onConnect:       onClientConnect,
-		      onDisconnect:    onClientDisconnect
-		    },
-		    IframeContainer: {
-		      // DOM element that is parent of this container:
-		      parent:      textualContent,
-		      // Container's iframe will have these CSS styles:
-		      iframeAttrs: { id: "widgetBox2" },
-		      // Container's iframe loads the following URL:
-		      uri: textualContentWidget,
-		      // Tunnel URL required by IframeHubClient. This particular tunnel URL
-		      // is the one that corresponds to release/all/OpenAjaxManagedHub-all.js:
-		      tunnelURI:  tunnel
-		    }
-		  }
-		);
+//		var textualContent = document.createElement( "span" );
+//		mashupArea.appendChild(textualContent);
+//		var container2 = new OpenAjax.hub.IframeContainer(managedHub , "textualContentWidget",
+//		  {
+//		    Container: {
+//		      onSecurityAlert: onClientSecurityAlert,
+//		      onConnect:       onClientConnect,
+//		      onDisconnect:    onClientDisconnect
+//		    },
+//		    IframeContainer: {
+//		      // DOM element that is parent of this container:
+//		      parent:      textualContent,
+//		      // Container's iframe will have these CSS styles:
+//		      iframeAttrs: { id: "widgetBox2" },
+//		      // Container's iframe loads the following URL:
+//		      uri: textualContentWidget,
+//		      // Tunnel URL required by IframeHubClient. This particular tunnel URL
+//		      // is the one that corresponds to release/all/OpenAjaxManagedHub-all.js:
+//		      tunnelURI:  tunnel
+//		    }
+//		  }
+//		);
 
 		var div4 = document.createElement( "span" );
 		mashupArea.appendChild(div4);
@@ -171,7 +171,7 @@
 		      // DOM element that is parent of this container:
 		      parent:      div3,
 		      // Container's iframe will have these CSS styles:
-		      iframeAttrs: { id: "widgetBox3" },
+		      iframeAttrs: { id: "smallHidden" },
 		      // Container's iframe loads the following URL:
 		      uri: messageDumpWidget,
 		      // Tunnel URL required by IframeHubClient. This particular tunnel URL
