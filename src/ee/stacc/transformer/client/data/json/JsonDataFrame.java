@@ -4,6 +4,8 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 
+import ee.stacc.transformer.client.JsonDataFrameOptionalityInitializer;
+import ee.stacc.transformer.client.JsonDataFrameOptionalityInitializerImpl;
 import ee.stacc.transformer.client.data.DataFrame;
 import ee.stacc.transformer.client.data.DataPackage;
 import ee.stacc.transformer.client.data.InstanceFactory;
@@ -17,6 +19,7 @@ public class JsonDataFrame extends DataFrame {
 	
 	//schema as a JSON object.
 	private JSONObject jsonSchema;
+  private static JsonDataFrameOptionalityInitializer optionalityInitializer = new JsonDataFrameOptionalityInitializerImpl();
 
 	@Override
 	public void updateSchema(String schemaTxt) {
@@ -24,6 +27,7 @@ public class JsonDataFrame extends DataFrame {
 		JSONObject jsonSchema = JSONParser.parse(schemaTxt).isObject();
 		setJsonSchema(jsonSchema);
 		GWT.log("Got Schema: "+jsonSchema,null);
+    optionalityInitializer.initDataFrameOptionality(this);    
 	}
 	
 	@Override
