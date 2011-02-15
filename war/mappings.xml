@@ -25,13 +25,17 @@
 		<!-- outgoing_only=true means that the package is only sent out by a widget and therefore the schema is not necessary -->
 		<format>json</format>
 		<mappings>
-			<mapping>	<!-- One entry for each atomic element in the schema -->
-				<global_ref>http://ws.soatrader.com/ontology/BaseOntology.owl#BusinessRegistryCode</global_ref>	<!-- Identifier in a predefined data model, such as an ontology -->
+			<mapping>
+				<global_ref>http://ws.soatrader.com/ontology/BaseOntology.owl#BusinessRegistryCode</global_ref>
                 <path>/regCode</path>
 			</mapping>
-			<mapping>	<!-- One entry for each atomic element in the schema -->
-				<global_ref>http://ws.soatrader.com/ontology/BaseOntology.owl#LanguageIdAtEER</global_ref>	<!-- Identifier in a predefined data model, such as an ontology -->
-                <path>/languageId</path>
+			<mapping>
+				<global_ref>http://ws.soatrader.com/ontology/BaseOntology.owl#LanguageIdAtEER</global_ref>
+                <path>/langId</path>
+			</mapping>
+            <mapping>
+				<global_ref>http://ws.soatrader.com/ontology/BaseOntology.owl#YearNumber</global_ref>
+                <path>/year</path>
 			</mapping>
 		</mappings>
 	</frame>
