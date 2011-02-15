@@ -16,7 +16,7 @@ public class JsonDataFrameOptionalityInitializerImplTest extends GWTTestCase {
   public void testInitDataFrameOptionality() throws Exception {
     JsonDataFrame jsonDataFrame = new JsonDataFrame();
     jsonDataFrame.setJsonSchema(getJsonSchema());
-    jsonDataFrame.addMapping(new MappingElement("parent/child/leaf", GLOBAL_REF_LEAF), GLOBAL_REF_LEAF);
+    jsonDataFrame.addMapping(new MappingElement("/parent/child/leaf/", GLOBAL_REF_LEAF), GLOBAL_REF_LEAF);
     JsonDataFrameOptionalityInitializer optInit = new JsonDataFrameOptionalityInitializerImpl();
     optInit.initDataFrameOptionality(jsonDataFrame);
     assertFalse(jsonDataFrame.getMapping(GLOBAL_REF_LEAF).isOptional());

@@ -4,12 +4,20 @@ import com.google.gwt.json.client.JSONObject;
 
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 public class JsonSchemaUtil {
   public static JSONObject findElementByPath(JSONObject jsonSchema, String path) {
     Queue<String> pathElements = new LinkedList<String>();
-    pathElements.addAll(Arrays.asList(path.split("/")));
+    List<String> pathList = Arrays.asList(path.split("/"));
+    if (pathList.get(0) != null && pathList.get(0).equals("")) {
+      pathList = pathList.subList(1, pathList.size());
+    }
+    if (pathList.get(pathList.size()-1) != null && pathList.get(pathList.size()-1).equals("")) {
+      pathList = pathList.subList(pathList.size()-1, pathList.size());
+    }
+    pathElements.addAll(pathList);
     return findElemetsByPath(jsonSchema, pathElements);
   }
 
