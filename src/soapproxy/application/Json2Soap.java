@@ -1,5 +1,6 @@
 package soapproxy.application;
 
+import com.eviware.soapui.impl.wsdl.support.soap.SoapMessageBuilder;
 import com.eviware.soapui.impl.wsdl.support.soap.SoapUtils;
 import com.eviware.soapui.impl.wsdl.support.soap.SoapVersion;
 import com.eviware.soapui.impl.wsdl.support.soap.SoapVersion11;
@@ -14,7 +15,7 @@ import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
-import soapproxy.util.SoapMessageBuilder;
+
 import soapproxy.util.Xml2JsonConverter;
 
 import javax.wsdl.BindingOperation;
