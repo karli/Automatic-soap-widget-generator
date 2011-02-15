@@ -3,7 +3,6 @@ dojo.require("dojox.rpc.Service");
 dojo.require("dojox.rpc.JsonRPC");
 
 function onSoapServiceData(topic, publisherData, subscriberData, smdUrl, hubClient, operation, outputTopic) {
-  alert("onSoapServiceData");
   loadSmd(smdUrl, publisherData, hubClient, operation, outputTopic);
 }
 
@@ -20,8 +19,7 @@ function callService(smd, requestData, operation, hubClient, outputTopic){
   var services = new dojox.rpc.Service(smd);
   var deferred = services[operation](requestData);
   deferred.addCallback(function(result){
-     // TODO publish returned value into hub 
-    alert(result);
+     // TODO publish returned value into hub
     hubClient.publish(outputTopic, result);
   });
   deferred.addErrback(function (){alert("Error")});
