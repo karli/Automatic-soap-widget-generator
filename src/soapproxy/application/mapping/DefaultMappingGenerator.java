@@ -25,7 +25,7 @@ public class DefaultMappingGenerator extends AbstractMappingGenerator {
   private String wsdlUri;
   private String operationName;
   public static final QName MODEL_REFERENCE_ATTRIBUTE = new QName("http://www.w3.org/ns/sawsdl", "modelReference");
-  private ServletRequest httpServletRequest;
+  private HttpServletRequest httpServletRequest;
 
   public DefaultMappingGenerator(String wsdlUri, String operationName, HttpServletRequest httpServletRequest) {
     super(wsdlUri, operationName);
@@ -81,7 +81,9 @@ public class DefaultMappingGenerator extends AbstractMappingGenerator {
   }
 
   public String getInputSchemaLocation() {
-    return ((Request)httpServletRequest).getRootURL() + "/json-schema?wsdl=" + getWsdlUri() + "&operation=" + getOperationName() + "&message=input";
+    String baseUrl = httpServletRequest.getScheme() + "://" + httpServletRequest.getServerName() + ":" +
+                httpServletRequest.getServerPort() + httpServletRequest.getContextPath();
+    return baseUrl + "/json-schema?wsdl=" + getWsdlUri() + "&operation=" + getOperationName() + "&message=input";
 //    return "http://localhost/SoapServiceWidget/widgets/schemas/personName.js";
   }
 
@@ -315,7 +317,7 @@ public class DefaultMappingGenerator extends AbstractMappingGenerator {
     return httpServletRequest;
   }
 
-  public void setHttpServletRequest(ServletRequest httpServletRequest) {
+  public void setHttpServletRequest(HttpServletRequest httpServletRequest) {
     this.httpServletRequest = httpServletRequest;
   }
 }

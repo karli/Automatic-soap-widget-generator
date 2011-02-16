@@ -18,6 +18,9 @@ public class SmdController extends AbstractController {
     String wsdlUri = httpServletRequest.getParameter("wsdl");
     String operationName = httpServletRequest.getParameter("operation");
 
+    String baseUrl = httpServletRequest.getScheme() + "://" + httpServletRequest.getServerName() + ":" +
+                httpServletRequest.getServerPort() + httpServletRequest.getContextPath();
+
     PrintWriter out = httpServletResponse.getWriter();
     out.write(httpServletRequest.getParameter("callback") + "(");
     out.write("{\n" +
@@ -27,7 +30,7 @@ public class SmdController extends AbstractController {
               "    services: {\n" +
               "      " + operationName + ": {\n" +
               "        // this defines the URL to connect for the services\n" +
-              "        target:   \"" + ((Request)httpServletRequest).getRootURL() + "/proxy?wsdl=" + wsdlUri + "&operation=" + operationName + "\"\n" +
+              "        target:   \"" + baseUrl + "/proxy?wsdl=" + wsdlUri + "&operation=" + operationName + "\"\n" +
               "      }\n" +
               "    }\n" +
               "  }");
