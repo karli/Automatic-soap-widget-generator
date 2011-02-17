@@ -1,37 +1,27 @@
 package soapproxy.web;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.AbstractController;
 import soapproxy.application.schema.DefaultJsonSchemaConverter;
 import soapproxy.application.schema.JsonSchemaConverter;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 
-public class JsonSchemaController extends AbstractController {
+@Controller
+public class JsonSchemaController {
   private static final String DEFAULT_JAVASCRIPT_TYPE = "text/javascript";
-  @Override
-  protected ModelAndView handleRequestInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
+
+  // TODO investigate spring 3 to even furhter simplify controller method
+  @RequestMapping("/json-schema")
+  public ModelAndView getJsonSchema(@RequestParam("wsdl") String wsdl, @RequestParam("operation") String operation, HttpServletResponse httpServletResponse) throws Exception {
     httpServletResponse.setContentType(DEFAULT_JAVASCRIPT_TYPE);
 
-    // get the request params
-    String wsdlUri = httpServletRequest.getParameter("wsdl");
-    String operationName = httpServletRequest.getParameter("operation");
-    // TODO: use provided message type
-    String message = httpServletRequest.getParameter("message");
-
     PrintWriter out = httpServletResponse.getWriter();
-    JsonSchemaConverter converter = new DefaultJsonSchemaConverter(wsdlUri, operationName, DefaultJsonSchemaConverter.MessageType.INPUT_MESSAGE);
+    JsonSchemaConverter converter = new DefaultJsonSchemaConverter(wsdl, operation, DefaultJsonSchemaConverter.MessageType.INPUT_MESSAGE);
     out.write(converter.getJsonSchema());
-//    out.write(httpServletRequest.getParameter("callback") + "(");
-//    out.write("{\"description\":\"A schema for name of a person\",\n" +
-//              "\t\"type\":\"object\",\n" +
-//              "\t\"properties\":{\n" +
-//              "\t\t\"name\":{\"type\":\"string\"}\n" +
-//              "\t}\n" +
-//              "}");
-//    out.write(");");
     return null;
   }
 }

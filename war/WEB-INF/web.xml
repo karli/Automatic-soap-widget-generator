@@ -7,32 +7,15 @@
          http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" >
   
   <servlet>
-    <servlet-name>mapping</servlet-name>
+    <servlet-name>soapproxy</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
   </servlet>
-  
+
   <servlet-mapping>
-  	<servlet-name>mapping</servlet-name>
-  	<url-pattern>/proxy</url-pattern>
+  	<servlet-name>soapproxy</servlet-name>
+  	<url-pattern>/*</url-pattern>
   </servlet-mapping>
-  <servlet-mapping>
-  	<servlet-name>mapping</servlet-name>
-  	<url-pattern>/mapping</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-  	<servlet-name>mapping</servlet-name>
-  	<url-pattern>/smd</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-  	<servlet-name>mapping</servlet-name>
-  	<url-pattern>/json-schema</url-pattern>
-  </servlet-mapping>
-  
-  <welcome-file-list>
-    <welcome-file>
-      index.jsp
-    </welcome-file>
-  </welcome-file-list>
+
 
 </web-app>

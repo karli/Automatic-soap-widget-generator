@@ -1,22 +1,23 @@
 package soapproxy.web;
 
-import org.mortbay.jetty.Request;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.AbstractController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 
-public class SmdController extends AbstractController {
+@Controller
+public class SmdController {
   private static final String DEFAULT_JAVASCRIPT_TYPE = "text/javascript";
-  @Override
-  protected ModelAndView handleRequestInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
-    httpServletResponse.setContentType(DEFAULT_JAVASCRIPT_TYPE);
 
-    // get the request params
-    String wsdlUri = httpServletRequest.getParameter("wsdl");
-    String operationName = httpServletRequest.getParameter("operation");
+  @RequestMapping("/smd")
+  protected ModelAndView getSmd(@RequestParam("wsdl") String wsdl,
+                                @RequestParam("operation") String operation,
+                                HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
+    httpServletResponse.setContentType(DEFAULT_JAVASCRIPT_TYPE);
 
     String baseUrl = httpServletRequest.getScheme() + "://" + httpServletRequest.getServerName() + ":" +
                 httpServletRequest.getServerPort() + httpServletRequest.getContextPath();
@@ -28,9 +29,9 @@ public class SmdController extends AbstractController {
               "    envelope:\"JSON-RPC-2.0\", // We will use JSON-RPC\n" +
               "    SMDVersion:\"2.0\",\n" +
               "    services: {\n" +
-              "      " + operationName + ": {\n" +
+              "      " + operation + ": {\n" +
               "        // this defines the URL to connect for the services\n" +
-              "        target:   \"" + baseUrl + "/proxy?wsdl=" + wsdlUri + "&operation=" + operationName + "\"\n" +
+              "        target:   \"" + baseUrl + "/proxy?wsdl=" + wsdl + "&operation=" + operation + "\"\n" +
               "      }\n" +
               "    }\n" +
               "  }");

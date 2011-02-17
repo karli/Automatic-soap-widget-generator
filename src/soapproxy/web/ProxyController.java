@@ -1,11 +1,11 @@
 package soapproxy.web;
 
-import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.AbstractController;
 import soapproxy.application.Json2Soap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,27 +15,24 @@ import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.Map;
 
-public class ProxyController extends AbstractController {
-  private static final String DEFAULT_JSON_CONTENT_TYPE = "application/json";
+@Controller
+public class ProxyController {
   private static final String DEFAULT_JAVASCRIPT_TYPE = "text/javascript";
-  public static final Logger logger = Logger.getLogger(ProxyController.class);
 
-  @Override
-  protected ModelAndView handleRequestInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
+  @RequestMapping("/proxy")
+  protected ModelAndView handleRequest(@RequestParam("wsdl") String wsdl,
+                                       @RequestParam("operation") String operation,
+                                       HttpServletRequest httpServletRequest,
+                                       HttpServletResponse httpServletResponse) throws Exception {
     // read request parameters
     httpServletResponse.setContentType(DEFAULT_JAVASCRIPT_TYPE);
     PrintWriter out = httpServletResponse.getWriter();
 
-    String wsdlUri = httpServletRequest.getParameter("wsdl");
-    String operationName = httpServletRequest.getParameter("operation");
-    
     JsonNode jsonRpcRequest = getJsonRpcRequest(httpServletRequest);
     JsonNode requestParams = jsonRpcRequest.get("params");
 
     Json2Soap j2s = new Json2Soap();
-    //    String wsdlUri = "http://localhost/webservice/soap/soap.php?wsdl";
-    //    String operationName = "sayHello";
-    String jsonResponse = j2s.convert(requestParams.toString(), wsdlUri, operationName);
+    String jsonResponse = j2s.convert(requestParams.toString(), wsdl, operation);
 
     out.write(httpServletRequest.getParameter("callback") + "(");
     out.write("{\"result\":" + jsonResponse + ",\"id\":\"0\",\"error\":null,\"jsonrpc\":\"2.0\"}");
