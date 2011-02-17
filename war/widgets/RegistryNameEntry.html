@@ -32,19 +32,14 @@
     function clickEvent() {
       // construct publishable data
       var data = {};
-      var registryCode = document.getElementById('registryCode').value;
-      var languageId = document.getElementById('languageId').value;
-      var year = document.getElementById('year').value;
-      if (registryCode != "") {
-        data["regCode"] = registryCode;
+      var fieldIds = ["regCode", "langId", "year", "reportType"];
+      for (var i = 0; i < fieldIds.length; i++) {
+        var id = fieldIds[i];
+        var value = document.getElementById(id).value;
+        if (value != "") {
+          data[id] = value;
+        }
       }
-      if (languageId != "") {
-        data["langId"] = languageId;
-      }
-      if (year != "") {
-        data["year"] = year;
-      }
-
       hubClient.publish('org.example.topics.regcode', data);
     }
   </script>
@@ -53,9 +48,10 @@
   <div style="border:black">
     <h3>RegistryNameEntry content</h3>
 	<p>
-    regcode: <input type="text" id="registryCode" /><br/>
-    langId: <input type="text" id="languageId" /><br/>
+    regcode: <input type="text" id="regCode" /><br/>
+    langId: <input type="text" id="langId" /><br/>
     year: <input type="text" id="year" /><br/>
+    reportType: <input type="text" id="reportType" /><br/>
 	  <input type="button" value="Click to send registry code" onclick="clickEvent()"/>
 	</p>
   </div>

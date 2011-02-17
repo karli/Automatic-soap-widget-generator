@@ -37,6 +37,10 @@
 				<global_ref>http://ws.soatrader.com/ontology/BaseOntology.owl#YearNumber</global_ref>
                 <path>/year</path>
 			</mapping>
+            <mapping>
+				<global_ref>http://ws.soatrader.com/ontology/BaseOntology.owl#ReportTypeAtEER</global_ref>
+                <path>/reportType</path>
+			</mapping>
 		</mappings>
 	</frame>
     <frame>
