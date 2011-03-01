@@ -8,12 +8,8 @@ import org.apache.xmlbeans.SchemaLocalElement;
 import org.apache.xmlbeans.SchemaParticle;
 import org.apache.xmlbeans.SchemaType;
 import org.dom4j.dom.DOMElement;
-import org.mortbay.jetty.Request;
 import org.w3c.dom.Element;
 
-import javax.servlet.Servlet;
-import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
 import javax.wsdl.BindingOperation;
 import javax.wsdl.Definition;
 import javax.wsdl.Part;
@@ -23,23 +19,20 @@ public class DefaultMappingGenerator extends AbstractMappingGenerator {
 
   private WsdlContext wsdlContext;
   private String wsdlUri;
-  private String operationName;
+  private String operation;
+  private String jsonSchemaUrl;
   public static final QName MODEL_REFERENCE_ATTRIBUTE = new QName("http://www.w3.org/ns/sawsdl", "modelReference");
-  private HttpServletRequest httpServletRequest;
 
-  public DefaultMappingGenerator(String wsdlUri, String operationName, HttpServletRequest httpServletRequest) {
-    super(wsdlUri, operationName);
-    this.httpServletRequest = httpServletRequest;
-    this.setWsdlUri(wsdlUri);
-    this.setOperationName(operationName);
+  @Override
+  public String getMapping(String wsdlUri, String operation, String jsonSchemaUrl) throws Exception {
+    setWsdlUri(wsdlUri);
+    setOperation(operation);
     setWsdlContext(new WsdlContext(wsdlUri));
-  }
-
-  public String getMapping() throws Exception {
+    setJsonSchemaUrl(jsonSchemaUrl);
     return generateMapping();
   }
 
-  public String generateMapping() throws Exception {
+  protected String generateMapping() throws Exception {
     BindingOperation bindingOperation = getBindingOperation();
     return "<?xml version=\"1.0\" ?><frames>"
            + getOutputFrameAsXml(bindingOperation)
@@ -47,57 +40,50 @@ public class DefaultMappingGenerator extends AbstractMappingGenerator {
            + "</frames>";
   }
 
-  public String getOutputFrameAsXml(BindingOperation bindingOperation) throws Exception {
+  protected String getOutputFrameAsXml(BindingOperation bindingOperation) throws Exception {
     Element outputFrame = getOutputFrame(bindingOperation);
     String outputFrameAsXml = ((DOMElement)outputFrame).asXML();
     return outputFrameAsXml;
   }
 
-  public Element getOutputFrame(BindingOperation bindingOperation) throws Exception {
+  protected Element getOutputFrame(BindingOperation bindingOperation) throws Exception {
     Part[] outputParts = WsdlUtils.getOutputParts(bindingOperation);
     Element outputFrame = generateOutputFrame(outputParts);
     return outputFrame;
   }
 
-  public String getInputFrameAsXml(BindingOperation bindingOperation) throws Exception {
+  protected String getInputFrameAsXml(BindingOperation bindingOperation) throws Exception {
     Element inputFrame = getInputFrame(bindingOperation);
     String inputFrameAsXml = ((DOMElement)inputFrame).asXML();
     return inputFrameAsXml;
   }
 
-  public BindingOperation getBindingOperation() throws Exception {
+  protected BindingOperation getBindingOperation() throws Exception {
     Definition definition = getWsdlContext().getDefinition();
-    BindingOperation bindingOperation = WsdlUtils.findBindingOperation(definition, getOperationName());
+    BindingOperation bindingOperation = WsdlUtils.findBindingOperation(definition, getOperation());
     return bindingOperation;
   }
 
-  private Element generateOutputFrame(Part[] outputParts) throws Exception {
+  protected Element generateOutputFrame(Part[] outputParts) throws Exception {
     return generateFrame(outputParts, true, getOutputTopic(), null);
   }
 
-  public Element getInputFrame(BindingOperation bindingOperation) throws Exception {
+  protected Element getInputFrame(BindingOperation bindingOperation) throws Exception {
     Part[] inputParts = WsdlUtils.getInputParts(bindingOperation);
-    return generateFrame(inputParts, false, getInputTopic(), getInputSchemaLocation());
+    return generateFrame(inputParts, false, getInputTopic(), getJsonSchemaUrl());
   }
 
-  public String getInputSchemaLocation() {
-    String baseUrl = httpServletRequest.getScheme() + "://" + httpServletRequest.getServerName() + ":" +
-                httpServletRequest.getServerPort() + httpServletRequest.getContextPath();
-    return baseUrl + "/json-schema?wsdl=" + getWsdlUri() + "&operation=" + getOperationName() + "&message=input";
-//    return "http://localhost/SoapServiceWidget/widgets/schemas/personName.js";
-  }
-
-  public String getOutputTopic() {
+  protected String getOutputTopic() {
     return "ee.stacc.soapwidgetgenerator." + getCommonTopic() + ".output";
   }
 
-  public String getInputTopic() {
+  protected String getInputTopic() {
     return "ee.stacc.soapwidgetgenerator." + getCommonTopic() + ".input";
   }
 
-  public String getCommonTopic() {
+  protected String getCommonTopic() {
     String clearedWsdl = getWsdlUri().replaceAll("\\W", "-");
-    return clearedWsdl + "." + getOperationName();
+    return clearedWsdl + "." + getOperation();
   }
 
   private Element generateFrame(Part[] parts, boolean outgoingOnly, String topic, String schemaLocation) throws Exception {
@@ -118,8 +104,8 @@ public class DefaultMappingGenerator extends AbstractMappingGenerator {
 
   protected void addSchema(Element frame, String schemaLocation) {
     if (schemaLocation != null) {
-      Element schema = new DOMElement("schema");
-      schema.setNodeValue(schemaLocation);
+      DOMElement schema = new DOMElement("schema");
+      schema.setText(schemaLocation);
       frame.appendChild(schema);
     }
   }
@@ -186,8 +172,6 @@ public class DefaultMappingGenerator extends AbstractMappingGenerator {
         processSequenceParticle(mappings, path, schemaParticle);
         break;
     }
-
-    
   }
 
   private void processSequenceParticle(Element mappings, String path, SchemaParticle schemaParticle) {
@@ -242,6 +226,10 @@ public class DefaultMappingGenerator extends AbstractMappingGenerator {
   }
 
   protected void addMapping(Element mappings, String path, String globalReference) {
+    addMapping(mappings, path, globalReference, null);
+  }
+
+  protected void addMapping(Element mappings, String path, String globalReference, String defaultValue) {
 
     if (path == null && globalReference == null){
       return;
@@ -251,15 +239,21 @@ public class DefaultMappingGenerator extends AbstractMappingGenerator {
     mappings.appendChild(mapping);
 
     if (globalReference != null) {
-      Element globalRefElement = new DOMElement("global_ref");
-      globalRefElement.setNodeValue(globalReference);
+      DOMElement globalRefElement = new DOMElement("global_ref");
+      globalRefElement.setText(globalReference);
       mapping.appendChild(globalRefElement);
     }
 
     if (path != null) {
-      Element pathElement = new DOMElement("path");
-      pathElement.setNodeValue(path);
+      DOMElement pathElement = new DOMElement("path");
+      pathElement.setText(path);
       mapping.appendChild(pathElement);
+    }
+
+    if (defaultValue != null) {
+      DOMElement defaultValueElement = new DOMElement("default");
+      defaultValueElement.setText(defaultValue);
+      mapping.appendChild(defaultValueElement);
     }
   }
 
@@ -274,17 +268,17 @@ public class DefaultMappingGenerator extends AbstractMappingGenerator {
   }
 
   protected void addFormat(Element frame) {
-    Element format = new DOMElement("format");
-    format.setNodeValue("json");
+    DOMElement format = new DOMElement("format");
+    format.setText("json");
     frame.appendChild(format);
   }
 
   protected void addTopic(Element frame, boolean outgoingOnly, String topicName) {
-    Element topic = new DOMElement("topic");
+    DOMElement topic = new DOMElement("topic");
     if (outgoingOnly){
       topic.setAttribute("outgoing_only", "true");
     }
-    topic.setNodeValue(topicName);
+    topic.setText(topicName);
     frame.appendChild(topic);
   }
 
@@ -292,32 +286,31 @@ public class DefaultMappingGenerator extends AbstractMappingGenerator {
     return wsdlContext;
   }
 
-  public void setWsdlContext(WsdlContext wsdlContext) {
-    this.wsdlContext = wsdlContext;
-  }
-
   public String getWsdlUri() {
     return wsdlUri;
+  }
+
+  public String getOperation() {
+    return operation;
+  }
+
+  public String getJsonSchemaUrl() {
+    return jsonSchemaUrl;
+  }
+
+  public void setWsdlContext(WsdlContext wsdlContext) {
+    this.wsdlContext = wsdlContext;
   }
 
   public void setWsdlUri(String wsdlUri) {
     this.wsdlUri = wsdlUri;
   }
 
-  public String getOperationName() {
-    return operationName;
+  public void setOperation(String operation) {
+    this.operation = operation;
   }
 
-  public void setOperationName(String operationName) {
-    this.operationName = operationName;
-  }
-
-
-  public ServletRequest getHttpServletRequest() {
-    return httpServletRequest;
-  }
-
-  public void setHttpServletRequest(HttpServletRequest httpServletRequest) {
-    this.httpServletRequest = httpServletRequest;
+  public void setJsonSchemaUrl(String jsonSchemaUrl) {
+    this.jsonSchemaUrl = jsonSchemaUrl;
   }
 }

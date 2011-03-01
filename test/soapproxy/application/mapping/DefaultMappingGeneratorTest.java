@@ -32,9 +32,9 @@ public class DefaultMappingGeneratorTest {
     String wsdlUri = path + "/helloTest.wsdl";
     String mappingContent = getFileContent(path + "/" + mappingResultFile);
     XmlObject mappingXml = XmlObject.Factory.parse(mappingContent);
-    MockHttpServletRequest servletRequest = new MockHttpServletRequest("GET", "http://localhost:8080/mapping");
-    DefaultMappingGenerator mappingGenerator = new DefaultMappingGenerator(wsdlUri, operationName, servletRequest);
-    String result = mappingGenerator.generateMapping();
+
+    DefaultMappingGenerator mappingGenerator = new DefaultMappingGenerator();
+    String result = mappingGenerator.getMapping(wsdlUri, operationName, "defaultSchema.js");
     XmlObject resultXml = XmlObject.Factory.parse(result);
     assertEquals(mappingXml.toString(), resultXml.toString());
   }

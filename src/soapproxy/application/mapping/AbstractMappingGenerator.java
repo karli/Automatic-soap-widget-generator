@@ -7,17 +7,10 @@ import java.io.InputStreamReader;
 import java.net.URL;
 
 public abstract class AbstractMappingGenerator implements MappingGenerator {
-  protected String wsdlUri;
-  protected String operationName;
 
-  public AbstractMappingGenerator(String wsdlUri, String operationName) {
-    this.wsdlUri = wsdlUri;
-    this.operationName = operationName;
-  }
+  public abstract String getMapping(String wsdlUri, String operation, String jsonSchemaUrl) throws Exception;
 
-  public abstract String getMapping() throws Exception;
-
-  protected String readWsdl() throws IOException {
+  protected String readWsdl(String wsdlUri) throws IOException {
     // read wsdl document
     URL url = new URL(wsdlUri);
     InputStream is = url.openStream();

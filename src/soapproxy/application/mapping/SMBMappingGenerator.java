@@ -2,37 +2,48 @@ package soapproxy.application.mapping;
 
 import com.eviware.soapui.impl.wsdl.support.soap.SoapUtils;
 import com.eviware.soapui.impl.wsdl.support.soap.SoapVersion;
+import com.eviware.soapui.impl.wsdl.support.wsdl.WsdlContext;
 import org.apache.xmlbeans.XmlObject;
 import org.dom4j.dom.DOMElement;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.w3c.dom.Comment;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import soapproxy.util.SoapMessageBuilder;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.wsdl.BindingOperation;
 
+@Component
 public class SMBMappingGenerator extends DefaultMappingGenerator {
 
   private SoapMessageBuilder smb;
 
-  public SMBMappingGenerator(String wsdlUri, String operationName, HttpServletRequest httpServletRequest) {
-    super(wsdlUri, operationName, httpServletRequest);
+  @Autowired
+  private MappingDefaultValuesRepository mappingDefaultValuesRepository;
+
+  @Override
+  public String getMapping(String wsdlUri, String operation, String jsonSchemaUrl) throws Exception {
+    setWsdlUri(wsdlUri);
+    setOperation(operation);
+    setWsdlContext(new WsdlContext(wsdlUri));
+    setJsonSchemaUrl(jsonSchemaUrl);
     setSmb(new SoapMessageBuilder(getWsdlContext()));
+    return generateMapping();
   }
 
   @Override
-  public Element getOutputFrame(BindingOperation bindingOperation) throws Exception {
+  protected Element getOutputFrame(BindingOperation bindingOperation) throws Exception {
     return generateFrame(getSmb().buildSoapMessageFromOutput(bindingOperation, true), true, getOutputTopic(), null);
   }
 
   @Override
-  public Element getInputFrame(BindingOperation bindingOperation) throws Exception {
-    return generateFrame(getSmb().buildSoapMessageFromInput(bindingOperation, true), false, getInputTopic(), getInputSchemaLocation());
+  protected Element getInputFrame(BindingOperation bindingOperation) throws Exception {
+    return generateFrame(getSmb().buildSoapMessageFromInput(bindingOperation, true), false, getInputTopic(), getJsonSchemaUrl());
   }
 
-  private Element generateFrame(String soapMessage, boolean outgoingOnly, String topic, String schemaLocation) throws Exception {
+  public Element generateFrame(String soapMessageTemplate, boolean outgoingOnly, String topic, String schemaLocation) throws Exception {
     DOMElement frame = new DOMElement("frame");
     addTopic(frame, outgoingOnly, topic);
     // TODO format might not only be json, but also simple string
@@ -41,7 +52,7 @@ public class SMBMappingGenerator extends DefaultMappingGenerator {
     Element mappings = new DOMElement("mappings");
     frame.appendChild(mappings);
 
-    addMappings(mappings, getBodyElement(soapMessage), "");
+    addMappings(mappings, getBodyElement(soapMessageTemplate), "");
 
     return frame;
   }
@@ -81,12 +92,12 @@ public class SMBMappingGenerator extends DefaultMappingGenerator {
           if (hasChildElements(element)) {
             addMappings(mappings, element, path);
           } else {
-            addMapping(mappings, path, getGlobalReference(element));
+            String defaultValue = mappingDefaultValuesRepository.getDefaultValue(getWsdlUri(), getOperation(), path);
+            addMapping(mappings, path, getGlobalReference(element), defaultValue);
           }
         }
       }
     }
-
   }
 
   private boolean hasChildElements(Element element) {
@@ -100,7 +111,6 @@ public class SMBMappingGenerator extends DefaultMappingGenerator {
     }
     return false;  //To change body of created methods use File | Settings | File Templates.
   }
-
 
   private String getGlobalReference(Element element) {
     if (element.hasAttributeNS(MODEL_REFERENCE_ATTRIBUTE.getNamespaceURI(), MODEL_REFERENCE_ATTRIBUTE.getLocalPart())) {
@@ -121,5 +131,13 @@ public class SMBMappingGenerator extends DefaultMappingGenerator {
 
   public void setSmb(SoapMessageBuilder smb) {
     this.smb = smb;
+  }
+
+  public MappingDefaultValuesRepository getMappingDefaultValuesRepository() {
+    return mappingDefaultValuesRepository;
+  }
+
+  public void setMappingDefaultValuesRepository(MappingDefaultValuesRepository mappingDefaultValuesRepository) {
+    this.mappingDefaultValuesRepository = mappingDefaultValuesRepository;
   }
 }

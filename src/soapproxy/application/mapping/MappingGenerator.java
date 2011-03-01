@@ -1,7 +1,5 @@
 package soapproxy.application.mapping;
 
-import java.io.IOException;
-
 public interface MappingGenerator {
-  String getMapping() throws Exception;
+  String getMapping(String wsdlUri, String operation, String jsonSchemaUrl) throws Exception;
 }
