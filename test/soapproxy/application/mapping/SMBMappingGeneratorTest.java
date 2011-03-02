@@ -21,9 +21,20 @@ public class SMBMappingGeneratorTest {
     mappingGenerator.setOperation(MappingDefaultValuesDataSourceStub.OP);
     mappingGenerator.setWsdlUri(MappingDefaultValuesDataSourceStub.WSDL);
     mappingGenerator.setMappingDefaultValuesRepository(new MappingDefaultValuesRepositoryImpl(new MappingDefaultValuesDataSourceStub()));
-    Element generatedFrame = mappingGenerator.generateFrame(getSoapMessageTemplate(), true, "topic", null);
+    Element generatedFrame = mappingGenerator.generateFrame(getSoapMessageTemplate(), true, "topic", null, MessageType.INPUT);
     Diff xmlDiff = new Diff(((DOMElement)generatedFrame).asXML(), getExpectedFrame());
     assertTrue(xmlDiff.toString(), xmlDiff.similar());
+  }
+
+  @Test
+  public void shouldNotGenerateMappingWithDefaultValue() throws Exception {
+    SMBMappingGenerator mappingGenerator = new SMBMappingGenerator();
+    mappingGenerator.setOperation(MappingDefaultValuesDataSourceStub.OP);
+    mappingGenerator.setWsdlUri(MappingDefaultValuesDataSourceStub.WSDL);
+    mappingGenerator.setMappingDefaultValuesRepository(new MappingDefaultValuesRepositoryImpl(new MappingDefaultValuesDataSourceStub()));
+    Element generatedFrame = mappingGenerator.generateFrame(getSoapMessageTemplate(), true, "topic", null, MessageType.OUTPUT);
+    Diff xmlDiff = new Diff(((DOMElement)generatedFrame).asXML(), getExpectedFrame());
+    assertFalse(xmlDiff.toString(), xmlDiff.similar());
   }
 
   private String getExpectedFrame() {
@@ -67,7 +78,7 @@ public class SMBMappingGeneratorTest {
     @Override
     public List<MappingDefaultValueRow> getAll() throws DocumentException, MalformedURLException {
       List<MappingDefaultValueRow> defaultValueList = new ArrayList<MappingDefaultValueRow>();
-      defaultValueList.add(new MappingDefaultValueRow(WSDL, OP, PATH, DEFAULT_VALUE));
+      defaultValueList.add(new MappingDefaultValueRow(WSDL, OP, MessageType.INPUT, PATH, DEFAULT_VALUE));
       return defaultValueList;
     }
   }

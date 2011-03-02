@@ -26,8 +26,8 @@ public class XmlMappingDefaultValuesDataSourceTest {
   private String getSourceDocumentContent() {
     String testContent = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
             "<defaults>" +
-            "<value wsdl=\"http://www.myserver.com?wsdl\" operation=\"myOp\" path=\"/my/path\">myDefault</value>" +
-            "<value wsdl=\"http://www.yourserver.com?wsdl\" operation=\"yourOp\" path=\"/your/path\">yourDefault</value>" +
+            "<value wsdl=\"http://www.myserver.com?wsdl\" operation=\"myOp\" path=\"/my/path\" messageType=\"input\">myDefault</value>" +
+            "<value wsdl=\"http://www.yourserver.com?wsdl\" operation=\"yourOp\" path=\"/your/path\" messageType=\"output\">yourDefault</value>" +
             "</defaults>";
     return testContent;
   }

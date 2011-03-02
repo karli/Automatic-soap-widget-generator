@@ -18,8 +18,8 @@ public class MappingDefaultValuesRepositoryImplTest {
     String path = "/parent/child/value/";
     String value = "defaultValue";
     MappingDefaultValuesRepository repo = new MappingDefaultValuesRepositoryImpl(new MappingDefaultValuesDataSourceStub());
-    repo.addDefaultValue(wsdl, operation, path, value);
-    assertTrue(repo.hasDefaultValue(wsdl,operation,path));
+    repo.addDefaultValue(wsdl, operation, MessageType.INPUT, path, value);
+    assertTrue(repo.hasDefaultValue(wsdl, operation, MessageType.INPUT, path));
   }
 
   @Test
@@ -29,10 +29,10 @@ public class MappingDefaultValuesRepositoryImplTest {
     String path = "/parent/child/value/";
     String value = "defaultValue";
     MappingDefaultValuesRepository repo = new MappingDefaultValuesRepositoryImpl(new MappingDefaultValuesDataSourceStub());
-    repo.addDefaultValue(wsdl, operation, path, value);
-    assertNull(repo.getDefaultValue("http://wrongserver.com?wsdl", operation, path));
-    assertNull(repo.getDefaultValue(wsdl, "wrongop", path));
-    assertNull(repo.getDefaultValue(wsdl, operation, "wrong/path"));
+    repo.addDefaultValue(wsdl, operation, MessageType.INPUT, path, value);
+    assertNull(repo.getDefaultValue("http://wrongserver.com?wsdl", operation, MessageType.INPUT, path));
+    assertNull(repo.getDefaultValue(wsdl, "wrongop", MessageType.INPUT, path));
+    assertNull(repo.getDefaultValue(wsdl, operation, MessageType.INPUT, "wrong/path"));
   }
 
   @Test
@@ -42,8 +42,8 @@ public class MappingDefaultValuesRepositoryImplTest {
     String path = "/parent/child/value/";
     String value = "defaultValue";
     MappingDefaultValuesRepository repo = new MappingDefaultValuesRepositoryImpl(new MappingDefaultValuesDataSourceStub());
-    repo.addDefaultValue(wsdl, operation, path, value);
-    assertEquals(value, repo.getDefaultValue(wsdl, operation, path));
+    repo.addDefaultValue(wsdl, operation, MessageType.INPUT, path, value);
+    assertEquals(value, repo.getDefaultValue(wsdl, operation, MessageType.INPUT, path));
   }
 
   private class MappingDefaultValuesDataSourceStub implements MappingDefaultValuesDataSource {

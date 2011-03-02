@@ -65,12 +65,12 @@ public class DefaultMappingGenerator extends AbstractMappingGenerator {
   }
 
   protected Element generateOutputFrame(Part[] outputParts) throws Exception {
-    return generateFrame(outputParts, true, getOutputTopic(), null);
+    return generateFrame(outputParts, true, getOutputTopic(), null, MessageType.OUTPUT);
   }
 
   protected Element getInputFrame(BindingOperation bindingOperation) throws Exception {
     Part[] inputParts = WsdlUtils.getInputParts(bindingOperation);
-    return generateFrame(inputParts, false, getInputTopic(), getJsonSchemaUrl());
+    return generateFrame(inputParts, false, getInputTopic(), getJsonSchemaUrl(), MessageType.INPUT);
   }
 
   protected String getOutputTopic() {
@@ -86,7 +86,7 @@ public class DefaultMappingGenerator extends AbstractMappingGenerator {
     return clearedWsdl + "." + getOperation();
   }
 
-  private Element generateFrame(Part[] parts, boolean outgoingOnly, String topic, String schemaLocation) throws Exception {
+  private Element generateFrame(Part[] parts, boolean outgoingOnly, String topic, String schemaLocation, MessageType messageType) throws Exception {
     Element frame = new DOMElement("frame");
     addTopic(frame, outgoingOnly, topic);
     // TODO format might not only be json, but also simple string
@@ -96,7 +96,7 @@ public class DefaultMappingGenerator extends AbstractMappingGenerator {
     frame.appendChild(mappings);
 
     for(Part part : parts) {
-      addPartMapping(mappings, part);
+      addPartMapping(mappings, part, messageType);
     }
 
     return frame;
@@ -110,43 +110,43 @@ public class DefaultMappingGenerator extends AbstractMappingGenerator {
     }
   }
 
-  private void addPartMapping(Element mappings, Part part) throws Exception {
+  private void addPartMapping(Element mappings, Part part, MessageType messageType) throws Exception {
     // get part type
     QName elementName = part.getElementName();
     if (elementName != null) {
-      addMappingFromPartElement(mappings, part);
+      addMappingFromPartElement(mappings, part, messageType);
     } else {
-      addMappingFromPartType(mappings, part);
+      addMappingFromPartType(mappings, part, messageType);
     }
   }
 
-  private void addMappingFromPartType(Element mappings, Part part) throws Exception {
+  private void addMappingFromPartType(Element mappings, Part part, MessageType messageType) throws Exception {
     SchemaType schemaTypeForPart = WsdlUtils.getSchemaTypeForPart(getWsdlContext(), part);
     if (schemaTypeForPart.isPrimitiveType()) {
-      addMappingFromPrimitivePartType(mappings, part);
+      addMappingFromPrimitivePartType(mappings, part, messageType);
     }
   }
 
-  private void addMappingFromPartElement(Element mappings, Part part) throws Exception {
+  private void addMappingFromPartElement(Element mappings, Part part, MessageType messageType) throws Exception {
     SchemaGlobalElement element = getWsdlContext().getSchemaTypeLoader().findElement(part.getElementName());
     String name = element.getName().getLocalPart();
     SchemaType type = element.getType();
     // TODO: process element attributes. Ignore min/maxOccurs, because those attributes cannot be used when element's parent is schema
-    addMappingFromType(mappings, type, "/" + name);
+    addMappingFromType(mappings, type, "/" + name, messageType);
   }
 
-  private void addMappingFromType(Element mappings, SchemaType type, String path) {
+  private void addMappingFromType(Element mappings, SchemaType type, String path, MessageType messageType) {
     if (type.isSimpleType() || type.isURType()) {
-      addMappingFromSimpleType(mappings, type, path);
+      addMappingFromSimpleType(mappings, type, path, messageType);
       return;
     }
     if (SchemaType.ELEMENT_CONTENT == type.getContentType() && type.getContentModel() != null) {
-      addMappingFromParticle(mappings, path, type.getContentModel());
+      addMappingFromParticle(mappings, path, type.getContentModel(), messageType);
     }
     
   }
 
-  private void addMappingFromParticle(Element mappings, String path, SchemaParticle schemaParticle) {
+  private void addMappingFromParticle(Element mappings, String path, SchemaParticle schemaParticle, MessageType messageType) {
 
     // determine element count
     int minOccurs = schemaParticle.getIntMinOccurs();
@@ -166,29 +166,29 @@ public class DefaultMappingGenerator extends AbstractMappingGenerator {
 
     switch (schemaParticle.getParticleType()) {
       case SchemaParticle.ELEMENT:
-        processElementParticle(mappings, path, schemaParticle);
+        processElementParticle(mappings, path, schemaParticle, messageType);
         break;
       case SchemaParticle.SEQUENCE:
-        processSequenceParticle(mappings, path, schemaParticle);
+        processSequenceParticle(mappings, path, schemaParticle, messageType);
         break;
     }
   }
 
-  private void processSequenceParticle(Element mappings, String path, SchemaParticle schemaParticle) {
+  private void processSequenceParticle(Element mappings, String path, SchemaParticle schemaParticle, MessageType messageType) {
     SchemaParticle[] spArray = schemaParticle.getParticleChildren();
     for (SchemaParticle sp : spArray) {
-      addMappingFromParticle(mappings, path, sp);
+      addMappingFromParticle(mappings, path, sp, messageType);
     }
   }
 
-  private void processElementParticle(Element mappings, String path, SchemaParticle schemaParticle) {
+  private void processElementParticle(Element mappings, String path, SchemaParticle schemaParticle, MessageType messageType) {
     SchemaLocalElement element = (SchemaLocalElement) schemaParticle;
     String elementPath = path + "/" + element.getName().getLocalPart();
 
     if (element.getType().isPrimitiveType()) {
-      addMapping(mappings, elementPath, getGlobalReference(element));
+      addMapping(mappings, elementPath, getGlobalReference(element), messageType);
     } else {
-      addMappingFromType(mappings, element.getType(), path);
+      addMappingFromType(mappings, element.getType(), path, messageType);
     }
   }
 
@@ -213,23 +213,24 @@ public class DefaultMappingGenerator extends AbstractMappingGenerator {
     return repeatingElement;
   }
 
-  private void addMappingFromSimpleType(Element mappings, SchemaType type, String path) {
+  private void addMappingFromSimpleType(Element mappings, SchemaType type, String path, MessageType messageType) {
+    // TODO implement method
     //To change body of created methods use File | Settings | File Templates.
   }
 
 
-  private void addMappingFromPrimitivePartType(Element mappings, Part part) throws Exception {
+  private void addMappingFromPrimitivePartType(Element mappings, Part part, MessageType messageType) throws Exception {
     String path = "/" + part.getName();
     QName globalReference = (QName)part.getExtensionAttribute(MODEL_REFERENCE_ATTRIBUTE);
 
-    addMapping(mappings, path, globalReference.getLocalPart());
+    addMapping(mappings, path, globalReference.getLocalPart(), messageType);
   }
 
-  protected void addMapping(Element mappings, String path, String globalReference) {
-    addMapping(mappings, path, globalReference, null);
+  protected void addMapping(Element mappings, String path, String globalReference, MessageType messageType) {
+    addMapping(mappings, path, globalReference, messageType, null);
   }
 
-  protected void addMapping(Element mappings, String path, String globalReference, String defaultValue) {
+  protected void addMapping(Element mappings, String path, String globalReference, MessageType messageType, String defaultValue) {
 
     if (path == null && globalReference == null){
       return;

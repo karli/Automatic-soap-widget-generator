@@ -35,15 +35,15 @@ public class SMBMappingGenerator extends DefaultMappingGenerator {
 
   @Override
   protected Element getOutputFrame(BindingOperation bindingOperation) throws Exception {
-    return generateFrame(getSmb().buildSoapMessageFromOutput(bindingOperation, true), true, getOutputTopic(), null);
+    return generateFrame(getSmb().buildSoapMessageFromOutput(bindingOperation, true), true, getOutputTopic(), null, MessageType.OUTPUT);
   }
 
   @Override
   protected Element getInputFrame(BindingOperation bindingOperation) throws Exception {
-    return generateFrame(getSmb().buildSoapMessageFromInput(bindingOperation, true), false, getInputTopic(), getJsonSchemaUrl());
+    return generateFrame(getSmb().buildSoapMessageFromInput(bindingOperation, true), false, getInputTopic(), getJsonSchemaUrl(), MessageType.INPUT);
   }
 
-  public Element generateFrame(String soapMessageTemplate, boolean outgoingOnly, String topic, String schemaLocation) throws Exception {
+  public Element generateFrame(String soapMessageTemplate, boolean outgoingOnly, String topic, String schemaLocation, MessageType messageType) throws Exception {
     DOMElement frame = new DOMElement("frame");
     addTopic(frame, outgoingOnly, topic);
     // TODO format might not only be json, but also simple string
@@ -52,12 +52,12 @@ public class SMBMappingGenerator extends DefaultMappingGenerator {
     Element mappings = new DOMElement("mappings");
     frame.appendChild(mappings);
 
-    addMappings(mappings, getBodyElement(soapMessageTemplate), "");
+    addMappings(mappings, getBodyElement(soapMessageTemplate), "", messageType);
 
     return frame;
   }
 
-  private void addMappings(Element mappings, Element messageElement, String currentPath) {
+  private void addMappings(Element mappings, Element messageElement, String currentPath, MessageType messageType) {
 
     boolean repeatingElementFlag = false;
     if (!messageElement.hasChildNodes()) {
@@ -81,19 +81,19 @@ public class SMBMappingGenerator extends DefaultMappingGenerator {
           // is it a leaf node?
           if (hasChildElements(element)) {
             // no
-            addMappings(repeatingElement, element, path);
+            addMappings(repeatingElement, element, path, messageType);
           } else {
             // repeating element that is of a simple type
-            addMapping(repeatingElement, null, getGlobalReference(element));
+            addMapping(repeatingElement, null, getGlobalReference(element), messageType);
           }
           // unset flag
           repeatingElementFlag = false;
         } else {
           if (hasChildElements(element)) {
-            addMappings(mappings, element, path);
+            addMappings(mappings, element, path, messageType);
           } else {
-            String defaultValue = mappingDefaultValuesRepository.getDefaultValue(getWsdlUri(), getOperation(), path);
-            addMapping(mappings, path, getGlobalReference(element), defaultValue);
+            String defaultValue = mappingDefaultValuesRepository.getDefaultValue(getWsdlUri(), getOperation(), messageType, path);
+            addMapping(mappings, path, getGlobalReference(element), messageType, defaultValue);
           }
         }
       }

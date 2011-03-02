@@ -4,7 +4,6 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
-import org.springframework.stereotype.Component;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -48,7 +47,8 @@ public class XmlMappingDefaultValuesDataSource implements MappingDefaultValuesDa
       String wsdl = row.attributeValue("wsdl");
       String operation = row.attributeValue("operation");
       String path = row.attributeValue("path");
-      MappingDefaultValueRow mappingDefaultValueRow = new MappingDefaultValueRow(wsdl, operation, path, value);
+      MessageType messageType = MessageType.getByTypeValue(row.attributeValue("messageType"));
+      MappingDefaultValueRow mappingDefaultValueRow = new MappingDefaultValueRow(wsdl, operation, messageType, path, value);
       defaultValues.add(mappingDefaultValueRow);
     }
     return defaultValues;

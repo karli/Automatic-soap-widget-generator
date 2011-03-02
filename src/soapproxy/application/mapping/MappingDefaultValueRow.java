@@ -5,10 +5,12 @@ public class MappingDefaultValueRow {
   private String operation;
   private String path;
   private String value;
+  private MessageType messageType;
 
-  public MappingDefaultValueRow(String wsdl, String operation, String path, String value) {
+  public MappingDefaultValueRow(String wsdl, String operation, MessageType messageType, String path, String value) {
     this.wsdl = wsdl;
     this.operation = operation;
+    this.messageType = messageType;
     this.path = path;
     this.value = value;
   }
@@ -43,5 +45,13 @@ public class MappingDefaultValueRow {
 
   public void setValue(String value) {
     this.value = value;
+  }
+
+  public MessageType getMessageType() {
+    return messageType;
+  }
+
+  public void setMessageType(MessageType messageType) {
+    this.messageType = messageType;
   }
 }
