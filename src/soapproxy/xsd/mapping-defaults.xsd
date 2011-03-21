@@ -6,7 +6,7 @@
     <xsd:element name="defaults">
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:element minOccurs="0" maxOccurs="unbounded" name="value" type="defaultValue" />
+                <xsd:element minOccurs="0" maxOccurs="unbounded" name="value" type="defaultValue"  />
             </xsd:sequence>
         </xsd:complexType>
     </xsd:element>
