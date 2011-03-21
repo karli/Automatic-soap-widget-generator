@@ -92,12 +92,19 @@ public class SMBMappingGenerator extends DefaultMappingGenerator {
           if (hasChildElements(element)) {
             addMappings(mappings, element, path, messageType);
           } else {
-            String defaultValue = mappingDefaultValuesRepository.getDefaultValue(getWsdlUri(), getOperation(), messageType, path);
+            String defaultValue = getDefaultValue(messageType, path);
             addMapping(mappings, path, getGlobalReference(element), messageType, defaultValue);
           }
         }
       }
     }
+  }
+
+  private String getDefaultValue(MessageType messageType, String path) {
+    if (mappingDefaultValuesRepository != null) {
+      return mappingDefaultValuesRepository.getDefaultValue(getWsdlUri(), getOperation(), messageType, path);
+    }
+    return null;
   }
 
   private boolean hasChildElements(Element element) {
