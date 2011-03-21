@@ -22,7 +22,7 @@ public class SMBMappingGeneratorTest {
     mappingGenerator.setWsdlUri(MappingDefaultValuesDataSourceStub.WSDL);
     mappingGenerator.setMappingDefaultValuesRepository(new MappingDefaultValuesRepositoryImpl(new MappingDefaultValuesDataSourceStub()));
     Element generatedFrame = mappingGenerator.generateFrame(getSoapMessageTemplate(), true, "topic", null, MessageType.INPUT);
-    Diff xmlDiff = new Diff(((DOMElement)generatedFrame).asXML(), getExpectedFrame());
+    Diff xmlDiff = new Diff(((DOMElement)generatedFrame).asXML(), getExpectedFrameWithDefaults());
     assertTrue(xmlDiff.toString(), xmlDiff.similar());
   }
 
@@ -33,11 +33,33 @@ public class SMBMappingGeneratorTest {
     mappingGenerator.setWsdlUri(MappingDefaultValuesDataSourceStub.WSDL);
     mappingGenerator.setMappingDefaultValuesRepository(new MappingDefaultValuesRepositoryImpl(new MappingDefaultValuesDataSourceStub()));
     Element generatedFrame = mappingGenerator.generateFrame(getSoapMessageTemplate(), true, "topic", null, MessageType.OUTPUT);
-    Diff xmlDiff = new Diff(((DOMElement)generatedFrame).asXML(), getExpectedFrame());
+    Diff xmlDiff = new Diff(((DOMElement)generatedFrame).asXML(), getExpectedFrameWithDefaults());
     assertFalse(xmlDiff.toString(), xmlDiff.similar());
   }
 
-  private String getExpectedFrame() {
+  @Test
+  public void shouldGenerateInputMappingAndNotIncludeElementWithoutGlobalRef() throws Exception {
+    SMBMappingGenerator mappingGenerator = new SMBMappingGenerator();
+    Element generatedFrame = mappingGenerator.generateFrame(getSoapMessageTemplateWithoutModelRef(), true, "topic", null, MessageType.OUTPUT);
+    Diff xmlDiff = new Diff(((DOMElement)generatedFrame).asXML(), getExpectedFrameWithoutDefaultsExcludingElementWithoutGlobalRef());
+    assertTrue(xmlDiff.toString(), xmlDiff.similar());
+  }
+
+  private String getExpectedFrameWithoutDefaultsExcludingElementWithoutGlobalRef() {
+    String frameXml = "<frame>" +
+            "<topic outgoing_only=\"true\">topic</topic>" +
+            "<format>json</format>" +
+            "<mappings>" +
+            "<mapping>" +
+            "<global_ref>#languageId</global_ref>" +
+            "<path>/findBusiness/languageId</path>" +
+            "</mapping>" +
+            "</mappings>" +
+            "</frame>";
+    return frameXml;
+  }
+
+  private String getExpectedFrameWithDefaults() {
     String frameXml = "<frame>" +
             "<topic outgoing_only=\"true\">topic</topic>" +
             "<format>json</format>" +
@@ -51,6 +73,22 @@ public class SMBMappingGeneratorTest {
             "</mappings>" +
             "</frame>";
     return frameXml;
+  }
+
+  private String getSoapMessageTemplateWithoutModelRef() {
+    String soapMessageTemplate = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ws=\"http://ws.soatrader.com/\" xmlns:eer=\"http://eer.soatrader.com/\" xmlns:sawsdl=\"http://www.w3.org/ns/sawsdl\">\n" +
+            "   <soapenv:Header>\n" +
+            "      <ws:SOATraderLicense>?</ws:SOATraderLicense>\n" +
+            "   </soapenv:Header>\n" +
+            "   <soapenv:Body>\n" +
+            "      <eer:findBusiness>\n" +
+            "         <!--Optional:-->\n" +
+            "         <registryCode>?</registryCode>\n" +
+            "         <languageId sawsdl:modelReference=\"#languageId\">?</languageId>\n" +
+            "      </eer:findBusiness>\n" +
+            "   </soapenv:Body>\n" +
+            "</soapenv:Envelope>";
+    return soapMessageTemplate;
   }
 
   private String getSoapMessageTemplate() {
