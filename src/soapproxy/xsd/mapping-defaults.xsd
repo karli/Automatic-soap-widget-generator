@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns="http://www.cs.ut.ee/schema/soapproxywidget/mappingdefaults"
+        targetNamespace="http://www.cs.ut.ee/schema/soapproxywidget/mappingdefaults">
+
+    <xsd:element name="defaults">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element minOccurs="0" maxOccurs="unbounded" name="value" type="defaultValue" />
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:complexType name="defaultValue">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="wsdl" type="xsd:string"/>
+                <xsd:attribute name="operation" type="xsd:string"/>
+                <xsd:attribute name="messageType">
+                    <xsd:simpleType>
+                        <xsd:restriction base="xsd:string">
+                            <xsd:enumeration value="input"/>
+                            <xsd:enumeration value="output"/>
+                        </xsd:restriction>
+                    </xsd:simpleType>
+                </xsd:attribute>
+                <xsd:attribute name="path" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+</xsd:schema>
