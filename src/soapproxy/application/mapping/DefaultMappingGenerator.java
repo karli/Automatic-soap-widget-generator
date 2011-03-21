@@ -232,24 +232,23 @@ public class DefaultMappingGenerator extends AbstractMappingGenerator {
 
   protected void addMapping(Element mappings, String path, String globalReference, MessageType messageType, String defaultValue) {
 
-    if (path == null && globalReference == null){
+    // both must be defined for a mapping element to make sense
+    if (path == null || globalReference == null){
       return;
     }
     
     Element mapping = new DOMElement("mapping");
     mappings.appendChild(mapping);
 
-    if (globalReference != null) {
-      DOMElement globalRefElement = new DOMElement("global_ref");
-      globalRefElement.setText(globalReference);
-      mapping.appendChild(globalRefElement);
-    }
+    // add global ref element to mapping
+    DOMElement globalRefElement = new DOMElement("global_ref");
+    globalRefElement.setText(globalReference);
+    mapping.appendChild(globalRefElement);
 
-    if (path != null) {
-      DOMElement pathElement = new DOMElement("path");
-      pathElement.setText(path);
-      mapping.appendChild(pathElement);
-    }
+    // add path element to mapping
+    DOMElement pathElement = new DOMElement("path");
+    pathElement.setText(path);
+    mapping.appendChild(pathElement);
 
     if (defaultValue != null) {
       DOMElement defaultValueElement = new DOMElement("default");
