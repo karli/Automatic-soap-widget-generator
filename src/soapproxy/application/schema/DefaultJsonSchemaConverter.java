@@ -36,18 +36,38 @@ public class DefaultJsonSchemaConverter implements JsonSchemaConverter {
 
   @Override
   public String getJsonSchema() throws Exception {
+    ObjectNode root = getJsonSchemaObjectNode(getSoapMessage());
+    return root.toString();
+  }
+
+  public ObjectNode getJsonSchemaObjectNode(String soapMessage) throws Exception {
     ObjectNode root = new ObjectNode(JsonNodeFactory.instance);
     root.put("type", "object");
     ObjectNode properties = root.putObject("properties");
 
-    addMessageToSchema(properties);
-//    for (Part part : getParts()) {
-//      addPartToProperties(properties, part);
-//    }
-    return root.toString();
+    addMessageToSchema(properties, soapMessage);
+    return root;
   }
 
-  private void addMessageToSchema(ObjectNode properties) throws Exception {
+  private void addMessageToSchema(ObjectNode properties, String soapMessage) throws Exception {
+    XmlObject envelopeObject = getMessageEnvelopeObject(soapMessage);
+    XmlCursor cursor = envelopeObject.newCursor();
+    cursor.toNextToken();
+
+    addToJsonSchema(cursor, properties);
+    properties.toString();
+  }
+
+  private XmlObject getMessageEnvelopeObject(String soapMessage) throws Exception {
+    XmlObject soapMessageObject = XmlObject.Factory.parse(soapMessage);
+    XmlCursor cursor = soapMessageObject.newCursor();
+    cursor.toFirstChild();
+    XmlObject envelopeObject = cursor.getObject();
+    cursor.dispose();
+    return envelopeObject;
+  }
+
+  private String getSoapMessage() throws Exception {
     SoapMessageBuilder smb = new SoapMessageBuilder(wsdlContext);
     String soapMessage = null;
     BindingOperation bindingOperation = getBindingOperation();
@@ -57,50 +77,10 @@ public class DefaultJsonSchemaConverter implements JsonSchemaConverter {
     else if (MessageType.OUTPUT_MESSAGE.equals(messageType)) {
       soapMessage = smb.buildSoapMessageFromOutput(bindingOperation, true);
     }
-
-    XmlObject soapMessageObject = XmlObject.Factory.parse(soapMessage);
-    XmlObject bodyObject = SoapUtils.getBodyElement(soapMessageObject, SoapVersion.Soap11);
-    XmlCursor cursor = bodyObject.newCursor();
-    cursor.toNextToken();
-    // if rpc then skip first body element
-//    if (WsdlUtils.isRpc(wsdlContext.getDefinition(), bindingOperation)) {
-//      while(!cursor.toNextToken().isText());
-//    }
-//    cursor.toNextToken();
-    addToJsonSchema2(cursor, properties);
-    properties.toString();
+    return soapMessage;
   }
 
-  /**
-   * cursor position before: <parent>^...<elem>...</elem>...</parent>
-   */
-  private void addToJsonSchema(XmlCursor cursor, ObjectNode root) {
-    ObjectNode newNode = null;
-    while (!cursor.toNextToken().isNone()) {
-      if (cursor.isComment()) {
-        if ("Zero or more repetitions:".equals(cursor.getTextValue())) {
-          root.put("type", "array");
-          root = root.putObject("items");
-
-        }
-      }
-      if (cursor.isStart()) {
-//        cursor.push();
-        // add to schema
-        root.put("type", "object");
-        ObjectNode properties = root.putObject("properties");
-        newNode = properties.putObject(cursor.getName().getLocalPart());
-        //move to the TEXT token
-
-//        cursor.pop();
-      }
-      if (cursor.isText() && newNode != null){
-        addToJsonSchema(cursor, newNode);
-      }
-    }
-  }
-
-  private void addToJsonSchema2(XmlCursor cursor, ObjectNode properties) {
+  private void addToJsonSchema(XmlCursor cursor, ObjectNode properties) {
     Stack<ObjectNode> propertiesStack = new Stack<ObjectNode>();
     propertiesStack.push(properties);
     boolean required = true;
@@ -181,18 +161,6 @@ public class DefaultJsonSchemaConverter implements JsonSchemaConverter {
       result = "string";
     }
     return result;
-  }
-
-  private Part[] getParts() throws Exception {
-    BindingOperation bindingOperation = getBindingOperation();
-    Part[] parts = null;
-    if (MessageType.INPUT_MESSAGE.equals(messageType)) {
-      parts = WsdlUtils.getInputParts(bindingOperation);
-    }
-    else if (MessageType.OUTPUT_MESSAGE.equals(messageType)) {
-      parts = WsdlUtils.getOutputParts(bindingOperation);
-    }
-    return parts;
   }
 
   private BindingOperation getBindingOperation() throws Exception {
