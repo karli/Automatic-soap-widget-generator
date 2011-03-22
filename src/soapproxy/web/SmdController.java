@@ -25,7 +25,7 @@ public class SmdController {
     PrintWriter out = httpServletResponse.getWriter();
     out.write(httpServletRequest.getParameter("callback") + "(");
     out.write("{\n" +
-              "    transport:\"JSONP\", // We will use POST as the transport\n" +
+              "    transport:\"JSONP\",\n" +
               "    envelope:\"JSON-RPC-2.0\", // We will use JSON-RPC\n" +
               "    SMDVersion:\"2.0\",\n" +
               "    services: {\n" +
