@@ -41,6 +41,11 @@
 				<global_ref>http://ws.soatrader.com/ontology/BaseOntology.owl#ReportTypeAtEER</global_ref>
                 <path>/reportType</path>
 			</mapping>
+            <mapping>
+                <global_ref>http://ws.soatrader.com/ontology/BaseOntology.owl#SOATraderLicense</global_ref>
+                <path>/soatLicense</path>
+                <default>5fad0242f085efedd81272894c739f092854c4a6cc6932feb3f7f0000000ffff</default>
+            </mapping>
 		</mappings>
 	</frame>
     <frame>

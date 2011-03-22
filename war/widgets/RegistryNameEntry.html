@@ -32,7 +32,7 @@
     function clickEvent() {
       // construct publishable data
       var data = {};
-      var fieldIds = ["regCode", "langId", "year", "reportType"];
+      var fieldIds = ["regCode", "langId", "year", "reportType", "soatLicense"];
       for (var i = 0; i < fieldIds.length; i++) {
         var id = fieldIds[i];
         var value = document.getElementById(id).value;
@@ -52,6 +52,7 @@
     langId: <input type="text" id="langId" /><br/>
     year: <input type="text" id="year" /><br/>
     reportType: <input type="text" id="reportType" /><br/>
+    soatLicense: <input type="text" id="soatLicense" /><br/>
 	  <input type="button" value="Click to send registry code" onclick="clickEvent()"/>
 	</p>
   </div>
