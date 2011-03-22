@@ -19,7 +19,7 @@ public class MappingController{
   private MappingGenerator mappingGenerator;
 
   @RequestMapping("/mapping")
-  protected ModelAndView getMapping(@RequestParam("wsdlUri") String wsdlUri, @RequestParam("operation") String operation, HttpServletRequest request, HttpServletResponse response) throws Exception {
+  protected ModelAndView getMapping(@RequestParam("wsdl") String wsdlUri, @RequestParam("operation") String operation, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
     response.setContentType(DEFAULT_XML_TYPE);
 
