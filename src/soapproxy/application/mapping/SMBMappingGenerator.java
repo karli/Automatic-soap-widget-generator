@@ -5,15 +5,15 @@ import com.eviware.soapui.impl.wsdl.support.soap.SoapVersion;
 import com.eviware.soapui.impl.wsdl.support.wsdl.WsdlContext;
 import org.apache.xmlbeans.XmlObject;
 import org.dom4j.dom.DOMElement;
+import org.dom4j.io.DOMWriter;
+import org.dom4j.io.SAXReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.w3c.dom.Comment;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.w3c.dom.*;
 import soapproxy.util.SoapMessageBuilder;
 
 import javax.wsdl.BindingOperation;
+import java.io.StringReader;
 
 @Component
 public class SMBMappingGenerator extends DefaultMappingGenerator {
@@ -52,7 +52,7 @@ public class SMBMappingGenerator extends DefaultMappingGenerator {
     Element mappings = new DOMElement("mappings");
     frame.appendChild(mappings);
 
-    addMappings(mappings, getBodyElement(soapMessageTemplate), "", messageType);
+    addMappings(mappings, getEnvelopeElement(soapMessageTemplate), "", messageType);
 
     return frame;
   }
@@ -130,6 +130,17 @@ public class SMBMappingGenerator extends DefaultMappingGenerator {
     XmlObject soapMessageObject = XmlObject.Factory.parse(soapMessage);
     XmlObject bodyObject = SoapUtils.getBodyElement(soapMessageObject, SoapVersion.Soap11);
     return (Element) bodyObject.getDomNode();
+  }
+
+  private Element getEnvelopeElement(String soapMessage) throws Exception {
+    SAXReader reader = new SAXReader();
+    org.dom4j.Document soapDocument = reader.read(new StringReader(soapMessage));
+
+    // Convert dom4j document to w3c document
+    DOMWriter writer = new DOMWriter();
+    Document doc2 = writer.write(soapDocument);
+
+    return doc2.getDocumentElement();
   }
 
   public SoapMessageBuilder getSmb() {

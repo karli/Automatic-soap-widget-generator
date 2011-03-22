@@ -51,8 +51,12 @@ public class SMBMappingGeneratorTest {
             "<format>json</format>" +
             "<mappings>" +
             "<mapping>" +
+            "<global_ref>#soaLicense</global_ref>" +
+            "<path>/Header/SOATraderLicense</path>" +
+            "</mapping>" +
+            "<mapping>" +
             "<global_ref>#languageId</global_ref>" +
-            "<path>/findBusiness/languageId</path>" +
+            "<path>/Body/findBusiness/languageId</path>" +
             "</mapping>" +
             "</mappings>" +
             "</frame>";
@@ -64,10 +68,10 @@ public class SMBMappingGeneratorTest {
             "<topic outgoing_only=\"true\">topic</topic>" +
             "<format>json</format>" +
             "<mappings>" +
-            "<mapping><global_ref>#registryCode</global_ref><path>/findBusiness/registryCode</path></mapping>" +
+            "<mapping><global_ref>#registryCode</global_ref><path>/Body/findBusiness/registryCode</path></mapping>" +
             "<mapping>" +
             "<global_ref>#languageId</global_ref>" +
-            "<path>/findBusiness/languageId</path>" +
+            "<path>/Body/findBusiness/languageId</path>" +
             "<default>" + MappingDefaultValuesDataSourceStub.DEFAULT_VALUE + "</default>" +
             "</mapping>" +
             "</mappings>" +
@@ -78,7 +82,7 @@ public class SMBMappingGeneratorTest {
   private String getSoapMessageTemplateWithoutModelRef() {
     String soapMessageTemplate = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ws=\"http://ws.soatrader.com/\" xmlns:eer=\"http://eer.soatrader.com/\" xmlns:sawsdl=\"http://www.w3.org/ns/sawsdl\">\n" +
             "   <soapenv:Header>\n" +
-            "      <ws:SOATraderLicense>?</ws:SOATraderLicense>\n" +
+            "      <ws:SOATraderLicense sawsdl:modelReference=\"#soaLicense\">?</ws:SOATraderLicense>\n" +
             "   </soapenv:Header>\n" +
             "   <soapenv:Body>\n" +
             "      <eer:findBusiness>\n" +
@@ -110,7 +114,7 @@ public class SMBMappingGeneratorTest {
   private class MappingDefaultValuesDataSourceStub implements MappingDefaultValuesDataSource {
     public static final String WSDL = "http://www.ebr.ee?wsdl";
     public static final String OP = "findBusiness";
-    public static final String PATH = "/findBusiness/languageId";
+    public static final String PATH = "/Body/findBusiness/languageId";
     public static final String DEFAULT_VALUE = "defaultLanguage";
 
     @Override
