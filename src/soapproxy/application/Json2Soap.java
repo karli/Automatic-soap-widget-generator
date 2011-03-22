@@ -59,8 +59,9 @@ public class Json2Soap {
     JsonNode jsonRequestParams = mapper.readValue(jsonRequest, JsonNode.class);
     // create a soap request
     XmlObject soapRequest = this.convertToSoapMessage(wsdlUri, operationName, jsonRequestParams);
+    // TODO: remove these comments as license must be provided by json schema
     // set soatrader license if such element exists in header
-    setSoaTraderLicenseIfNeeded(soapRequest);
+    //setSoaTraderLicenseIfNeeded(soapRequest);
     // get a response from the service
     SOAPMessage response = this.doRequest(soapRequest, wsdlUri);
     OutputStream out = new ByteArrayOutputStream();
@@ -134,10 +135,13 @@ public class Json2Soap {
     return populateMessageTemplate(soapMessageTemplate, jsonRequestParams);
   }
 
-  private XmlObject populateMessageTemplate(String soapMessageTemplate, JsonNode jsonRequestParams) throws XmlException {
-    XmlObject template = XmlObject.Factory.parse(soapMessageTemplate);
-    XmlObject bodyObject = SoapUtils.getBodyElement(template, getSoapVersion());
-    XmlCursor cursor = bodyObject.newCursor();
+  private XmlObject populateMessageTemplate(String soapMessageTemplateString, JsonNode jsonRequestParams) throws XmlException {
+    XmlObject soapMessageTemplate = XmlObject.Factory.parse(soapMessageTemplateString);
+    XmlCursor rootCursor = soapMessageTemplate.newCursor();
+    rootCursor.toFirstChild();
+    XmlObject envelopeObject = rootCursor.getObject();
+    rootCursor.dispose();
+    XmlCursor cursor = envelopeObject.newCursor();
 
     if (jsonRequestParams.isArray()) {
       jsonRequestParams = jsonRequestParams.get(0);
@@ -146,7 +150,7 @@ public class Json2Soap {
     transferValues(jsonRequestParams, cursor);
     cursor.dispose();
 
-    return template;
+    return soapMessageTemplate;
   }
 
   private SoapVersion11 getSoapVersion() {
