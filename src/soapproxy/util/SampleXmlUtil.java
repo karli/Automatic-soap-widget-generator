@@ -1068,7 +1068,7 @@ public class SampleXmlUtil {
     xmlc.toNextToken();
   }
 
-  private void processSemanticAnnotation(SchemaAnnotated element, XmlCursor xmlc) {
+  public void processSemanticAnnotation(SchemaAnnotated element, XmlCursor xmlc) {
     if (element.getAnnotation() == null) {
       return;
     }

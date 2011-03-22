@@ -241,6 +241,8 @@ public class SoapMessageBuilder implements MessageBuilder {
         if (elm != null) {
           cursor.toFirstChild();
           xmlGenerator.createSampleForType(elm.getType(), cursor);
+          // check modelReference attributes
+          xmlGenerator.processSemanticAnnotation(elm, cursor);
         } else
           log.error("Could not find element [" + elementName + "] specified in part [" + part.getName() + "]");
       }
