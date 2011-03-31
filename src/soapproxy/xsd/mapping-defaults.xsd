@@ -14,7 +14,7 @@
     <xsd:complexType name="defaultValue">
         <xsd:simpleContent>
             <xsd:extension base="xsd:string">
-                <xsd:attribute name="wsdl" type="xsd:string"/>
+                <xsd:attribute name="sourceUrl" type="xsd:string"/>
                 <xsd:attribute name="operation" type="xsd:string"/>
                 <xsd:attribute name="messageType">
                     <xsd:simpleType>

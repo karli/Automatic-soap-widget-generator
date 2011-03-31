@@ -19,7 +19,7 @@ public class SMBMappingGeneratorTest {
   public void shouldGenerateMappingWithDefaultValues() throws Exception {
     SMBMappingGenerator mappingGenerator = new SMBMappingGenerator();
     mappingGenerator.setOperation(MappingDefaultValuesDataSourceStub.OP);
-    mappingGenerator.setWsdlUri(MappingDefaultValuesDataSourceStub.WSDL);
+    mappingGenerator.setWsdlUri(MappingDefaultValuesDataSourceStub.SOURCE_URL);
     mappingGenerator.setMappingDefaultValuesRepository(new MappingDefaultValuesRepositoryImpl(new MappingDefaultValuesDataSourceStub()));
     Element generatedFrame = mappingGenerator.generateFrame(getSoapMessageTemplate(), true, "topic", null, MessageType.INPUT);
     Diff xmlDiff = new Diff(((DOMElement)generatedFrame).asXML(), getExpectedFrameWithDefaults());
@@ -30,7 +30,7 @@ public class SMBMappingGeneratorTest {
   public void shouldNotGenerateMappingWithDefaultValue() throws Exception {
     SMBMappingGenerator mappingGenerator = new SMBMappingGenerator();
     mappingGenerator.setOperation(MappingDefaultValuesDataSourceStub.OP);
-    mappingGenerator.setWsdlUri(MappingDefaultValuesDataSourceStub.WSDL);
+    mappingGenerator.setWsdlUri(MappingDefaultValuesDataSourceStub.SOURCE_URL);
     mappingGenerator.setMappingDefaultValuesRepository(new MappingDefaultValuesRepositoryImpl(new MappingDefaultValuesDataSourceStub()));
     Element generatedFrame = mappingGenerator.generateFrame(getSoapMessageTemplate(), true, "topic", null, MessageType.OUTPUT);
     Diff xmlDiff = new Diff(((DOMElement)generatedFrame).asXML(), getExpectedFrameWithDefaults());
@@ -112,7 +112,7 @@ public class SMBMappingGeneratorTest {
   }
 
   private class MappingDefaultValuesDataSourceStub implements MappingDefaultValuesDataSource {
-    public static final String WSDL = "http://www.ebr.ee?wsdl";
+    public static final String SOURCE_URL = "http://www.ebr.ee?wsdl";
     public static final String OP = "findBusiness";
     public static final String PATH = "/Body/findBusiness/languageId";
     public static final String DEFAULT_VALUE = "defaultLanguage";
@@ -120,7 +120,7 @@ public class SMBMappingGeneratorTest {
     @Override
     public List<MappingDefaultValueRow> getAll() throws DocumentException, MalformedURLException {
       List<MappingDefaultValueRow> defaultValueList = new ArrayList<MappingDefaultValueRow>();
-      defaultValueList.add(new MappingDefaultValueRow(WSDL, OP, MessageType.INPUT, PATH, DEFAULT_VALUE));
+      defaultValueList.add(new MappingDefaultValueRow(SOURCE_URL, OP, MessageType.INPUT, PATH, DEFAULT_VALUE));
       return defaultValueList;
     }
   }

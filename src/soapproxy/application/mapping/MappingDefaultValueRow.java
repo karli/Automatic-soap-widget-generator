@@ -1,26 +1,26 @@
 package soapproxy.application.mapping;
 
 public class MappingDefaultValueRow {
-  private String wsdl;
+  private String sourceUrl;
   private String operation;
   private String path;
   private String value;
   private MessageType messageType;
 
-  public MappingDefaultValueRow(String wsdl, String operation, MessageType messageType, String path, String value) {
-    this.wsdl = wsdl;
+  public MappingDefaultValueRow(String sourceUrl, String operation, MessageType messageType, String path, String value) {
+    this.sourceUrl = sourceUrl;
     this.operation = operation;
     this.messageType = messageType;
     this.path = path;
     this.value = value;
   }
 
-  public String getWsdl() {
-    return wsdl;
+  public String getSourceUrl() {
+    return sourceUrl;
   }
 
-  public void setWsdl(String wsdl) {
-    this.wsdl = wsdl;
+  public void setSourceUrl(String sourceUrl) {
+    this.sourceUrl = sourceUrl;
   }
 
   public String getOperation() {

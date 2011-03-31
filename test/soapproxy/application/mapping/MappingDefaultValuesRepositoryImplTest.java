@@ -13,37 +13,37 @@ public class MappingDefaultValuesRepositoryImplTest {
 
   @Test
   public void shouldAddDefaultValue() throws Exception {
-    String wsdl = "http://myserver.com?wsdl";
+    String sourceUrl = "http://myserver.com?wsdl";
     String operation = "myop";
     String path = "/parent/child/value/";
     String value = "defaultValue";
     MappingDefaultValuesRepository repo = new MappingDefaultValuesRepositoryImpl(new MappingDefaultValuesDataSourceStub());
-    repo.addDefaultValue(wsdl, operation, MessageType.INPUT, path, value);
-    assertTrue(repo.hasDefaultValue(wsdl, operation, MessageType.INPUT, path));
+    repo.addDefaultValue(sourceUrl, operation, MessageType.INPUT, path, value);
+    assertTrue(repo.hasDefaultValue(sourceUrl, operation, MessageType.INPUT, path));
   }
 
   @Test
   public void shouldGetNullIfDefaultValueDoesNotExist() throws Exception {
-    String wsdl = "http://myserver.com?wsdl";
+    String sourceUrl = "http://myserver.com?wsdl";
     String operation = "myop";
     String path = "/parent/child/value/";
     String value = "defaultValue";
     MappingDefaultValuesRepository repo = new MappingDefaultValuesRepositoryImpl(new MappingDefaultValuesDataSourceStub());
-    repo.addDefaultValue(wsdl, operation, MessageType.INPUT, path, value);
+    repo.addDefaultValue(sourceUrl, operation, MessageType.INPUT, path, value);
     assertNull(repo.getDefaultValue("http://wrongserver.com?wsdl", operation, MessageType.INPUT, path));
-    assertNull(repo.getDefaultValue(wsdl, "wrongop", MessageType.INPUT, path));
-    assertNull(repo.getDefaultValue(wsdl, operation, MessageType.INPUT, "wrong/path"));
+    assertNull(repo.getDefaultValue(sourceUrl, "wrongop", MessageType.INPUT, path));
+    assertNull(repo.getDefaultValue(sourceUrl, operation, MessageType.INPUT, "wrong/path"));
   }
 
   @Test
   public void shouldGetDefaultValueIfItExists() {
-    String wsdl = "http://myserver.com?wsdl";
+    String sourceUrl = "http://myserver.com?wsdl";
     String operation = "myop";
     String path = "/parent/child/value/";
     String value = "defaultValue";
     MappingDefaultValuesRepository repo = new MappingDefaultValuesRepositoryImpl(new MappingDefaultValuesDataSourceStub());
-    repo.addDefaultValue(wsdl, operation, MessageType.INPUT, path, value);
-    assertEquals(value, repo.getDefaultValue(wsdl, operation, MessageType.INPUT, path));
+    repo.addDefaultValue(sourceUrl, operation, MessageType.INPUT, path, value);
+    assertEquals(value, repo.getDefaultValue(sourceUrl, operation, MessageType.INPUT, path));
   }
 
   private class MappingDefaultValuesDataSourceStub implements MappingDefaultValuesDataSource {

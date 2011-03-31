@@ -44,11 +44,11 @@ public class XmlMappingDefaultValuesDataSource implements MappingDefaultValuesDa
     while (it.hasNext()) {
       Element row = (Element)it.next();
       String value = row.getText();
-      String wsdl = row.attributeValue("wsdl");
+      String sourceUrl = row.attributeValue("sourceUrl");
       String operation = row.attributeValue("operation");
       String path = row.attributeValue("path");
       MessageType messageType = MessageType.getByTypeValue(row.attributeValue("messageType"));
-      MappingDefaultValueRow mappingDefaultValueRow = new MappingDefaultValueRow(wsdl, operation, messageType, path, value);
+      MappingDefaultValueRow mappingDefaultValueRow = new MappingDefaultValueRow(sourceUrl, operation, messageType, path, value);
       defaultValues.add(mappingDefaultValueRow);
     }
     return defaultValues;

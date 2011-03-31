@@ -35,7 +35,7 @@ public class MappingDefaultValuesRepositoryImpl implements MappingDefaultValuesR
   @Override
   public String getDefaultValue(String wsdl, String operation, MessageType messageType, String messagePath) {
     for (MappingDefaultValueRow defaultValue : defaultValues) {
-      if (defaultValue.getWsdl().equals(wsdl)
+      if (defaultValue.getSourceUrl().equals(wsdl)
               && defaultValue.getOperation().equals(operation)
               && defaultValue.getMessageType().equals(messageType)
               && defaultValue.getPath().equals(messagePath)) {
