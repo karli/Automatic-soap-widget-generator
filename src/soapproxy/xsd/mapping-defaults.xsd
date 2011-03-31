@@ -25,6 +25,7 @@
                     </xsd:simpleType>
                 </xsd:attribute>
                 <xsd:attribute name="path" type="xsd:string"/>
+                <xsd:attribute name="annotation" type="xsd:string"/>
             </xsd:extension>
         </xsd:simpleContent>
     </xsd:complexType>
