@@ -10,8 +10,9 @@ A guide to installing and running the soap proxy web service
 6. If checkout is complete, edit build.xml and specify the location of GWT installation (property "gwt.sdk")
 7. Also edit start.sh and specify the preferred port for the application to run on. (currently JAVA_OPTS="-Djetty.port=8833")
 8. "touch soapproxy.pid", this is the file where process ID is saved
-9. Deploy application by executing "./redeploy.sh"
-10. To stop the application, call "./stop.sh"
+9. Create folder "logs" to the project root directory. This is where logs will be saved.
+10. Deploy application by executing "./redeploy.sh"
+11. To stop the application, call "./stop.sh"
 
 When there is a newer version in GIT that needs to be deployed, just execute "./redeploy.sh"
 
