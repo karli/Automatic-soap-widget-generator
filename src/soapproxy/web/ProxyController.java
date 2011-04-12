@@ -1,5 +1,6 @@
 package soapproxy.web;
 
+import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.stereotype.Controller;
@@ -17,26 +18,32 @@ import java.util.Map;
 
 @Controller
 public class ProxyController {
+  private final Logger LOG = Logger.getLogger(getClass());
   private static final String DEFAULT_JAVASCRIPT_TYPE = "text/javascript";
 
   @RequestMapping("/proxy")
-  protected ModelAndView handleRequest(@RequestParam("wsdl") String wsdl,
+  protected ModelAndView handleRequest(@RequestParam("wsdl") String wsdlUrl,
                                        @RequestParam("operation") String operation,
                                        HttpServletRequest httpServletRequest,
                                        HttpServletResponse httpServletResponse) throws Exception {
-    // read request parameters
+
+    LOG.debug("Handling request: wsdlUrl=" + wsdlUrl + ", operation=" + operation);
     httpServletResponse.setContentType(DEFAULT_JAVASCRIPT_TYPE);
     PrintWriter out = httpServletResponse.getWriter();
 
     JsonNode jsonRpcRequest = getJsonRpcRequest(httpServletRequest);
     JsonNode requestParams = jsonRpcRequest.get("params");
+    String requestId = jsonRpcRequest.get("id").getValueAsText();
 
     Json2Soap j2s = new Json2Soap();
-    String jsonResponse = j2s.convert(requestParams.toString(), wsdl, operation);
+    String jsonResponse = j2s.convert(requestParams.toString(), wsdlUrl, operation);
 
-    out.write(httpServletRequest.getParameter("callback") + "(");
-    out.write("{\"result\":" + jsonResponse + ",\"id\":\"0\",\"error\":null,\"jsonrpc\":\"2.0\"}");
-    out.write(");");
+    String result = httpServletRequest.getParameter("callback") + "("
+            + "{\"result\":" + jsonResponse + ",\"id\":\"" + requestId + "\",\"error\":null,\"jsonrpc\":\"2.0\"}"
+            + ");";
+
+    out.write(result);
+    LOG.debug("Returning soap2json conversion: " + result);
     return null;
   }
 

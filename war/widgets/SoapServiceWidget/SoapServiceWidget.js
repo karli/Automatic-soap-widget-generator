@@ -17,9 +17,11 @@ function loadSmd(smdUrl, publisherData, hubClient, operation, outputTopic){
 
 function callService(smd, requestData, operation, hubClient, outputTopic){
   var services = new dojox.rpc.Service(smd);
+  // lets try to specify the request ID
+  var d = new Date();
+  services._requestId = d.valueOf();
   var deferred = services[operation](requestData);
   deferred.addCallback(function(result){
-     // TODO publish returned value into hub
     hubClient.publish(outputTopic, result);
   });
   deferred.addErrback(function (){alert("Error")});
