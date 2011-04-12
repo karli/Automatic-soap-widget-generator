@@ -8,29 +8,17 @@ import com.eviware.soapui.impl.wsdl.support.wsdl.WsdlContext;
 import com.eviware.soapui.impl.wsdl.support.wsdl.WsdlUtils;
 import com.ibm.wsdl.factory.WSDLFactoryImpl;
 import com.ibm.wsdl.xml.WSDLReaderImpl;
-import net.sf.json.JSON;
-import net.sf.json.xml.XMLSerializer;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
-
 import soapproxy.util.Xml2JsonConverter;
 
-import javax.wsdl.BindingOperation;
-import javax.wsdl.Definition;
-import javax.wsdl.Port;
-import javax.wsdl.Service;
-import javax.wsdl.WSDLException;
+import javax.wsdl.*;
 import javax.wsdl.factory.WSDLFactory;
 import javax.xml.namespace.QName;
-import javax.xml.soap.MessageFactory;
-import javax.xml.soap.SOAPConnection;
-import javax.xml.soap.SOAPConnectionFactory;
-import javax.xml.soap.SOAPConstants;
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPMessage;
+import javax.xml.soap.*;
 import javax.xml.transform.dom.DOMSource;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -229,7 +217,7 @@ public class Json2Soap {
 
   private void setAttributeValue(String attributeName, String value, XmlCursor cursor) {
     cursor.push();
-    while(!cursor.toNextToken().isEnd()) {
+    while (!cursor.toNextToken().isEnd()) {
       if (cursor.isAttr() && cursor.getName().getLocalPart().equals(attributeName)) {
         cursor.setTextValue(value);
       }
