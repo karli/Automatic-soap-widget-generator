@@ -1,5 +1,6 @@
 package soapproxy.web;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,20 +14,22 @@ import java.io.PrintWriter;
 
 @Controller
 public class MappingController{
+  private final Logger LOG = Logger.getLogger(getClass());
   private static final String DEFAULT_XML_TYPE = "text/xml";
 
   @Autowired
   private MappingGenerator mappingGenerator;
 
   @RequestMapping("/mapping")
-  protected ModelAndView getMapping(@RequestParam("wsdl") String wsdlUri, @RequestParam("operation") String operation, HttpServletRequest request, HttpServletResponse response) throws Exception {
+  protected ModelAndView getMapping(@RequestParam("wsdl") String wsdlUrl, @RequestParam("operation") String operation, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+    LOG.debug("Got mapping request: wsdlUrl=" + wsdlUrl + ", operation=" + operation);
     response.setContentType(DEFAULT_XML_TYPE);
 
     PrintWriter out = response.getWriter();
-    String jsonSchemaUrl = getJsonSchemaUrl(request, wsdlUri, operation);
+    String jsonSchemaUrl = getJsonSchemaUrl(request, wsdlUrl, operation);
 
-    out.print(mappingGenerator.getMapping(wsdlUri, operation, jsonSchemaUrl));
+    out.print(mappingGenerator.getMapping(wsdlUrl, operation, jsonSchemaUrl));
     return null;
   }
 

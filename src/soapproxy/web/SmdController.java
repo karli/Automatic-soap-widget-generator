@@ -1,5 +1,6 @@
 package soapproxy.web;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,12 +12,14 @@ import java.io.PrintWriter;
 
 @Controller
 public class SmdController {
+  private final Logger LOG = Logger.getLogger(getClass());
   private static final String DEFAULT_JAVASCRIPT_TYPE = "text/javascript";
 
   @RequestMapping("/smd")
   protected ModelAndView getSmd(@RequestParam("wsdl") String wsdl,
                                 @RequestParam("operation") String operation,
                                 HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
+    LOG.debug("Got request for SMD document");
     httpServletResponse.setContentType(DEFAULT_JAVASCRIPT_TYPE);
 
     String baseUrl = httpServletRequest.getScheme() + "://" + httpServletRequest.getServerName() + ":" +
