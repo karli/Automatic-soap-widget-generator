@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd" >
+<log4j:configuration>
+    <appender name="stdout" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{ISO8601} %5p %c - %m%n" />
+        </layout>
+    </appender>
+	<appender name="general" class="org.apache.log4j.FileAppender">
+        <!-- The active file to log to -->
+        <param name="file" value="logs/general.log" />
+        <param name="append" value="false" />
+        <param name="encoding" value="UTF-8" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{ISO8601} %5p %c - %m%n" />
+		</layout>
+	</appender>
+    <appender name="application" class="org.apache.log4j.FileAppender">
+        <param name="file" value="logs/application.log" />
+        <param name="append" value="false" />
+        <param name="encoding" value="UTF-8" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{ISO8601} %5p %c - %m%n" />
+		</layout>
+    </appender>
+    <logger name="soapproxy" additivity="false">
+        <level value="debug"/>
+        <appender-ref ref="application"/>
+        <appender-ref ref="stdout" />
+    </logger>
+	<root>
+        <priority value="info"/>
+		<appender-ref ref="general"/>
+        <appender-ref ref="stdout"/>
+	</root>
+</log4j:configuration>
