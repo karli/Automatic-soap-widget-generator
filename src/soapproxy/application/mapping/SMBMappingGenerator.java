@@ -24,7 +24,7 @@ public class SMBMappingGenerator extends DefaultMappingGenerator {
   private MappingDefaultValuesRepository mappingDefaultValuesRepository;
 
   @Override
-  public String getMapping(String wsdlUri, String operation, String jsonSchemaUrl) throws Exception {
+  public synchronized String getMapping(String wsdlUri, String operation, String jsonSchemaUrl) throws Exception {
     setWsdlUri(wsdlUri);
     setOperation(operation);
     setWsdlContext(new WsdlContext(wsdlUri));
@@ -158,4 +158,5 @@ public class SMBMappingGenerator extends DefaultMappingGenerator {
   public void setMappingDefaultValuesRepository(MappingDefaultValuesRepository mappingDefaultValuesRepository) {
     this.mappingDefaultValuesRepository = mappingDefaultValuesRepository;
   }
+  
 }
