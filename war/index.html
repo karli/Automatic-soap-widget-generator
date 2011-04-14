@@ -16,177 +16,22 @@
       //Tunnel url for tunneling widgets through host server
       var tunnel = url + "tunnel.html";
 
+      //      var transformerWidget = url + "./TransformerWidget.html?gwt.codesvr=127.0.0.1:9997";
+      var transformerWidget = url + "./TransformerWidget.html";
       //Widgets' urls
       var serviceWidgetUri = url + 'widgets/SoapServiceWidget.html';
-      //var transformerWidget = url + "./TransformerWidget.html?gwt.codesvr=127.0.0.1:9997";
-      var transformerWidget = url + "./TransformerWidget.html";
       var nameEntryWidget = url + "widgets/NameEntryWidget.html";
       var regCodeWidget = url + "widgets/RegistryNameEntry.html";
       var messageDumpWidget = url + "widgets/MessageDumpWidget.html";
       var textualContentWidget = url + "widgets/TextualContent.html";
 
-      // managed hub must be a global variable
-      var managedHub = null;
-      var mashupArea = null;
-
-      var soapServiceWidgets = [];
-
-      /*
-       * Security Manager Callbacks
-       */
-      function onMHPublish(topic, data, publishContainer, subscribeContainer) {
-        /* Callback for publish requests. This example approves all publish requests. */
-
-        return true;
-      }
-      function onMHSubscribe(topic, container) {
-        /* Callback for subscribe requests. This example approves all subscribe requests. */
-        return true;
-      }
-      function onMHUnsubscribe(topic, container) {
-        /* Callback for unsubscribe requests. This example approves all subscribe requests. */
-        return true;
-      }
-      function onMHSecurityAlert(source, alertType) {  /* Callback for security alerts */  }
-
-      /* Application initializes in response to document load event */
-
       function loadEventHandler() {
-        mashupArea = document.getElementById("mashupArea");
-        /*
-         * Create a Managed Hub instance
-         */
+        setUpEnvironment(tunnel, transformerWidget);
 
-        managedHub = new OpenAjax.hub.ManagedHub(
-              {
-                onPublish:       onMHPublish,
-                onSubscribe:     onMHSubscribe,
-                onUnsubscribe:   onMHUnsubscribe,
-                onSecurityAlert: onMHSecurityAlert
-              }
-        );
-
-        /*
-         * Create an InlineHubClient and InlineContainer for client1
-         */
-
-        function onClientSecurityAlert(source, alertType) {  /* Handle client-side security alerts */  }
-        function onClientConnect(container) {        /* Called when client connects */   }
-        function onClientDisconnect(container) {     /* Called when client disconnects */ }
-
-        /*
-         * Create an IframeContainer for client1, 2 and 3
-         */
-
-        /*
-         * NOTE: If we wish to completely isolate ClientApp2 from the manager
-         * and from all other client applications, the uri parameter container2
-         * must have a different subdomain from the main application and all other
-         * client applications. In this case, the main application has a URL
-         * http://mashup.foo.bar.com/something, and we set client2's URI to
-         * c0.foo.bar.com
-         */
-
-    //Initiating widget 2
-//		var div2 = document.createElement( "span" );
-//		mashupArea.appendChild(div2);
-//		var container2 = new OpenAjax.hub.IframeContainer(managedHub , "client2",
-//		  {
-//		    Container: {
-//		      onSecurityAlert: onClientSecurityAlert,
-//		      onConnect:       onClientConnect,
-//		      onDisconnect:    onClientDisconnect
-//		    },
-//		    IframeContainer: {
-//		      // DOM element that is parent of this container:
-//		      parent:      div2,
-//		      // Container's iframe will have these CSS styles:
-//		      iframeAttrs: { id: "widgetBox" },
-//		      // Container's iframe loads the following URL:
-//		      uri: nameEntryWidget,
-//		      // Tunnel URL required by IframeHubClient. This particular tunnel URL
-//		      // is the one that corresponds to release/all/OpenAjaxManagedHub-all.js:
-//		      tunnelURI:  tunnel
-//		    }
-//		  }
-//		);
-
-        //Initiating widget 2
-		var div3 = document.createElement( "span" );
-		mashupArea.appendChild(div3);
-		var container2 = new OpenAjax.hub.IframeContainer(managedHub , "client3",
-		  {
-		    Container: {
-		      onSecurityAlert: onClientSecurityAlert,
-		      onConnect:       onClientConnect,
-		      onDisconnect:    onClientDisconnect
-		    },
-		    IframeContainer: {
-		      // DOM element that is parent of this container:
-		      parent:      div3,
-		      // Container's iframe will have these CSS styles:
-		      iframeAttrs: { id: "widgetBox" },
-		      // Container's iframe loads the following URL:
-		      uri: regCodeWidget,
-		      // Tunnel URL required by IframeHubClient. This particular tunnel URL
-		      // is the one that corresponds to release/all/OpenAjaxManagedHub-all.js:
-		      tunnelURI:  tunnel
-		    }
-		  }
-		);
-
-     //Initiating widget 2
-//		var textualContent = document.createElement( "span" );
-//		mashupArea.appendChild(textualContent);
-//		var container2 = new OpenAjax.hub.IframeContainer(managedHub , "textualContentWidget",
-//		  {
-//		    Container: {
-//		      onSecurityAlert: onClientSecurityAlert,
-//		      onConnect:       onClientConnect,
-//		      onDisconnect:    onClientDisconnect
-//		    },
-//		    IframeContainer: {
-//		      // DOM element that is parent of this container:
-//		      parent:      textualContent,
-//		      // Container's iframe will have these CSS styles:
-//		      iframeAttrs: { id: "widgetBox2" },
-//		      // Container's iframe loads the following URL:
-//		      uri: textualContentWidget,
-//		      // Tunnel URL required by IframeHubClient. This particular tunnel URL
-//		      // is the one that corresponds to release/all/OpenAjaxManagedHub-all.js:
-//		      tunnelURI:  tunnel
-//		    }
-//		  }
-//		);
-
-		var div4 = document.createElement( "span" );
-		mashupArea.appendChild(div4);
-		var container2 = new OpenAjax.hub.IframeContainer(managedHub , "client1",
-		  {
-		    Container: {
-		      onSecurityAlert: onClientSecurityAlert,
-		      onConnect:       onClientConnect,
-		      onDisconnect:    onClientDisconnect
-		    },
-		    IframeContainer: {
-		      // DOM element that is parent of this container:
-		      parent:      div3,
-		      // Container's iframe will have these CSS styles:
-		      iframeAttrs: { id: "smallHidden" },
-		      // Container's iframe loads the following URL:
-		      uri: messageDumpWidget,
-		      // Tunnel URL required by IframeHubClient. This particular tunnel URL
-		      // is the one that corresponds to release/all/OpenAjaxManagedHub-all.js:
-		      tunnelURI:  tunnel
-		    }
-		  }
-		);
-
-
-      //Initiating widget 4 (Transformer Widget)
-      var div4 = document.createElement( "span" );
-      mashupArea.appendChild(div4);
-      var container4 = new OpenAjax.hub.IframeContainer(managedHub , "client4",
+        //init regcode widget
+        var div3 = document.createElement( "span" );
+        mashupArea.appendChild(div3);
+        var container2 = new OpenAjax.hub.IframeContainer(managedHub , "client3",
         {
           Container: {
             onSecurityAlert: onClientSecurityAlert,
@@ -195,18 +40,41 @@
           },
           IframeContainer: {
             // DOM element that is parent of this container:
-            parent:      div4,
+            parent:      div3,
             // Container's iframe will have these CSS styles:
-            iframeAttrs: { id: "smallHidden" },
+            iframeAttrs: { id: "widgetBox" },
             // Container's iframe loads the following URL:
-            uri: transformerWidget,
+            uri: regCodeWidget,
             // Tunnel URL required by IframeHubClient. This particular tunnel URL
             // is the one that corresponds to release/all/OpenAjaxManagedHub-all.js:
             tunnelURI:  tunnel
           }
         }
-      );
+        );
 
+        // init message dump widget
+        var div4 = document.createElement( "span" );
+        mashupArea.appendChild(div4);
+        var container2 = new OpenAjax.hub.IframeContainer(managedHub , "client1",
+        {
+          Container: {
+            onSecurityAlert: onClientSecurityAlert,
+            onConnect:       onClientConnect,
+            onDisconnect:    onClientDisconnect
+          },
+          IframeContainer: {
+            // DOM element that is parent of this container:
+            parent:      div3,
+            // Container's iframe will have these CSS styles:
+            iframeAttrs: { id: "smallHidden" },
+            // Container's iframe loads the following URL:
+            uri: messageDumpWidget,
+            // Tunnel URL required by IframeHubClient. This particular tunnel URL
+            // is the one that corresponds to release/all/OpenAjaxManagedHub-all.js:
+            tunnelURI:  tunnel
+          }
+        }
+        );
       }
 
       function generateWidgetAction() {
@@ -214,7 +82,12 @@
         var operation = document.getElementById('operation').value;
         generateWidget(wsdlUri, operation, serviceWidgetUri, soapServiceWidgets);
       }
-      </script>
+
+//      function generateTwoWidgets() {
+//        generateWidget("http://xml-services.ioc.ee:8080/ioc.ee:8080/0.1/EstonianBusinessRegistryService?wsdl", "findBusinesses", serviceWidgetUri, soapServiceWidgets);
+//        generateWidget("http://xml-services.ioc.ee:8080/ioc.ee:8080/0.1/EstonianBusinessRegistryService?wsdl", "getListOfAnnualReports", serviceWidgetUri, soapServiceWidgets);
+//      }
+    </script>
     </head>
     <body onload="loadEventHandler()">
       <div id="mashupArea"></div>
@@ -223,6 +96,7 @@
         <input type="text" id="wsdlUri" />
         <input type="text" id="operation" />
         <input type="button" value="Generate widget" onclick="generateWidgetAction()"/>
+        <!--<input type="button" value="generate two widgets" onclick="generateTwoWidgets()"/>-->
       </div>
     </body>
   </html>
