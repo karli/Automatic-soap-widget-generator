@@ -52,7 +52,7 @@ function setUpEnvironment(tunnelUrl, transformerWidgetUrl) {
   );
 }
 
-function generateWidget(wsdlUri, operation, soapServiceWidgetUri, existingServiceWidgets) {
+function generateWidget(wsdlUri, operation, soapServiceWidgetUri) {
   function onClientSecurityAlert(source, alertType) {  /* Handle client-side security alerts */
   }
 
@@ -66,14 +66,14 @@ function generateWidget(wsdlUri, operation, soapServiceWidgetUri, existingServic
 
   var serviceWidgetName = widgetUri;
 
-  if (existingServiceWidgets[serviceWidgetName] != null) {
+  if (soapServiceWidgets[serviceWidgetName] != null) {
     alert('Avoiding adding duplicate service widget for ' + serviceWidgetName);
     return;
   }
 
   // Soap Service Widget
-  existingServiceWidgets[serviceWidgetName] = document.createElement("span");
-  mashupArea.appendChild(existingServiceWidgets[serviceWidgetName]);
+  soapServiceWidgets[serviceWidgetName] = document.createElement("span");
+  mashupArea.appendChild(soapServiceWidgets[serviceWidgetName]);
   var container = new OpenAjax.hub.IframeContainer(managedHub, serviceWidgetName,
   {
     Container: {
