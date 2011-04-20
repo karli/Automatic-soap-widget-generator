@@ -83,7 +83,7 @@ function generateWidget(wsdlUri, operation, soapServiceWidgetUri) {
     },
     IframeContainer: {
       // DOM element that is parent of this container:
-      parent:      existingServiceWidgets[serviceWidgetName],
+      parent:      soapServiceWidgets[serviceWidgetName],
       // Container's iframe will have these CSS styles:
       iframeAttrs: { id: "smallHidden" },
       // Container's iframe loads the following URL:
