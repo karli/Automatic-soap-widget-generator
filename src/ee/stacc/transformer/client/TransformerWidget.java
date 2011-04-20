@@ -30,6 +30,7 @@ public class TransformerWidget implements EntryPoint {
 	private static final String MAPPINGS_FILE = "mappings.xml";
   private static final String TOPIC_ADD_URL_MAPPING = "ee.stacc.transformer.mapping.add.url";
   private static final String TOPIC_REMOVE_URL_MAPPING = "ee.stacc.transformer.mapping.remove.url";
+  private static final String TOPIC_ADD_RAW_MAPPING = "ee.stacc.transformer.mapping.add.raw";
 
 	//Proxy class for communicating with the hub.
 	private TransformerHubProxy hubProxy = new TransformerHubProxy();
@@ -99,6 +100,11 @@ public class TransformerWidget implements EntryPoint {
       return;
     }
 
+    if (TOPIC_ADD_RAW_MAPPING.equals(topic)) {
+      addRawMapping(publisherData);
+      return;
+    }
+
     if (TOPIC_REMOVE_URL_MAPPING.equals(topic)) {
       // TODO remove mapping
       return;
@@ -135,6 +141,10 @@ public class TransformerWidget implements EntryPoint {
 		}
 		
 	}
+
+  private void addRawMapping(Object publisherData) {
+    processMappings((String)publisherData);
+  }
 
   private void addUrlMapping(Object publisherData) {
     // We expect a simple string that represents the url of mapping document
