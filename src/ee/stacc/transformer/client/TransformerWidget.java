@@ -142,7 +142,7 @@ public class TransformerWidget implements EntryPoint {
 		
 	}
 
-  private void addRawMapping(Object publisherData) {
+  public void addRawMapping(Object publisherData) {
     processMappings((String)publisherData);
   }
 
@@ -268,7 +268,7 @@ public class TransformerWidget implements EntryPoint {
 
 			//Load schemas for each data frame
 			for(DataFrame dataFrame: dataFrames.values()) {
-				if(dataFrame.isOutputOnly() == false && dataFrame.getSchemaURL()!=null && dataFrame.getSchemaURL().isEmpty() == false)
+				if(!dataFrame.isOutputOnly() && dataFrame.getSchemaURL()!=null && !dataFrame.getSchemaURL().isEmpty())
 					dataFrame.loadSchema();
 			}
 		} 

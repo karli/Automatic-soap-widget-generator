@@ -15,15 +15,16 @@ public class DataFrameLoader {
 	public static final String TOPIC = "topic";
 	public static final String FORMAT = "format";
 	public static final String SCHEMA = "schema";
-	public static final String MAPPINGS = "mappings";
-	public static final String MAPPING = "mapping";
-	public static final String GLOBAL_REF = "global_ref";
-	public static final String PATH = "path";
-	public static final String REPEATING_ELEMENT_GROUP = "repeating_element_group";
-	public static final String OUTGOING_ONLY = "outgoing_only";
-	public static final String TRUE = "true";
-	public static final String CONSTANT = "constant";
-	public static final String VALUE = "value";
+  public static final String SCHEMA_DATA = "schema_data";
+  public static final String MAPPINGS = "mappings";
+  public static final String MAPPING = "mapping";
+  public static final String GLOBAL_REF = "global_ref";
+  public static final String PATH = "path";
+  public static final String REPEATING_ELEMENT_GROUP = "repeating_element_group";
+  public static final String OUTGOING_ONLY = "outgoing_only";
+  public static final String TRUE = "true";
+  public static final String CONSTANT = "constant";
+  public static final String VALUE = "value";
 	public static final String DEFAULT = "default";
 
   private Element frameElement;
@@ -53,6 +54,13 @@ public class DataFrameLoader {
     if(frameElement.getElementsByTagName(SCHEMA).getLength() > 0) {
       String schemaUrl = frameElement.getElementsByTagName(SCHEMA).item(0).getFirstChild().getNodeValue();
       dataFrame.setSchemaURL(schemaUrl);
+    }
+
+    if(frameElement.getElementsByTagName(SCHEMA_DATA).getLength() > 0){
+      if (frameElement.getElementsByTagName(SCHEMA_DATA).item(0).getChildNodes().getLength() > 0) {
+        String schemaData = frameElement.getElementsByTagName(SCHEMA_DATA).item(0).getFirstChild().getNodeValue();
+        dataFrame.updateSchema(schemaData);
+      }
     }
 
     //Load the mapping elements

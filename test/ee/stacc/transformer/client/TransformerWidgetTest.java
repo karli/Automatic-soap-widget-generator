@@ -1,11 +1,9 @@
 package ee.stacc.transformer.client;
 
-import com.google.gwt.json.client.JSONArray;
-import com.google.gwt.json.client.JSONObject;
-import com.google.gwt.json.client.JSONString;
-import com.google.gwt.json.client.JSONValue;
+import com.google.gwt.json.client.*;
 import com.google.gwt.junit.client.GWTTestCase;
 import ee.stacc.transformer.client.data.DataPackage;
+import ee.stacc.transformer.client.data.json.JsonDataFrame;
 
 import java.util.List;
 
@@ -92,6 +90,30 @@ public class TransformerWidgetTest extends GWTTestCase{
     column2.put("name", new JSONString("name2"));
     columns2.set(0, column2);
     return publisherData;
+  }
+
+  public void testAddRawMappings() {
+    String topic = "test.topic";
+    String jsonSchemaData = "{\"type\":\"object\",\"properties\":{\"name\":{\"type\":\"string\"}}}";
+    String mappings  =
+            "<frames>" +
+            "<frame>" +
+            "<topic>" + topic + "</topic>" +
+            "<format>json</format>" +
+            "<schema_data>" + jsonSchemaData + "</schema_data>" +
+            "<mappings>" +
+                "<mapping>" +
+                  "<global_ref>" + GLOBAL_REF + "</global_ref>" +
+                  "<path>/name</path>" +
+                "</mapping>" +
+            "</mappings>" +
+            "</frame>" +
+            "</frames>";
+    transformerWidget.addRawMapping(mappings);
+    JsonDataFrame dataFrame = (JsonDataFrame)transformerWidget.getMatcher().getDataFrames().get(topic);
+    assertTrue(dataFrame != null);
+    assertTrue(dataFrame.getJsonSchema().containsKey("properties"));
+    assertTrue(dataFrame.getJsonSchema().get("properties").isObject().containsKey("name"));
   }
 
   @Override
