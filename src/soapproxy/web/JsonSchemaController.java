@@ -4,8 +4,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import soapproxy.application.schema.DefaultJsonSchemaConverter;
-import soapproxy.application.schema.JsonSchemaConverter;
+import soapproxy.components.schema.DefaultJsonSchemaGenerator;
+import soapproxy.components.schema.JsonSchemaGenerator;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
@@ -20,8 +20,8 @@ public class JsonSchemaController {
     httpServletResponse.setContentType(DEFAULT_JAVASCRIPT_TYPE);
 
     PrintWriter out = httpServletResponse.getWriter();
-    JsonSchemaConverter converter = new DefaultJsonSchemaConverter(wsdl, operation, DefaultJsonSchemaConverter.MessageType.INPUT_MESSAGE);
-    out.write(converter.getJsonSchema());
+    JsonSchemaGenerator jsonSchemaGenerator = new DefaultJsonSchemaGenerator(wsdl, operation, DefaultJsonSchemaGenerator.MessageType.INPUT_MESSAGE);
+    out.write(jsonSchemaGenerator.getJsonSchema());
     return null;
   }
 }

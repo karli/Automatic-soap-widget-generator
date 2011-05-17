@@ -1,4 +1,4 @@
-package soapproxy.application.mapping;
+package soapproxy.components.mapping;
 
 import com.eviware.soapui.impl.wsdl.support.wsdl.WsdlContext;
 import com.eviware.soapui.impl.wsdl.support.wsdl.WsdlUtils;

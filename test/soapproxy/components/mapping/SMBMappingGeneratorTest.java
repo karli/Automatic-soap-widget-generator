@@ -1,4 +1,4 @@
-package soapproxy.application.mapping;
+package soapproxy.components.mapping;
 
 import org.custommonkey.xmlunit.Diff;
 import org.dom4j.DocumentException;

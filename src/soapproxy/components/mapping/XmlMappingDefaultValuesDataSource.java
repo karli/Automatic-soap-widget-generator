@@ -1,4 +1,4 @@
-package soapproxy.application.mapping;
+package soapproxy.components.mapping;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;

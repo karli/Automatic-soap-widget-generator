@@ -11,7 +11,7 @@
 
     <context:property-placeholder location="/WEB-INF/application-config.properties" />
 
-    <bean id="mappingDefaultsDataSource" class="soapproxy.application.mapping.XmlMappingDefaultValuesDataSource">
+    <bean id="mappingDefaultsDataSource" class="soapproxy.components.mapping.XmlMappingDefaultValuesDataSource">
         <property name="xmlSource" value="${mappingdefaults.xmldatasource.url}"/>
     </bean>
     

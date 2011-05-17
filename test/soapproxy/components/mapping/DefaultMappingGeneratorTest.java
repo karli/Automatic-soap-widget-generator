@@ -1,10 +1,6 @@
-package soapproxy.application.mapping;
+package soapproxy.components.mapping;
 
-import org.apache.xmlbeans.XmlObject;
 import org.custommonkey.xmlunit.Diff;
-import org.dom4j.dom.DOMElement;
-import org.junit.Test;
-import org.springframework.mock.web.MockHttpServletRequest;
 
 import java.io.BufferedReader;
 import java.io.File;

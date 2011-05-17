@@ -1,4 +1,4 @@
-package soapproxy.application.mapping;
+package soapproxy.components.mapping;
 
 public class MappingDefaultValueRow {
   private String sourceUrl;

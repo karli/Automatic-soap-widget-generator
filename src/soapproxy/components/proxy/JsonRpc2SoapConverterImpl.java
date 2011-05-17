@@ -1,4 +1,4 @@
-package soapproxy.application;
+package soapproxy.components.proxy;
 
 import com.eviware.soapui.impl.wsdl.support.soap.SoapMessageBuilder;
 import com.eviware.soapui.impl.wsdl.support.soap.SoapUtils;
@@ -13,6 +13,7 @@ import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
+import soapproxy.components.proxy.JsonRpc2SoapConverter;
 import soapproxy.util.Xml2JsonConverter;
 
 import javax.wsdl.*;
@@ -26,7 +27,7 @@ import java.io.OutputStream;
 import java.util.Iterator;
 
 
-public class JsonRpc2SoapImpl implements JsonRpc2Soap {
+public class JsonRpc2SoapConverterImpl implements JsonRpc2SoapConverter {
 
   public static final String SOATRADER_LICENSE = "5fad0242f085efedd81272894c739f092854c4a6cc6932feb3f7f0000000ffff";
   public static final QName SOATRADER_LICENSE_ELEMENT = new QName("http://ws.soatrader.com/", "SOATraderLicense");
@@ -34,7 +35,7 @@ public class JsonRpc2SoapImpl implements JsonRpc2Soap {
   public static final String VALUE_ELEMENT_NAME = "_value_";
 
   public static void main(String[] args) throws Exception {
-    JsonRpc2Soap j2s = new JsonRpc2SoapImpl();
+    JsonRpc2SoapConverter j2s = new JsonRpc2SoapConverterImpl();
     String jsonRequest = "{\"getListOfAnnualReports\":{\"registryCode\":\"11224441\", \"languageId\":\"0\"}}";
     String wsdlUri = "http://xml-services.ioc.ee:8080/ioc.ee:8080/0.1/EstonianBusinessRegistryService?wsdl";
     String operationName = "getListOfAnnualReports";
@@ -43,11 +44,11 @@ public class JsonRpc2SoapImpl implements JsonRpc2Soap {
   }
 
   @Override
-  public String convert(String jsonRequest, String wsdlUri, String operationName) throws Exception {
+  public String convert(String jsonRpcRequestParams, String wsdlUri, String operationName) throws Exception {
     ObjectMapper mapper = new ObjectMapper();
-    JsonNode jsonRequestParams = mapper.readValue(jsonRequest, JsonNode.class);
+    JsonNode jsonRequestParamsNode = mapper.readValue(jsonRpcRequestParams, JsonNode.class);
     // create a soap request
-    XmlObject soapRequest = this.convertToSoapMessage(wsdlUri, operationName, jsonRequestParams);
+    XmlObject soapRequest = this.convertToSoapMessage(wsdlUri, operationName, jsonRequestParamsNode);
     // TODO: remove these comments as license must be provided by json schema
     // set soatrader license if such element exists in header
     //setSoaTraderLicenseIfNeeded(soapRequest);

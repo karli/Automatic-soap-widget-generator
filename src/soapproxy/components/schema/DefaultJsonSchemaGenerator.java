@@ -1,7 +1,5 @@
-package soapproxy.application.schema;
+package soapproxy.components.schema;
 
-import com.eviware.soapui.impl.wsdl.support.soap.SoapUtils;
-import com.eviware.soapui.impl.wsdl.support.soap.SoapVersion;
 import com.eviware.soapui.impl.wsdl.support.wsdl.WsdlContext;
 import com.eviware.soapui.impl.wsdl.support.wsdl.WsdlUtils;
 import org.apache.xmlbeans.SchemaType;
@@ -17,7 +15,7 @@ import javax.wsdl.Definition;
 import javax.wsdl.Part;
 import java.util.Stack;
 
-public class DefaultJsonSchemaConverter implements JsonSchemaConverter {
+public class DefaultJsonSchemaGenerator implements JsonSchemaGenerator {
   private String wsdlUri;
   private String operationName;
   private MessageType messageType;
@@ -27,7 +25,7 @@ public class DefaultJsonSchemaConverter implements JsonSchemaConverter {
     INPUT_MESSAGE, OUTPUT_MESSAGE, FAULT_MESSAGE
   }
 
-  public DefaultJsonSchemaConverter(String wsdlUri, String operationName, MessageType messageType) {
+  public DefaultJsonSchemaGenerator(String wsdlUri, String operationName, MessageType messageType) {
     this.wsdlUri = wsdlUri;
     this.operationName = operationName;
     this.messageType = messageType;
