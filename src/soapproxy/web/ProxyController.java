@@ -7,7 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import soapproxy.application.Json2Soap;
+import soapproxy.application.JsonRpc2SoapImpl;
+import soapproxy.application.JsonRpc2Soap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,7 +36,7 @@ public class ProxyController {
     JsonNode requestParams = jsonRpcRequest.get("params");
     String requestId = jsonRpcRequest.get("id").getValueAsText();
 
-    Json2Soap j2s = new Json2Soap();
+    JsonRpc2Soap j2s = new JsonRpc2SoapImpl();
     String jsonResponse = j2s.convert(requestParams.toString(), wsdlUrl, operation);
 
     String result = httpServletRequest.getParameter("callback") + "("

@@ -26,7 +26,7 @@ import java.io.OutputStream;
 import java.util.Iterator;
 
 
-public class Json2Soap {
+public class JsonRpc2SoapImpl implements JsonRpc2Soap {
 
   public static final String SOATRADER_LICENSE = "5fad0242f085efedd81272894c739f092854c4a6cc6932feb3f7f0000000ffff";
   public static final QName SOATRADER_LICENSE_ELEMENT = new QName("http://ws.soatrader.com/", "SOATraderLicense");
@@ -34,7 +34,7 @@ public class Json2Soap {
   public static final String VALUE_ELEMENT_NAME = "_value_";
 
   public static void main(String[] args) throws Exception {
-    Json2Soap j2s = new Json2Soap();
+    JsonRpc2Soap j2s = new JsonRpc2SoapImpl();
     String jsonRequest = "{\"getListOfAnnualReports\":{\"registryCode\":\"11224441\", \"languageId\":\"0\"}}";
     String wsdlUri = "http://xml-services.ioc.ee:8080/ioc.ee:8080/0.1/EstonianBusinessRegistryService?wsdl";
     String operationName = "getListOfAnnualReports";
@@ -42,6 +42,7 @@ public class Json2Soap {
     System.out.println(jsonResponse);
   }
 
+  @Override
   public String convert(String jsonRequest, String wsdlUri, String operationName) throws Exception {
     ObjectMapper mapper = new ObjectMapper();
     JsonNode jsonRequestParams = mapper.readValue(jsonRequest, JsonNode.class);

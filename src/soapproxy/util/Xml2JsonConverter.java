@@ -7,7 +7,7 @@ import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
 import org.codehaus.jackson.node.ObjectNode;
 import org.codehaus.jackson.node.TextNode;
-import soapproxy.application.Json2Soap;
+import soapproxy.application.JsonRpc2SoapImpl;
 
 import java.io.StringReader;
 
@@ -63,7 +63,7 @@ public class Xml2JsonConverter {
       addAttributesAsChildren(objectNode, element);
       if (element.getChildElements().size() == 0) {
         // add value to a special value node
-        objectNode.put(Json2Soap.VALUE_ELEMENT_NAME, element.getValue());
+        objectNode.put(JsonRpc2SoapImpl.VALUE_ELEMENT_NAME, element.getValue());
       } else {
         for (int i = 0; i < element.getChildCount(); i++) {
           Node child = element.getChild(i);
@@ -113,7 +113,7 @@ public class Xml2JsonConverter {
     // process attributes
     for (int i = 0; i < element.getAttributeCount(); i++) {
       Attribute attr = element.getAttribute(i);
-      newNode.put(Json2Soap.ATTRIBUTE_ELEMENT_PREFIX + attr.getLocalName(), attr.getValue());
+      newNode.put(JsonRpc2SoapImpl.ATTRIBUTE_ELEMENT_PREFIX + attr.getLocalName(), attr.getValue());
     }
   }
 

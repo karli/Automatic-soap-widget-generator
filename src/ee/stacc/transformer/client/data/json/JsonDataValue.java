@@ -78,8 +78,7 @@ public class JsonDataValue extends AtomicDataValue {
 			GWT.log("Mismatch between data and mappings. No data at "+path, null);
 			return null;
 		}
-		CollectedDataValue dataValue = JSONGenerator.getJsonDataValue(jsonDataValue, mapping);
-		return dataValue;
+    return JSONGenerator.getJsonDataValue(jsonDataValue, mapping);
 	}
 	
 	@Override
