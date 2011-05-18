@@ -29,9 +29,12 @@ public class SmdController {
     String smd = smdGenerator.getSmd(baseUrl, wsdlDocumentUrl, operationName);
 
     PrintWriter out = httpServletResponse.getWriter();
-    out.write(httpServletRequest.getParameter("callback") + "(");
-    out.write(smd);
-    out.write(");");
+    String callbackFunction = httpServletRequest.getParameter("callback");
+    if (callbackFunction != null) {
+      out.write(callbackFunction + "(" + smd + ");");
+    } else {
+      out.write(smd);
+    }
     return null;
   }
 
