@@ -29,19 +29,8 @@ import java.util.Iterator;
 
 public class JsonRpc2SoapConverterImpl implements JsonRpc2SoapConverter {
 
-  public static final String SOATRADER_LICENSE = "5fad0242f085efedd81272894c739f092854c4a6cc6932feb3f7f0000000ffff";
-  public static final QName SOATRADER_LICENSE_ELEMENT = new QName("http://ws.soatrader.com/", "SOATraderLicense");
   public static final String ATTRIBUTE_ELEMENT_PREFIX = "_attr_";
   public static final String VALUE_ELEMENT_NAME = "_value_";
-
-  public static void main(String[] args) throws Exception {
-    JsonRpc2SoapConverter j2s = new JsonRpc2SoapConverterImpl();
-    String jsonRequest = "{\"getListOfAnnualReports\":{\"registryCode\":\"11224441\", \"languageId\":\"0\"}}";
-    String wsdlUri = "http://xml-services.ioc.ee:8080/ioc.ee:8080/0.1/EstonianBusinessRegistryService?wsdl";
-    String operationName = "getListOfAnnualReports";
-    String jsonResponse = j2s.convert(jsonRequest, wsdlUri, operationName);
-    System.out.println(jsonResponse);
-  }
 
   @Override
   public String convert(String jsonRpcRequestParams, String wsdlUri, String operationName) throws Exception {
@@ -49,9 +38,6 @@ public class JsonRpc2SoapConverterImpl implements JsonRpc2SoapConverter {
     JsonNode jsonRequestParamsNode = mapper.readValue(jsonRpcRequestParams, JsonNode.class);
     // create a soap request
     XmlObject soapRequest = this.convertToSoapMessage(wsdlUri, operationName, jsonRequestParamsNode);
-    // TODO: remove these comments as license must be provided by json schema
-    // set soatrader license if such element exists in header
-    //setSoaTraderLicenseIfNeeded(soapRequest);
     // get a response from the service
     SOAPMessage response = this.doRequest(soapRequest, wsdlUri);
     OutputStream out = new ByteArrayOutputStream();
@@ -59,39 +45,15 @@ public class JsonRpc2SoapConverterImpl implements JsonRpc2SoapConverter {
     String responseString = out.toString();
     XmlObject responseXml = XmlObject.Factory.parse(responseString);
 
-    // NO SUPPORT FOR HEADERS at the moment
-    XmlObject responseBody = SoapUtils.getBodyElement(responseXml, getSoapVersion());
-//    XmlObject attributelessResponseBody = this.removeAttributes(responseBody);
-
-//    JSON json = xmlSerializer.read(attributelessResponseBody.xmlText());
     Xml2JsonConverter converter = new Xml2JsonConverter();
-    JsonNode jsonNode = converter.convert(responseBody.xmlText());
+    JsonNode jsonNode = converter.convert(responseXml.xmlText());
 
-    return jsonNode.toString();
-  }
-
-  private void setSoaTraderLicenseIfNeeded(XmlObject soapRequest) throws XmlException {
-    XmlObject header = SoapUtils.getHeaderElement(soapRequest, getSoapVersion(), true);
-    XmlCursor headerCursor = header.newCursor();
-    if (headerCursor.toChild(SOATRADER_LICENSE_ELEMENT)) {
-      headerCursor.setTextValue(SOATRADER_LICENSE);
-    }
+    // show only contents of envelope
+    return jsonNode.get("Envelope").toString();
   }
 
 
-  private XmlObject removeAttributes(XmlObject responseBody) {
-    XmlCursor cursor = responseBody.newCursor();
-    while (cursor.hasNextToken()) {
-      cursor.toNextToken();
-      if (cursor.isAttr()) {
-        cursor.removeXml();
-      }
-    }
-
-    return responseBody;
-  }
-
-  private SOAPMessage doRequest(XmlObject soapRequest, String wsdlUri) throws SOAPException, WSDLException, IOException {
+ private SOAPMessage doRequest(XmlObject soapRequest, String wsdlUri) throws SOAPException, WSDLException, IOException {
     System.out.println(soapRequest);
     SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
     SOAPConnection soapConnection = soapConnectionFactory.createConnection();
@@ -110,7 +72,7 @@ public class JsonRpc2SoapConverterImpl implements JsonRpc2SoapConverter {
     return reply;
   }
 
-  private static Definition getDefinition(String wsdlUri) throws WSDLException {
+  private Definition getDefinition(String wsdlUri) throws WSDLException {
     WSDLFactory factory = WSDLFactoryImpl.newInstance();
     WSDLReaderImpl reader = (WSDLReaderImpl) factory.newWSDLReader();
     return reader.readWSDL(wsdlUri);
@@ -141,10 +103,6 @@ public class JsonRpc2SoapConverterImpl implements JsonRpc2SoapConverter {
     cursor.dispose();
 
     return soapMessageTemplate;
-  }
-
-  private SoapVersion11 getSoapVersion() {
-    return SoapVersion.Soap11;
   }
 
   /**
@@ -234,28 +192,5 @@ public class JsonRpc2SoapConverterImpl implements JsonRpc2SoapConverter {
     }
 
     return childExists;
-  }
-
-
-  /**
-   * @param jsonRequestParams
-   * @param localName
-   * @return
-   */
-  private JsonNode findJsonNode(JsonNode jsonRequestParams, String localName) {
-    JsonNode node = null;
-    if (jsonRequestParams.isArray()) {
-      for (Iterator it = jsonRequestParams.getElements(); it.hasNext();) {
-        JsonNode tmpNode = findJsonNode((JsonNode) it.next(), localName);
-        if (tmpNode != null) return tmpNode;
-      }
-    }
-    for (Iterator it = jsonRequestParams.getFieldNames(); it.hasNext();) {
-      String fieldName = (String) it.next();
-      if (fieldName.equals(localName)) {
-        node = jsonRequestParams.get(fieldName);
-      }
-    }
-    return node;
   }
 }
