@@ -23,7 +23,7 @@ public class ProxyController {
   private static final String DEFAULT_JAVASCRIPT_TYPE = "text/javascript";
 
   @RequestMapping("/proxy")
-  protected ModelAndView handleRequest(@RequestParam("wsdl") String wsdlUrl,
+  public ModelAndView proxyRequest(@RequestParam("wsdl") String wsdlUrl,
                                        @RequestParam("operation") String operation,
                                        HttpServletRequest httpServletRequest,
                                        HttpServletResponse httpServletResponse) throws Exception {
