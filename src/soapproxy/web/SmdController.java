@@ -18,7 +18,7 @@ public class SmdController {
   private static final String DEFAULT_JAVASCRIPT_TYPE = "text/javascript";
 
   @RequestMapping("/smd")
-  protected ModelAndView getSmd(@RequestParam("wsdl") String wsdlDocumentUrl,
+  public ModelAndView getSmd(@RequestParam("wsdl") String wsdlDocumentUrl,
                                 @RequestParam("operation") String operationName,
                                 HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
     LOG.debug("Got request for SMD document");
