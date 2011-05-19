@@ -11,13 +11,13 @@
     <script src="pagebus.js"></script>
     <!--<script src="http://127.0.0.1:8888/dojo/dojo/dojo.js" type="text/javascript"></script>-->
     <script src="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojo/dojo.xd.js"></script>
-    <script src="SoapServiceWidget/SoapServiceWidget.js" type="text/javascript"></script>
+    <script src="ProxyWidget/ProxyWidget.js" type="text/javascript"></script>
     <script type="text/javascript">
 
       var wsdl = window.location.href.slice(window.location.href.indexOf('?wsdl=') + 6, window.location.href.indexOf('&operation='));
       var tmp = window.location.href.slice(window.location.href.indexOf('&operation=') + 11);
       var operation = tmp.slice(0, tmp.indexOf('&'));
-      var rootUrl = window.location.href.slice(0, window.location.href.indexOf('widgets/SoapServiceWidget.html'));
+      var rootUrl = window.location.href.slice(0, window.location.href.indexOf('widgets/ProxyWidget.html'));
       var mappingUrl =  rootUrl + 'mapping?wsdl='+wsdl+'&operation='+operation;
       var smdUrl = rootUrl + 'smd?wsdl='+wsdl+'&operation='+operation;
 

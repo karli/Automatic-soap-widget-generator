@@ -3,7 +3,7 @@
 var managedHub = null;
 var mashupArea = null;
  // container to store soap widgets that have already been generated. serves the purpose of avoiding duplicates
-var soapServiceWidgets = [];
+var proxyWidgets = [];
 
 
 
@@ -52,7 +52,7 @@ function setUpEnvironment(tunnelUrl, transformerWidgetUrl) {
   );
 }
 
-function generateWidget(wsdlUri, operation, soapServiceWidgetUri) {
+function generateWidget(wsdlUri, operation, ProxyWidgetUri) {
   function onClientSecurityAlert(source, alertType) {  /* Handle client-side security alerts */
   }
 
@@ -62,18 +62,18 @@ function generateWidget(wsdlUri, operation, soapServiceWidgetUri) {
   function onClientDisconnect(container) {     /* Called when client disconnects */
   }
 
-  var widgetUri = soapServiceWidgetUri + '?wsdl=' + wsdlUri + '&operation=' + operation;
+  var widgetUri = ProxyWidgetUri + '?wsdl=' + wsdlUri + '&operation=' + operation;
 
   var serviceWidgetName = widgetUri;
 
-  if (soapServiceWidgets[serviceWidgetName] != null) {
+  if (proxyWidgets[serviceWidgetName] != null) {
     alert('Avoiding adding duplicate service widget for ' + serviceWidgetName);
     return;
   }
 
   // Soap Service Widget
-  soapServiceWidgets[serviceWidgetName] = document.createElement("span");
-  mashupArea.appendChild(soapServiceWidgets[serviceWidgetName]);
+  proxyWidgets[serviceWidgetName] = document.createElement("span");
+  mashupArea.appendChild(proxyWidgets[serviceWidgetName]);
   var container = new OpenAjax.hub.IframeContainer(managedHub, serviceWidgetName,
   {
     Container: {
@@ -83,7 +83,7 @@ function generateWidget(wsdlUri, operation, soapServiceWidgetUri) {
     },
     IframeContainer: {
       // DOM element that is parent of this container:
-      parent:      soapServiceWidgets[serviceWidgetName],
+      parent:      proxyWidgets[serviceWidgetName],
       // Container's iframe will have these CSS styles:
       iframeAttrs: { id: "smallHidden" },
       // Container's iframe loads the following URL:

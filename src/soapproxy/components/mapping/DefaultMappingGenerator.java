@@ -15,7 +15,7 @@ import javax.wsdl.Definition;
 import javax.wsdl.Part;
 import javax.xml.namespace.QName;
 
-public class DefaultMappingGenerator extends AbstractMappingGenerator {
+public class DefaultMappingGenerator implements MappingGenerator {
 
   private WsdlContext wsdlContext;
   private String wsdlUri;
