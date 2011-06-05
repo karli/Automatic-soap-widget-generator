@@ -90,6 +90,7 @@ function generateWidget(wsdlUri, operation, ProxyWidgetUri) {
       uri: widgetUri,
       // Tunnel URL required by IframeHubClient. This particular tunnel URL
       // is the one that corresponds to release/all/OpenAjaxManagedHub-all.js:
+      // TODO: currently refers to a global variable, that might not exist
       tunnelURI:  tunnel
     }
   }

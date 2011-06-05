@@ -40,9 +40,9 @@
       /* Callback that is invoked upon successful connection to the Managed Hub */
       function connectCompleted ( hubClient, success, error ) {
         if (success) {
-          publishMappingToTransformerWidget();
-          hubClient.subscribe('ee.stacc.transformer.hasfinished', onTransformerFinished)
-          hubClient.subscribe(getTopic('input'), onData);
+          //publishMappingToTransformerWidget();
+          hubClient.subscribe('ee.stacc.transformer.hasfinished', onTransformerFinished, null, null, {PageBus: { cache: true }})
+          hubClient.subscribe(getTopic('input'), onData, null, null, {PageBus: { cache: true }});
         }
       }
 
