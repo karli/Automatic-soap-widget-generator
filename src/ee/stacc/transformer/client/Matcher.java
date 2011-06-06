@@ -325,6 +325,10 @@ public class Matcher {
 			if(dataPackageLists.size() <= 0)
 				dataPackageListsIterator.remove();
 		}
+
+    // NB! NB! NB! TODO this might not be a very smart thing to do
+    // after each incoming message, clear the existing data packages
+    unfinishedDataPackages.clear();
 	}
 
   public void addDataFrames(Map<String, DataFrame> dataFrames) {
