@@ -1,0 +1,1241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns1="http://schemas.xmlsoap.org/wsdl/soap/http" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://eer.soatrader.com/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soat="http://ws.soatrader.com/" name="EstonianBusinessRegistryService" targetNamespace="http://eer.soatrader.com/">
+   <wsdl:message name="SOATraderLicense">
+      <wsdl:part element="soat:SOATraderLicense" name="SOATraderLicense"/>
+   </wsdl:message>
+   <wsdl:message name="SOATraderUsageStatistics">
+      <wsdl:part element="soat:SOATraderUsageStatistics" name="SOATraderUsageStatistics"/>
+   </wsdl:message>
+  <wsdl:types>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://ws.soatrader.com/" elementFormDefault="qualified">
+         <element name="SOATraderLicense" xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#soatLicenseKey" type="string"/>
+         <element name="SOATraderUsageStatistics" type="soat:SOATraderUsageStatistics"/>
+         <complexType name="SOATraderUsageStatistics">
+            <sequence>
+               <element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#soatHitsMade" name="HitsMade" type="decimal"/>
+               <element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#soatHitsLeft" name="HitsLeft" type="decimal"/>
+            </sequence>
+         </complexType>
+      </schema>
+      <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://eer.soatrader.com/">
+         <xs:complexType name="listOfCompanyReportURLs">
+            <xs:sequence>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="report" nillable="true" type="tns:companyReportURL"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="companyReportURL">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#annualReportTypeCode" minOccurs="0" name="reportType" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#annualReportName" minOccurs="0" name="reportName" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#annualReportSize" name="reportSize" type="xs:int"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#publishingDate" minOccurs="0" name="publishDate" type="xs:dateTime"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#annualReportYear" name="reportYear" type="xs:int"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#annualReportURL" minOccurs="0" name="reportURL" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="personsWithRepresentationRight">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#companyName" minOccurs="0" name="businessName" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#businessRegistryCode" name="businessRegistryCode" type="xs:int"/>
+               <xs:element minOccurs="0" name="businessStatus" type="tns:businessStatus"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="personWithRight" nillable="true" type="tns:representative"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#remarkContent" maxOccurs="unbounded" minOccurs="0" name="rightException" nillable="true" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="businessStatus">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#statusCode" minOccurs="0" name="statusCode" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#statusDescription" minOccurs="0" name="statusDescription" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="representative">
+            <xs:sequence>
+               <xs:element minOccurs="0" name="personRole" type="tns:role"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#nationalIdCode" minOccurs="0" name="nationalIdCode" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#birthDate" minOccurs="0" name="birthDate" type="xs:dateTime"/>
+               <xs:element minOccurs="0" name="personName" type="tns:personName"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#hasSoleRepresentationRight" minOccurs="0" name="soleRepresentationRight" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="role">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#roleCode" minOccurs="0" name="roleCode" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#roleName" minOccurs="0" name="roleName" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="personName">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#firstName" minOccurs="0" name="firstName" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#lastName" minOccurs="0" name="lastName" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="listOfCommercialDeposits">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#numberOfResults" name="recordCount" type="xs:int"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="deposit" nillable="true" type="tns:commercialDeposit"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="commercialDeposit">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#commercialDepositNumber" name="depositNumber" type="xs:int"/>
+               <xs:element minOccurs="0" name="status" type="tns:pledgeStatus"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#deletionDate" minOccurs="0" name="deletionDate" type="xs:dateTime"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#registrationDate" minOccurs="0" name="registrationDate" type="xs:dateTime"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="pledgorBusinessName" nillable="true" type="tns:pledgorBusinessName"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="pledgorLocation" nillable="true" type="tns:pledgorLocation"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="sequenceNumber" nillable="true" type="tns:sequenceNumber"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="pledgeAmount" nillable="true" type="tns:pledgeAmount"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="pPledgee" nillable="true" type="tns:physicalPersonPledgee"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="lPledgee" nillable="true" type="tns:legalPersonPledgee"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="remark" nillable="true" type="tns:remark"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="deletionRemark" nillable="true" type="tns:deletionRemark"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="pledgeStatus">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#statusCode" minOccurs="0" name="stateCode" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#statusName" minOccurs="0" name="stateName" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="pledgorBusinessName">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#companyName" minOccurs="0" name="businessName" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#validityStartDate" minOccurs="0" name="validFromDate" type="xs:dateTime"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#validityExpirationDate" minOccurs="0" name="validUntilDate" type="xs:dateTime"/>
+               <xs:element minOccurs="0" name="attributes" type="tns:dataAttributes"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="dataAttributes">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#isRecordValid" name="isValid" type="xs:boolean"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#cardNumberInBusinessRegistry" minOccurs="0" name="cardNumber" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#annualReportColumnNumber" minOccurs="0" name="columnNumber" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#sequenceNumber" minOccurs="0" name="recordNumber" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#remarkContent" minOccurs="0" name="markOnCard" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#cardTypeInBusinessRegistry" minOccurs="0" name="cardType" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="pledgorLocation">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#addressLine" minOccurs="0" name="address" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#districtName" minOccurs="0" name="district" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#postalCode" minOccurs="0" name="postalCode" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#validityStartDate" minOccurs="0" name="validFromDate" type="xs:dateTime"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#validityExpirationDate" minOccurs="0" name="validUntilDate" type="xs:dateTime"/>
+               <xs:element minOccurs="0" name="attributes" type="tns:dataAttributes"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="sequenceNumber">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#sequenceNumber" name="sequenceNumber" type="xs:int"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#remarkContent" minOccurs="0" name="sequenceText" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#validityStartDate" minOccurs="0" name="validFromDate" type="xs:dateTime"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#validityExpirationDate" minOccurs="0" name="validUntilDate" type="xs:dateTime"/>
+               <xs:element minOccurs="0" name="attributes" type="tns:dataAttributes"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="pledgeAmount">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#monetaryAmount" name="amount" type="xs:float"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#currencyCode" minOccurs="0" name="currencyCode" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#validityStartDate" minOccurs="0" name="validFromDate" type="xs:dateTime"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#validityExpirationDate" minOccurs="0" name="validUntilDate" type="xs:dateTime"/>
+               <xs:element minOccurs="0" name="attributes" type="tns:dataAttributes"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="physicalPersonPledgee">
+            <xs:sequence>
+               <xs:element minOccurs="0" name="idCode" type="tns:identificationCode"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#birthDate" minOccurs="0" name="birthDate" type="xs:dateTime"/>
+               <xs:element minOccurs="0" name="personName" type="tns:personName"/>
+               <xs:element minOccurs="0" name="homeAddress" type="tns:pledgeeAddress"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#pledgeShare" name="pledgeShare" type="xs:int"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#validityStartDate" minOccurs="0" name="validFromDate" type="xs:dateTime"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#validityExpirationDate" minOccurs="0" name="validUntilDate" type="xs:dateTime"/>
+               <xs:element minOccurs="0" name="attributes" type="tns:dataAttributes"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="identificationCode">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#nationalIdCode" minOccurs="0" name="estonianNationalId" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#nationalIdCode" minOccurs="0" name="foreignNationalId" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="pledgeeAddress">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#districtName" minOccurs="0" name="district" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#countryCode" minOccurs="0" name="countryCode" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#countryName" minOccurs="0" name="countryName" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="legalPersonPledgee">
+            <xs:sequence>
+               <xs:element minOccurs="0" name="idCode" type="tns:businessRegCode"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#companyName" minOccurs="0" name="businessName" type="xs:string"/>
+               <xs:element minOccurs="0" name="businessAddress" type="tns:pledgeeAddress"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#pledgeShare" name="pledgeShare" type="xs:int"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#validityStartDate" minOccurs="0" name="validFromDate" type="xs:dateTime"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#validityExpirationDate" minOccurs="0" name="validUntilDate" type="xs:dateTime"/>
+               <xs:element minOccurs="0" name="attributes" type="tns:dataAttributes"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="businessRegCode">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#businessRegistryCode" minOccurs="0" name="estonianRegistrationCode" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#businessRegistryCode" minOccurs="0" name="foreignRegistrationCode" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="remark">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#remarkContent" minOccurs="0" name="remarkContent" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#validityStartDate" minOccurs="0" name="validFromDate" type="xs:dateTime"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#validityExpirationDate" minOccurs="0" name="validUntilDate" type="xs:dateTime"/>
+               <xs:element minOccurs="0" name="attributes" type="tns:dataAttributes"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="deletionRemark">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#remarkContent" minOccurs="0" name="remarkContent" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#validityStartDate" minOccurs="0" name="validFromDate" type="xs:dateTime"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#validityExpirationDate" minOccurs="0" name="validUntilDate" type="xs:dateTime"/>
+               <xs:element minOccurs="0" name="attributes" type="tns:dataAttributes"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="listOfAnnualReportData">
+            <xs:sequence>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="report" nillable="true" type="tns:companyReport"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="companyReport">
+            <xs:sequence>
+               <xs:element minOccurs="0" name="reportDesc" type="tns:companyReportDescription"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="reportRow" nillable="true" type="tns:reportRow"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="companyReportDescription">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#annualReportTypeCode" minOccurs="0" name="reportTypeCode" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#annualReportName" minOccurs="0" name="reportName" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#annualReportYear" name="reportYear" type="xs:int"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#fiscalYearStartDate" minOccurs="0" name="periodStartDate" type="xs:dateTime"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#fiscalYearEndDate" minOccurs="0" name="periodEndDate" type="xs:dateTime"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="reportRow">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#annualReportRowNumber" name="rowNumber" type="xs:int"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#annualReportRowName" minOccurs="0" name="rowName" type="xs:string"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="column" nillable="true" type="tns:reportColumn"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="reportColumn">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#annualReportColumnCode" minOccurs="0" name="code" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#annualReportColumnName" minOccurs="0" name="name" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#annualReportColumnValue" name="value" type="xs:float"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="listOfBusinesses">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#numberOfResults" name="recordCount" type="xs:int"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="business" nillable="true" type="tns:compactBusinessRecord"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="compactBusinessRecord">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#companyName" minOccurs="0" name="businessName" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#businessRegistryCode" name="businessRegistryCode" type="xs:int"/>
+               <xs:element minOccurs="0" name="businessStatus" type="tns:businessStatus"/>
+               <xs:element minOccurs="0" name="registrationDistrict" type="tns:district"/>
+               <xs:element minOccurs="0" name="businessAddress" type="tns:address"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#registrationDate" minOccurs="0" name="registrationDate" type="xs:dateTime"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#registrationDate" minOccurs="0" name="registrationDateInDistrict" type="xs:dateTime"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="district">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#districtCode" name="registryDistrictCode" type="xs:int"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#districtName" minOccurs="0" name="registryDistrictName" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="address">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#postalCode" minOccurs="0" name="postalCode" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#districtName" minOccurs="0" name="districtName" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#addressLine" minOccurs="0" name="streetField" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#ehakCode" minOccurs="0" name="ehakCode" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="companyHistoricalDetails">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#businessRegistryCode" minOccurs="0" name="businessRegistryCode" type="xs:string"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="businessName" nillable="true" type="tns:validFromToString"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#companyRegistryCode" minOccurs="0" name="companyRegistryCode" type="xs:string"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="legalForm" nillable="true" type="tns:companyTypeHistory"/>
+               <xs:element minOccurs="0" name="businessStatus" type="tns:businessStatus"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#deletionDate" minOccurs="0" name="deletionDateTime" type="xs:dateTime"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#registrationDate" minOccurs="0" name="registrationDateTime" type="xs:dateTime"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="capitalEntry" nillable="true" type="tns:capitalHistory"/>
+               <xs:element minOccurs="0" name="judEntry" type="tns:judicialWindingUpEntry"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="registryDistrict" nillable="true" type="tns:districtHistory"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="businessAddress" nillable="true" type="tns:addressHistory"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="businessContact" nillable="true" type="tns:contactRecordHistory"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="businessActivity" nillable="true" type="tns:validFromToString"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="businessAim" nillable="true" type="tns:validFromToString"/>
+               <xs:element minOccurs="0" name="mainBusinessActivity" type="tns:businessActivityHistory"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="relatedPhysicalPerson" nillable="true" type="tns:personRecord"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="relatedLegalPerson" nillable="true" type="tns:businessRecord"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="representationRightRegulation" nillable="true" type="tns:representationRightRegulation"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="representationRightSpecialCondition" nillable="true" type="tns:representationRightSpecialCondition"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="otherPhysicalPerson" nillable="true" type="tns:personRecordHistory"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="otherLegalPerson" nillable="true" type="tns:businessRecordHistory"/>
+               <xs:element minOccurs="0" name="foreignBusiness" type="tns:foreignBusiness"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="fiscalYear" nillable="true" type="tns:fiscalYear"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="articlesOfAssociation" nillable="true" type="tns:articlesOfAssociation"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="statusChange" nillable="true" type="tns:statusChange"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="foundationResolutionApprovalDate" nillable="true" type="tns:approvalDate"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="nonProfitAssociationEstablishmentDate" nillable="true" type="tns:approvalDate"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="subclass" nillable="true" type="tns:subclass"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="operationExpiryDate" nillable="true" type="tns:approvalDate"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="churchFoundationDate" nillable="true" type="tns:approvalDate"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="compromiseExpiryDate" nillable="true" type="tns:approvalDate"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="shareAtEstonianCentralRegisterOfSecurities" nillable="true" type="tns:validFromToString"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="remark" nillable="true" type="tns:remark"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="validFromToString">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#approvalDate" minOccurs="0" name="attributeValue" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#validityStartDate" minOccurs="0" name="validityStartDate" type="xs:dateTime"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#validityExpirationDate" minOccurs="0" name="validityExpirationDate" type="xs:dateTime"/>
+               <xs:element minOccurs="0" name="attributes" type="tns:dataAttributes"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="companyTypeHistory">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#companyTypeName" minOccurs="0" name="companyTypeName" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#companyTypeCode" minOccurs="0" name="companyTypeIdentifier" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#validityStartDate" minOccurs="0" name="validFromDate" type="xs:dateTime"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#validityExpirationDate" minOccurs="0" name="validUntilDate" type="xs:dateTime"/>
+               <xs:element minOccurs="0" name="attributes" type="tns:dataAttributes"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="capitalHistory">
+            <xs:complexContent>
+               <xs:extension base="tns:capital">
+                  <xs:sequence>
+                     <xs:element minOccurs="0" name="validityStartDate" type="xs:dateTime"/>
+                     <xs:element minOccurs="0" name="validityExpirationDate" type="xs:dateTime"/>
+                  </xs:sequence>
+               </xs:extension>
+            </xs:complexContent>
+         </xs:complexType>
+         <xs:complexType name="capital">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#monetaryAmount" name="capitalSize" type="xs:float"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#currencyCode" minOccurs="0" name="capitalCurrencyCode" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="judicialWindingUpEntry">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#entrybasecode" minOccurs="0" name="entryBaseCode" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#entrybasename" minOccurs="0" name="entryBaseName" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#entrysubdivisioncode" minOccurs="0" name="entrySubdivisionCode" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#entrysubdivisionname" minOccurs="0" name="entrySubdivisionName" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#entrysubdivisiondeterminationdate" minOccurs="0" name="entrySubdivisionDeterminationDate" type="xs:dateTime"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#publishingDate" minOccurs="0" name="entryPublicationDate" type="xs:dateTime"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#publishercode" minOccurs="0" name="publisherCode" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#publisherName" minOccurs="0" name="publisherName" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#remarkContent" minOccurs="0" name="publishedContent" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#courtName" minOccurs="0" name="courtName" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#courtAddress" minOccurs="0" name="courtAddress" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="districtHistory">
+            <xs:complexContent>
+               <xs:extension base="tns:district">
+                  <xs:sequence>
+                     <xs:element minOccurs="0" name="validityStartDate" type="xs:dateTime"/>
+                     <xs:element name="isValid" type="xs:boolean"/>
+                  </xs:sequence>
+               </xs:extension>
+            </xs:complexContent>
+         </xs:complexType>
+         <xs:complexType name="addressHistory">
+            <xs:complexContent>
+               <xs:extension base="tns:address">
+                  <xs:sequence>
+                     <xs:element minOccurs="0" name="validityStartDate" type="xs:dateTime"/>
+                     <xs:element minOccurs="0" name="validityExpirationDate" type="xs:dateTime"/>
+                     <xs:element minOccurs="0" name="attributes" type="tns:dataAttributes"/>
+                  </xs:sequence>
+               </xs:extension>
+            </xs:complexContent>
+         </xs:complexType>
+         <xs:complexType name="contactRecordHistory">
+            <xs:complexContent>
+               <xs:extension base="tns:contactRecord">
+                  <xs:sequence>
+                     <xs:element minOccurs="0" name="validityExpirationDate" type="xs:dateTime"/>
+                  </xs:sequence>
+               </xs:extension>
+            </xs:complexContent>
+         </xs:complexType>
+         <xs:complexType name="contactRecord">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#contactTypeCode" minOccurs="0" name="contactTypeCode" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#contactTypeName" minOccurs="0" name="contactTypeName" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#contactValue" minOccurs="0" name="contactValue" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="businessActivityHistory">
+            <xs:complexContent>
+               <xs:extension base="tns:businessActivity">
+                  <xs:sequence>
+                     <xs:element name="numberOfEmployees" type="xs:int"/>
+                     <xs:element minOccurs="0" name="validityStartDate" type="xs:dateTime"/>
+                     <xs:element minOccurs="0" name="validityExpirationDate" type="xs:dateTime"/>
+                  </xs:sequence>
+               </xs:extension>
+            </xs:complexContent>
+         </xs:complexType>
+         <xs:complexType name="businessActivity">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#emtakCode" minOccurs="0" name="emtakCode" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#naceCode" minOccurs="0" name="naceCode" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#businessActivity" minOccurs="0" name="activity" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="personRecord">
+            <xs:sequence>
+               <xs:element minOccurs="0" name="personRole" type="tns:role"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#validityExpirationDate" minOccurs="0" name="mandateEndDate" type="xs:dateTime"/>
+               <xs:element minOccurs="0" name="nationalIdCode" type="tns:personIdCode"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#birthDate" minOccurs="0" name="birthDate" type="xs:dateTime"/>
+               <xs:element minOccurs="0" name="name" type="tns:personName"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="personIdCode">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#nationalIdCode" minOccurs="0" name="estonianIdCode" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#nationalIdCode" minOccurs="0" name="foreignIdCode" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="businessRecord">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#companyName" minOccurs="0" name="businessName" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#businessRegistryCode" name="businessRegistryCode" type="xs:int"/>
+               <xs:element minOccurs="0" name="businessStatus" type="tns:businessStatus"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#deletionDate" minOccurs="0" name="deletionDateTime" type="xs:dateTime"/>
+               <xs:element minOccurs="0" name="registrationDistrict" type="tns:district"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="capitalEntry" nillable="true" type="tns:capital"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="businessAddress" nillable="true" type="tns:address"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#registrationDate" minOccurs="0" name="registrationDateTime" type="xs:dateTime"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="representationRightRegulation">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#remarkContent" minOccurs="0" name="regulationContent" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#roleCode" minOccurs="0" name="regulationRoleCode" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#roleName" minOccurs="0" name="regulationRoleName" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="representationRightSpecialCondition">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#conditionTypeCode" minOccurs="0" name="conditionTypeCode" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#conditiontypename" minOccurs="0" name="conditionTypeName" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#roleCode" minOccurs="0" name="conditionRoleCode" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#roleName" minOccurs="0" name="conditionRoleName" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#remarkContent" minOccurs="0" name="conditionContent" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#validityStartDate" minOccurs="0" name="validityStartDate" type="xs:dateTime"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#validityExpirationDate" minOccurs="0" name="validityExpirationDate" type="xs:dateTime"/>
+               <xs:element minOccurs="0" name="attributes" type="tns:dataAttributes"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="personRecordHistory">
+            <xs:complexContent>
+               <xs:extension base="tns:personRecord">
+                  <xs:sequence>
+                     <xs:element minOccurs="0" name="addressDistrict" type="xs:string"/>
+                     <xs:element minOccurs="0" name="addressCountryName" type="xs:string"/>
+                     <xs:element minOccurs="0" name="addressCountryCode" type="xs:string"/>
+                     <xs:element name="contributionAmount" type="xs:float"/>
+                     <xs:element minOccurs="0" name="contributionCurrencyCode" type="xs:string"/>
+                     <xs:element minOccurs="0" name="contributionCurrencyName" type="xs:string"/>
+                     <xs:element minOccurs="0" name="validityStartDate" type="xs:dateTime"/>
+                     <xs:element minOccurs="0" name="validityExpirationDate" type="xs:dateTime"/>
+                     <xs:element minOccurs="0" name="attributes" type="tns:dataAttributes"/>
+                  </xs:sequence>
+               </xs:extension>
+            </xs:complexContent>
+         </xs:complexType>
+         <xs:complexType name="businessRecordHistory">
+            <xs:complexContent>
+               <xs:extension base="tns:businessRecord">
+                  <xs:sequence>
+                     <xs:element minOccurs="0" name="countryName" type="xs:string"/>
+                     <xs:element minOccurs="0" name="countryCode" type="xs:string"/>
+                     <xs:element minOccurs="0" name="district" type="xs:string"/>
+                     <xs:element minOccurs="0" name="postalCode" type="xs:string"/>
+                     <xs:element minOccurs="0" name="addressPart" type="xs:string"/>
+                     <xs:element name="contributionAmount" type="xs:float"/>
+                     <xs:element minOccurs="0" name="contributionCurrencyCode" type="xs:string"/>
+                     <xs:element minOccurs="0" name="contributionCurrencyName" type="xs:string"/>
+                     <xs:element minOccurs="0" name="validityStartDate" type="xs:dateTime"/>
+                     <xs:element minOccurs="0" name="validityExpirationDate" type="xs:dateTime"/>
+                     <xs:element minOccurs="0" name="attributes" type="tns:dataAttributes"/>
+                  </xs:sequence>
+               </xs:extension>
+            </xs:complexContent>
+         </xs:complexType>
+         <xs:complexType name="foreignBusiness">
+            <xs:sequence>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="businessName" nillable="true" type="tns:validFromToString"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="businessAddress" nillable="true" type="tns:globalAddress"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="similarEstonianLegalForm" nillable="true" type="tns:companyTypeHistory"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="remarkForSimilarEstonianLegalForm" nillable="true" type="tns:remark"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="countryNameOfLegalBasis" nillable="true" type="tns:validFromToString"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="remarkForCountryNameOfLegalBasis" nillable="true" type="tns:remark"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="foreignRegistryName" nillable="true" type="tns:validFromToString"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="companyForeignRegistryCode" nillable="true" type="tns:validFromToString"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="descriptionOfAnnualReportingDuty" nillable="true" type="tns:validFromToString"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="globalAddress">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#countryName" minOccurs="0" name="countryName" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#countryCode" minOccurs="0" name="countryCode" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#postalCode" minOccurs="0" name="postalCode" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#addressLine" minOccurs="0" name="addressPart" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#validityStartDate" minOccurs="0" name="validFromDate" type="xs:dateTime"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#validityExpirationDate" minOccurs="0" name="validUntilDate" type="xs:dateTime"/>
+               <xs:element minOccurs="0" name="attributes" type="tns:dataAttributes"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="fiscalYear">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#fiscalYearStartDate" minOccurs="0" name="startDate" type="xs:dateTime"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#fiscalYearEndDate" minOccurs="0" name="endDate" type="xs:dateTime"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#validityStartDate" minOccurs="0" name="validityStartDate" type="xs:dateTime"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#validityExpirationDate" minOccurs="0" name="validityExpirationDate" type="xs:dateTime"/>
+               <xs:element minOccurs="0" name="attributes" type="tns:dataAttributes"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="articlesOfAssociation">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#confirmationDate" minOccurs="0" name="confirmationDate" type="xs:dateTime"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#modificationDate" minOccurs="0" name="modificationDate" type="xs:dateTime"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#remarkContent" minOccurs="0" name="explanation" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#validityStartDate" minOccurs="0" name="validityStartDate" type="xs:dateTime"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#validityExpirationDate" minOccurs="0" name="validityExpirationDate" type="xs:dateTime"/>
+               <xs:element minOccurs="0" name="attributes" type="tns:dataAttributes"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="statusChange">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#statusCode" minOccurs="0" name="typeCode" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#statusName" minOccurs="0" name="typeName" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#statusDescription" minOccurs="0" name="description" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#validityStartDate" minOccurs="0" name="validityStartDate" type="xs:dateTime"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#validityExpirationDate" minOccurs="0" name="validityExpirationDate" type="xs:dateTime"/>
+               <xs:element minOccurs="0" name="attributes" type="tns:dataAttributes"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="approvalDate">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#approvalDate" minOccurs="0" name="attributeValue" type="xs:dateTime"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#validityStartDate" minOccurs="0" name="validityStartDate" type="xs:dateTime"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#validityExpirationDate" minOccurs="0" name="validityExpirationDate" type="xs:dateTime"/>
+               <xs:element minOccurs="0" name="attributes" type="tns:dataAttributes"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="subclass">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#subclassCode" minOccurs="0" name="subclassCode" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#subclassName" minOccurs="0" name="subclassName" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#validityStartDate" minOccurs="0" name="validityStartDate" type="xs:dateTime"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#validityExpirationDate" minOccurs="0" name="validityExpirationDate" type="xs:dateTime"/>
+               <xs:element minOccurs="0" name="attributes" type="tns:dataAttributes"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="listOfAnnualReports">
+            <xs:sequence>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="report" nillable="true" type="tns:companyReportDescription"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="listOfRelatedCompanies">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#numberOfResults" name="recordCount" type="xs:int"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="business" nillable="true" type="tns:relatedCompanyRecord"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="relatedCompanyRecord">
+            <xs:sequence>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="person" nillable="true" type="tns:person"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#businessRegistryCode" name="businessRegistryCode" type="xs:int"/>
+               <xs:element minOccurs="0" name="businessName" type="tns:businessName"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#companyRegistryCode" name="companyRegistryCode" type="xs:int"/>
+               <xs:element minOccurs="0" name="legalForm" type="tns:companyType"/>
+               <xs:element minOccurs="0" name="businessStatus" type="tns:businessStatus"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#deletionDate" minOccurs="0" name="deletionDateTime" type="xs:dateTime"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#registrationDate" minOccurs="0" name="registrationDateTime" type="xs:dateTime"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="capitalEntry" nillable="true" type="tns:capital"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="person">
+            <xs:sequence>
+               <xs:element minOccurs="0" name="idCode" type="tns:personIdCode"/>
+               <xs:element minOccurs="0" name="name" type="tns:personName"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#isRecordValid" name="isValid" type="xs:boolean"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="businessName">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#companyName" minOccurs="0" name="validBusinessName" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#isRecordInvalid" maxOccurs="unbounded" minOccurs="0" name="invalidBusinessName" nillable="true" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="companyType">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#companyTypeName" minOccurs="0" name="companyTypeName" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#companyTypeCode" minOccurs="0" name="companyTypeIdentifier" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="listOfCompanyDetails">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#numberOfResults" name="recordCount" type="xs:int"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="business" nillable="true" type="tns:detailedBusinessRecord"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="detailedBusinessRecord">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#companyName" minOccurs="0" name="businessName" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#businessRegistryCode" minOccurs="0" name="businessRegistryCode" type="xs:string"/>
+               <xs:element minOccurs="0" name="businessType" type="tns:companyType"/>
+               <xs:element minOccurs="0" name="businessStatus" type="tns:businessStatus"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="businessAddress" nillable="true" type="tns:address"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="businessContact" nillable="true" type="tns:contactRecord"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#businessActivity" maxOccurs="unbounded" minOccurs="0" name="businessActivity" nillable="true" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#businessAim" maxOccurs="unbounded" minOccurs="0" name="businessAim" nillable="true" type="xs:string"/>
+               <xs:element minOccurs="0" name="mainBusinessActivity" type="tns:businessActivity"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="relatedPhysicalPerson" nillable="true" type="tns:personRecord"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="relatedLegalPerson" nillable="true" type="tns:simpleBusinessRecord"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="simpleBusinessRecord">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#companyName" minOccurs="0" name="businessName" type="xs:string"/>
+               <xs:element minOccurs="0" name="businessRegistryCode" type="tns:businessRegCode"/>
+               <xs:element minOccurs="0" name="businessRole" type="tns:role"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="listOfClassifiers">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#numberOfResults" name="recordCount" type="xs:int"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="classifier" nillable="true" type="tns:classifier"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="classifier">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#classifierCode" minOccurs="0" name="classifierCode" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#classifierName" minOccurs="0" name="classifierName" type="xs:string"/>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="value" nillable="true" type="tns:classifierValue"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="classifierValue">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#classifierValueCode" minOccurs="0" name="valueCode" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#classifierValueName" minOccurs="0" name="valueName" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="getCompanyAnnualReportURLs" type="tns:getCompanyAnnualReportURLs"/>
+         <xs:complexType name="getCompanyAnnualReportURLs">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#businessRegistryCode" minOccurs="0" name="registryCode" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#annualReportYear" name="year" type="xs:int"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#eerLanguageId" name="languageId" type="xs:int"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="getCompanyAnnualReportURLsResponse" type="tns:getCompanyAnnualReportURLsResponse"/>
+         <xs:complexType name="getCompanyAnnualReportURLsResponse">
+            <xs:sequence>
+               <xs:element minOccurs="0" name="ListOfCompanyReportURLs" type="tns:listOfCompanyReportURLs"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="getPersonsWithRepresentationRight" type="tns:getPersonsWithRepresentationRight"/>
+         <xs:complexType name="getPersonsWithRepresentationRight">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#businessRegistryCode" minOccurs="0" name="registryCode" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#eerLanguageId" name="languageId" type="xs:int"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="getPersonsWithRepresentationRightResponse" type="tns:getPersonsWithRepresentationRightResponse"/>
+         <xs:complexType name="getPersonsWithRepresentationRightResponse">
+            <xs:sequence>
+               <xs:element minOccurs="0" name="PersonsWithRepresentationRight" type="tns:personsWithRepresentationRight"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="getCommercialDeposits" type="tns:getCommercialDeposits"/>
+         <xs:complexType name="getCommercialDeposits">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#businessRegistryCode" minOccurs="0" name="registryCode" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#eerLanguageId" name="languageId" type="xs:int"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="getCommercialDepositsResponse" type="tns:getCommercialDepositsResponse"/>
+         <xs:complexType name="getCommercialDepositsResponse">
+            <xs:sequence>
+               <xs:element minOccurs="0" name="ListOfCommercialDeposits" type="tns:listOfCommercialDeposits"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="getAnnualReportData" type="tns:getAnnualReportData"/>
+         <xs:complexType name="getAnnualReportData">
+            <xs:sequence>
+                <!-- removed the minoccurs="0" to make the registry code required-->
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#businessRegistryCode" name="registryCode" type="xs:string"/>
+                <!-- removed the minoccurs="0" to make the registry code required-->
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#annualReportTypeCode" name="reportType" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#annualReportYear" name="year" type="xs:int"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#eerLanguageId" name="languageId" type="xs:int"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="getAnnualReportDataResponse" type="tns:getAnnualReportDataResponse"/>
+         <xs:complexType name="getAnnualReportDataResponse">
+            <xs:sequence>
+               <xs:element minOccurs="0" name="ListOfAnnualReportData" type="tns:listOfAnnualReportData"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="findBusinesses" type="tns:findBusinesses"/>
+         <xs:complexType name="findBusinesses">
+            <xs:sequence>
+                <!--made businessName mandatory-->
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#companyName" name="registryCode" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#eerLanguageId" name="languageId" type="xs:int"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="findBusinessesResponse" type="tns:findBusinessesResponse"/>
+         <xs:complexType name="findBusinessesResponse">
+            <xs:sequence>
+               <xs:element minOccurs="0" name="ListOfBusinesses" type="tns:listOfBusinesses"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="findBusiness" type="tns:findBusiness"/>
+         <xs:complexType name="findBusiness">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#businessRegistryCode" minOccurs="0" name="registryCode" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#eerLanguageId" name="languageId" type="xs:int"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="findBusinessResponse" type="tns:findBusinessResponse"/>
+         <xs:complexType name="findBusinessResponse">
+            <xs:sequence>
+               <xs:element minOccurs="0" name="ListOfBusinesses" type="tns:listOfBusinesses"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="getCompanyHistoricalDetails" type="tns:getCompanyHistoricalDetails"/>
+         <xs:complexType name="getCompanyHistoricalDetails">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#businessRegistryCode" minOccurs="0" name="registryCode" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#eerLanguageId" name="languageId" type="xs:int"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="getCompanyHistoricalDetailsResponse" type="tns:getCompanyHistoricalDetailsResponse"/>
+         <xs:complexType name="getCompanyHistoricalDetailsResponse">
+            <xs:sequence>
+               <xs:element minOccurs="0" name="CompanyHistoricalDetails" type="tns:companyHistoricalDetails"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="getListOfAnnualReports" type="tns:getListOfAnnualReports"/>
+         <xs:complexType name="getListOfAnnualReports">
+            <xs:sequence>
+                <!-- removed the minoccurs="0" to make the registry code required-->
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#businessRegistryCode" name="registryCode" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#eerLanguageId" name="languageId" type="xs:int"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="getListOfAnnualReportsResponse" type="tns:getListOfAnnualReportsResponse"/>
+         <xs:complexType name="getListOfAnnualReportsResponse">
+            <xs:sequence>
+               <xs:element minOccurs="0" name="ListOfAnnualReports" type="tns:listOfAnnualReports"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="getRelatedCompanies" type="tns:getRelatedCompanies"/>
+         <xs:complexType name="getRelatedCompanies">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#businessRegistryCode" minOccurs="0" name="registryCode" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#eerLanguageId" name="languageId" type="xs:int"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="getRelatedCompaniesResponse" type="tns:getRelatedCompaniesResponse"/>
+         <xs:complexType name="getRelatedCompaniesResponse">
+            <xs:sequence>
+               <xs:element minOccurs="0" name="ListOfRelatedCompanies" type="tns:listOfRelatedCompanies"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="getCompanyHistoricalDetailsWithPersonDetails" type="tns:getCompanyHistoricalDetailsWithPersonDetails"/>
+         <xs:complexType name="getCompanyHistoricalDetailsWithPersonDetails">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#businessRegistryCode" minOccurs="0" name="registryCode" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#eerLanguageId" name="languageId" type="xs:int"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="getCompanyHistoricalDetailsWithPersonDetailsResponse" type="tns:getCompanyHistoricalDetailsWithPersonDetailsResponse"/>
+         <xs:complexType name="getCompanyHistoricalDetailsWithPersonDetailsResponse">
+            <xs:sequence>
+               <xs:element minOccurs="0" name="CompanyHistoricalDetails" type="tns:companyHistoricalDetails"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="verifyRepresentationRight" type="tns:verifyRepresentationRight"/>
+         <xs:complexType name="verifyRepresentationRight">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#businessRegistryCode" minOccurs="0" name="registryCode" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#nationalIdCode" minOccurs="0" name="nationalIdCode" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#eerLanguageId" name="languageId" type="xs:int"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="verifyRepresentationRightResponse" type="tns:verifyRepresentationRightResponse"/>
+         <xs:complexType name="verifyRepresentationRightResponse">
+            <xs:sequence>
+               <xs:element minOccurs="0" name="PersonsWithRepresentationRight" type="tns:personsWithRepresentationRight"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="getCompanyDetailsWithPersonDetails" type="tns:getCompanyDetailsWithPersonDetails"/>
+         <xs:complexType name="getCompanyDetailsWithPersonDetails">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#businessRegistryCode" minOccurs="0" name="registryCode" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#eerLanguageId" name="languageId" type="xs:int"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="getCompanyDetailsWithPersonDetailsResponse" type="tns:getCompanyDetailsWithPersonDetailsResponse"/>
+         <xs:complexType name="getCompanyDetailsWithPersonDetailsResponse">
+            <xs:sequence>
+               <xs:element minOccurs="0" name="ListOfCompanyDetails" type="tns:listOfCompanyDetails"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="getCompanyDetails" type="tns:getCompanyDetails"/>
+         <xs:complexType name="getCompanyDetails">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#businessRegistryCode" minOccurs="0" name="registryCode" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#eerLanguageId" name="languageId" type="xs:int"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="getCompanyDetailsResponse" type="tns:getCompanyDetailsResponse"/>
+         <xs:complexType name="getCompanyDetailsResponse">
+            <xs:sequence>
+               <xs:element minOccurs="0" name="ListOfCompanyDetails" type="tns:listOfCompanyDetails"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="getClassifiers" type="tns:getClassifiers"/>
+         <xs:complexType name="getClassifiers">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#classifierCode" minOccurs="0" name="classifier" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#eerLanguageId" name="languageId" type="xs:int"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="getClassifiersResponse" type="tns:getClassifiersResponse"/>
+         <xs:complexType name="getClassifiersResponse">
+            <xs:sequence>
+               <xs:element minOccurs="0" name="ListOfClassifiers" type="tns:listOfClassifiers"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="getCompanyArticlesOfAssociationURL" type="tns:getCompanyArticlesOfAssociationURL"/>
+         <xs:complexType name="getCompanyArticlesOfAssociationURL">
+            <xs:sequence>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#businessRegistryCode" minOccurs="0" name="registryCode" type="xs:string"/>
+               <xs:element xmlns:sawsdl="http://www.w3.org/ns/sawsdl" sawsdl:modelReference="http://www.soatrader.com/ontology/BaseOntology.owl#eerLanguageId" name="languageId" type="xs:int"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="getCompanyArticlesOfAssociationURLResponse" type="tns:getCompanyArticlesOfAssociationURLResponse"/>
+         <xs:complexType name="getCompanyArticlesOfAssociationURLResponse">
+            <xs:sequence>
+               <xs:element minOccurs="0" name="ListOfCompanyReportURLs" type="tns:listOfCompanyReportURLs"/>
+            </xs:sequence>
+         </xs:complexType>
+      </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getCompanyHistoricalDetails">
+      <wsdl:part element="tns:getCompanyHistoricalDetails" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findBusiness">
+      <wsdl:part element="tns:findBusiness" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAnnualReportDataResponse">
+      <wsdl:part element="tns:getAnnualReportDataResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCompanyArticlesOfAssociationURL">
+      <wsdl:part element="tns:getCompanyArticlesOfAssociationURL" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRelatedCompanies">
+      <wsdl:part element="tns:getRelatedCompanies" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findBusinessResponse">
+      <wsdl:part element="tns:findBusinessResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPersonsWithRepresentationRight">
+      <wsdl:part element="tns:getPersonsWithRepresentationRight" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getListOfAnnualReportsResponse">
+      <wsdl:part element="tns:getListOfAnnualReportsResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRelatedCompaniesResponse">
+      <wsdl:part element="tns:getRelatedCompaniesResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findBusinesses">
+      <wsdl:part element="tns:findBusinesses" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCompanyAnnualReportURLsResponse">
+      <wsdl:part element="tns:getCompanyAnnualReportURLsResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getListOfAnnualReports">
+      <wsdl:part element="tns:getListOfAnnualReports" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCompanyHistoricalDetailsWithPersonDetailsResponse">
+      <wsdl:part element="tns:getCompanyHistoricalDetailsWithPersonDetailsResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="verifyRepresentationRight">
+      <wsdl:part element="tns:verifyRepresentationRight" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCommercialDepositsResponse">
+      <wsdl:part element="tns:getCommercialDepositsResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCompanyDetailsWithPersonDetailsResponse">
+      <wsdl:part element="tns:getCompanyDetailsWithPersonDetailsResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCompanyDetailsWithPersonDetails">
+      <wsdl:part element="tns:getCompanyDetailsWithPersonDetails" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPersonsWithRepresentationRightResponse">
+      <wsdl:part element="tns:getPersonsWithRepresentationRightResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCommercialDeposits">
+      <wsdl:part element="tns:getCommercialDeposits" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAnnualReportData">
+      <wsdl:part element="tns:getAnnualReportData" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCompanyDetails">
+      <wsdl:part element="tns:getCompanyDetails" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCompanyAnnualReportURLs">
+      <wsdl:part element="tns:getCompanyAnnualReportURLs" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCompanyDetailsResponse">
+      <wsdl:part element="tns:getCompanyDetailsResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getClassifiersResponse">
+      <wsdl:part element="tns:getClassifiersResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="verifyRepresentationRightResponse">
+      <wsdl:part element="tns:verifyRepresentationRightResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCompanyHistoricalDetailsResponse">
+      <wsdl:part element="tns:getCompanyHistoricalDetailsResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="findBusinessesResponse">
+      <wsdl:part element="tns:findBusinessesResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCompanyHistoricalDetailsWithPersonDetails">
+      <wsdl:part element="tns:getCompanyHistoricalDetailsWithPersonDetails" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getClassifiers">
+      <wsdl:part element="tns:getClassifiers" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCompanyArticlesOfAssociationURLResponse">
+      <wsdl:part element="tns:getCompanyArticlesOfAssociationURLResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="EstonianBusinessRegistryServiceEndpoint">
+      <wsdl:operation name="getCompanyAnnualReportURLs">
+         <wsdl:input message="tns:getCompanyAnnualReportURLs" name="getCompanyAnnualReportURLs">
+    </wsdl:input>
+         <wsdl:output message="tns:getCompanyAnnualReportURLsResponse" name="getCompanyAnnualReportURLsResponse">
+    </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getPersonsWithRepresentationRight">
+         <wsdl:input message="tns:getPersonsWithRepresentationRight" name="getPersonsWithRepresentationRight">
+    </wsdl:input>
+         <wsdl:output message="tns:getPersonsWithRepresentationRightResponse" name="getPersonsWithRepresentationRightResponse">
+    </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getCommercialDeposits">
+         <wsdl:input message="tns:getCommercialDeposits" name="getCommercialDeposits">
+    </wsdl:input>
+         <wsdl:output message="tns:getCommercialDepositsResponse" name="getCommercialDepositsResponse">
+    </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getAnnualReportData">
+         <wsdl:input message="tns:getAnnualReportData" name="getAnnualReportData">
+    </wsdl:input>
+         <wsdl:output message="tns:getAnnualReportDataResponse" name="getAnnualReportDataResponse">
+    </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="findBusinesses">
+         <wsdl:input message="tns:findBusinesses" name="findBusinesses">
+    </wsdl:input>
+         <wsdl:output message="tns:findBusinessesResponse" name="findBusinessesResponse">
+    </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="findBusiness">
+         <wsdl:input message="tns:findBusiness" name="findBusiness">
+    </wsdl:input>
+         <wsdl:output message="tns:findBusinessResponse" name="findBusinessResponse">
+    </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getCompanyHistoricalDetails">
+         <wsdl:input message="tns:getCompanyHistoricalDetails" name="getCompanyHistoricalDetails">
+    </wsdl:input>
+         <wsdl:output message="tns:getCompanyHistoricalDetailsResponse" name="getCompanyHistoricalDetailsResponse">
+    </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getListOfAnnualReports">
+         <wsdl:input message="tns:getListOfAnnualReports" name="getListOfAnnualReports">
+    </wsdl:input>
+         <wsdl:output message="tns:getListOfAnnualReportsResponse" name="getListOfAnnualReportsResponse">
+    </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getRelatedCompanies">
+         <wsdl:input message="tns:getRelatedCompanies" name="getRelatedCompanies">
+    </wsdl:input>
+         <wsdl:output message="tns:getRelatedCompaniesResponse" name="getRelatedCompaniesResponse">
+    </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getCompanyHistoricalDetailsWithPersonDetails">
+         <wsdl:input message="tns:getCompanyHistoricalDetailsWithPersonDetails" name="getCompanyHistoricalDetailsWithPersonDetails">
+    </wsdl:input>
+         <wsdl:output message="tns:getCompanyHistoricalDetailsWithPersonDetailsResponse" name="getCompanyHistoricalDetailsWithPersonDetailsResponse">
+    </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="verifyRepresentationRight">
+         <wsdl:input message="tns:verifyRepresentationRight" name="verifyRepresentationRight">
+    </wsdl:input>
+         <wsdl:output message="tns:verifyRepresentationRightResponse" name="verifyRepresentationRightResponse">
+    </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getCompanyDetailsWithPersonDetails">
+         <wsdl:input message="tns:getCompanyDetailsWithPersonDetails" name="getCompanyDetailsWithPersonDetails">
+    </wsdl:input>
+         <wsdl:output message="tns:getCompanyDetailsWithPersonDetailsResponse" name="getCompanyDetailsWithPersonDetailsResponse">
+    </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getCompanyDetails">
+         <wsdl:input message="tns:getCompanyDetails" name="getCompanyDetails">
+    </wsdl:input>
+         <wsdl:output message="tns:getCompanyDetailsResponse" name="getCompanyDetailsResponse">
+    </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getClassifiers">
+         <wsdl:input message="tns:getClassifiers" name="getClassifiers">
+    </wsdl:input>
+         <wsdl:output message="tns:getClassifiersResponse" name="getClassifiersResponse">
+    </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getCompanyArticlesOfAssociationURL">
+         <wsdl:input message="tns:getCompanyArticlesOfAssociationURL" name="getCompanyArticlesOfAssociationURL">
+    </wsdl:input>
+         <wsdl:output message="tns:getCompanyArticlesOfAssociationURLResponse" name="getCompanyArticlesOfAssociationURLResponse">
+    </wsdl:output>
+      </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="EstonianBusinessRegistryServiceSoapBinding" type="tns:EstonianBusinessRegistryServiceEndpoint">
+      <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+      <wsdl:operation name="getCompanyAnnualReportURLs">
+         <soap:operation soapAction="" style="document"/>
+         <wsdl:input name="getCompanyAnnualReportURLs">
+            <soap:header message="tns:SOATraderLicense" use="literal" part="SOATraderLicense"/>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="getCompanyAnnualReportURLsResponse">
+            <soap:header message="tns:SOATraderUsageStatistics" use="literal" part="SOATraderUsageStatistics"/>
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getPersonsWithRepresentationRight">
+         <soap:operation soapAction="" style="document"/>
+         <wsdl:input name="getPersonsWithRepresentationRight">
+            <soap:header message="tns:SOATraderLicense" use="literal" part="SOATraderLicense"/>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="getPersonsWithRepresentationRightResponse">
+            <soap:header message="tns:SOATraderUsageStatistics" use="literal" part="SOATraderUsageStatistics"/>
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getCommercialDeposits">
+         <soap:operation soapAction="" style="document"/>
+         <wsdl:input name="getCommercialDeposits">
+            <soap:header message="tns:SOATraderLicense" use="literal" part="SOATraderLicense"/>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="getCommercialDepositsResponse">
+            <soap:header message="tns:SOATraderUsageStatistics" use="literal" part="SOATraderUsageStatistics"/>
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getAnnualReportData">
+         <soap:operation soapAction="" style="document"/>
+         <wsdl:input name="getAnnualReportData">
+            <soap:header message="tns:SOATraderLicense" use="literal" part="SOATraderLicense"/>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="getAnnualReportDataResponse">
+            <soap:header message="tns:SOATraderUsageStatistics" use="literal" part="SOATraderUsageStatistics"/>
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="findBusinesses">
+         <soap:operation soapAction="" style="document"/>
+         <wsdl:input name="findBusinesses">
+            <soap:header message="tns:SOATraderLicense" use="literal" part="SOATraderLicense"/>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="findBusinessesResponse">
+            <soap:header message="tns:SOATraderUsageStatistics" use="literal" part="SOATraderUsageStatistics"/>
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="findBusiness">
+         <soap:operation soapAction="" style="document"/>
+         <wsdl:input name="findBusiness">
+            <soap:header message="tns:SOATraderLicense" use="literal" part="SOATraderLicense"/>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="findBusinessResponse">
+            <soap:header message="tns:SOATraderUsageStatistics" use="literal" part="SOATraderUsageStatistics"/>
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getCompanyHistoricalDetails">
+         <soap:operation soapAction="" style="document"/>
+         <wsdl:input name="getCompanyHistoricalDetails">
+            <soap:header message="tns:SOATraderLicense" use="literal" part="SOATraderLicense"/>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="getCompanyHistoricalDetailsResponse">
+            <soap:header message="tns:SOATraderUsageStatistics" use="literal" part="SOATraderUsageStatistics"/>
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getListOfAnnualReports">
+         <soap:operation soapAction="" style="document"/>
+         <wsdl:input name="getListOfAnnualReports">
+            <soap:header message="tns:SOATraderLicense" use="literal" part="SOATraderLicense"/>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="getListOfAnnualReportsResponse">
+            <soap:header message="tns:SOATraderUsageStatistics" use="literal" part="SOATraderUsageStatistics"/>
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getCompanyHistoricalDetailsWithPersonDetails">
+         <soap:operation soapAction="" style="document"/>
+         <wsdl:input name="getCompanyHistoricalDetailsWithPersonDetails">
+            <soap:header message="tns:SOATraderLicense" use="literal" part="SOATraderLicense"/>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="getCompanyHistoricalDetailsWithPersonDetailsResponse">
+            <soap:header message="tns:SOATraderUsageStatistics" use="literal" part="SOATraderUsageStatistics"/>
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getRelatedCompanies">
+         <soap:operation soapAction="" style="document"/>
+         <wsdl:input name="getRelatedCompanies">
+            <soap:header message="tns:SOATraderLicense" use="literal" part="SOATraderLicense"/>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="getRelatedCompaniesResponse">
+            <soap:header message="tns:SOATraderUsageStatistics" use="literal" part="SOATraderUsageStatistics"/>
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="verifyRepresentationRight">
+         <soap:operation soapAction="" style="document"/>
+         <wsdl:input name="verifyRepresentationRight">
+            <soap:header message="tns:SOATraderLicense" use="literal" part="SOATraderLicense"/>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="verifyRepresentationRightResponse">
+            <soap:header message="tns:SOATraderUsageStatistics" use="literal" part="SOATraderUsageStatistics"/>
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getCompanyDetailsWithPersonDetails">
+         <soap:operation soapAction="" style="document"/>
+         <wsdl:input name="getCompanyDetailsWithPersonDetails">
+            <soap:header message="tns:SOATraderLicense" use="literal" part="SOATraderLicense"/>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="getCompanyDetailsWithPersonDetailsResponse">
+            <soap:header message="tns:SOATraderUsageStatistics" use="literal" part="SOATraderUsageStatistics"/>
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getClassifiers">
+         <soap:operation soapAction="" style="document"/>
+         <wsdl:input name="getClassifiers">
+            <soap:header message="tns:SOATraderLicense" use="literal" part="SOATraderLicense"/>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="getClassifiersResponse">
+            <soap:header message="tns:SOATraderUsageStatistics" use="literal" part="SOATraderUsageStatistics"/>
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getCompanyDetails">
+         <soap:operation soapAction="" style="document"/>
+         <wsdl:input name="getCompanyDetails">
+            <soap:header message="tns:SOATraderLicense" use="literal" part="SOATraderLicense"/>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="getCompanyDetailsResponse">
+            <soap:header message="tns:SOATraderUsageStatistics" use="literal" part="SOATraderUsageStatistics"/>
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getCompanyArticlesOfAssociationURL">
+         <soap:operation soapAction="" style="document"/>
+         <wsdl:input name="getCompanyArticlesOfAssociationURL">
+            <soap:header message="tns:SOATraderLicense" use="literal" part="SOATraderLicense"/>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output name="getCompanyArticlesOfAssociationURLResponse">
+            <soap:header message="tns:SOATraderUsageStatistics" use="literal" part="SOATraderUsageStatistics"/>
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="EstonianBusinessRegistryService">
+      <wsdl:port binding="tns:EstonianBusinessRegistryServiceSoapBinding" name="BusinessRegistryPort">
+         <soap:address location="http://xml-services.ioc.ee:8080/ioc.ee/0.1/EstonianBusinessRegistryService"/>
+      </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
