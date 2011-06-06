@@ -13,7 +13,9 @@ import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import soapproxy.components.proxy.JsonRpc2SoapConverter;
+import soapproxy.components.wsdl.WsdlContextCache;
 import soapproxy.util.Xml2JsonConverter;
 
 import javax.wsdl.*;
@@ -29,8 +31,14 @@ import java.util.Iterator;
 
 public class JsonRpc2SoapConverterImpl implements JsonRpc2SoapConverter {
 
+  private WsdlContextCache wsdlContextCache;
+
   public static final String ATTRIBUTE_ELEMENT_PREFIX = "_attr_";
   public static final String VALUE_ELEMENT_NAME = "_value_";
+
+  public JsonRpc2SoapConverterImpl(WsdlContextCache wsdlContextCache) {
+    this.wsdlContextCache = wsdlContextCache;
+  }
 
   @Override
   public String convert(String jsonRpcRequestParams, String wsdlUri, String operationName) throws Exception {
@@ -79,7 +87,7 @@ public class JsonRpc2SoapConverterImpl implements JsonRpc2SoapConverter {
   }
 
   private XmlObject convertToSoapMessage(String wsdlUri, String operationName, JsonNode jsonRequestParams) throws Exception {
-    SoapMessageBuilder soapMessageBuilder = new SoapMessageBuilder(new WsdlContext(wsdlUri));
+    SoapMessageBuilder soapMessageBuilder = new SoapMessageBuilder(wsdlContextCache.getContextForWsdlDocument(wsdlUri));
 
     Definition definition = getDefinition(wsdlUri);
     BindingOperation bindingOperation = WsdlUtils.findBindingOperation(definition, operationName);

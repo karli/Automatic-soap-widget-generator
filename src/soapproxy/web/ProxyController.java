@@ -3,12 +3,14 @@ package soapproxy.web;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import soapproxy.components.proxy.JsonRpc2SoapConverterImpl;
 import soapproxy.components.proxy.JsonRpc2SoapConverter;
+import soapproxy.components.wsdl.WsdlContextCache;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,6 +23,9 @@ import java.util.Map;
 public class ProxyController {
   private final Logger LOG = Logger.getLogger(getClass());
   private static final String DEFAULT_JAVASCRIPT_TYPE = "text/javascript";
+
+  @Autowired
+  private WsdlContextCache wsdlContextCache;
 
   @RequestMapping("/proxy")
   public ModelAndView proxyRequest(@RequestParam("wsdl") String wsdlUrl,
@@ -36,7 +41,7 @@ public class ProxyController {
     JsonNode requestParams = jsonRpcRequest.get("params");
     String requestId = jsonRpcRequest.get("id").getValueAsText();
 
-    JsonRpc2SoapConverter j2s = new JsonRpc2SoapConverterImpl();
+    JsonRpc2SoapConverter j2s = new JsonRpc2SoapConverterImpl(wsdlContextCache);
     String jsonResponse = j2s.convert(requestParams.toString(), wsdlUrl, operation);
 
     String result = httpServletRequest.getParameter("callback") + "("

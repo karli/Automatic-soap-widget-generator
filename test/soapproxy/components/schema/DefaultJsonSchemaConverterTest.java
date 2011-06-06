@@ -10,7 +10,7 @@ public class DefaultJsonSchemaConverterTest {
 
   @Test
   public void shouldGenerateJsonSchema() throws Exception {
-    DefaultJsonSchemaGenerator schemaConverter = new DefaultJsonSchemaGenerator(null, null, null);
+    DefaultJsonSchemaGenerator schemaConverter = new DefaultJsonSchemaGenerator(null, null, null, null);
     JsonNode actualResult = schemaConverter.getJsonSchemaObjectNode(getSoapMessage());
     actualResult.toString();
     String expected = "{\"type\":\"object\",\"properties\":{\"Header\":{\"required\":true,\"type\":\"object\",\"properties\":{\"SOATraderLicense\":{\"required\":true,\"type\":\"string\"}}},\"Body\":{\"required\":true,\"type\":\"object\",\"properties\":{\"findBusiness\":{\"required\":true,\"type\":\"object\",\"properties\":{\"registryCode\":{\"type\":\"string\"},\"languageId\":{\"required\":true,\"type\":\"string\"}}}}}}}";

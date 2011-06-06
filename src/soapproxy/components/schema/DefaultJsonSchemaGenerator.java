@@ -7,6 +7,7 @@ import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlObject;
 import org.codehaus.jackson.node.JsonNodeFactory;
 import org.codehaus.jackson.node.ObjectNode;
+import soapproxy.components.wsdl.WsdlContextCache;
 import soapproxy.util.SampleXmlUtil;
 import soapproxy.util.SoapMessageBuilder;
 
@@ -25,11 +26,11 @@ public class DefaultJsonSchemaGenerator implements JsonSchemaGenerator {
     INPUT_MESSAGE, OUTPUT_MESSAGE, FAULT_MESSAGE
   }
 
-  public DefaultJsonSchemaGenerator(String wsdlUri, String operationName, MessageType messageType) {
+  public DefaultJsonSchemaGenerator(String wsdlUri, String operationName, MessageType messageType, WsdlContextCache wsdlContextCache) {
     this.wsdlUri = wsdlUri;
     this.operationName = operationName;
     this.messageType = messageType;
-    wsdlContext = new WsdlContext(wsdlUri);
+    wsdlContext = wsdlContextCache.getContextForWsdlDocument(wsdlUri);
   }
 
   @Override

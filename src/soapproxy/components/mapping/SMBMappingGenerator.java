@@ -10,6 +10,7 @@ import org.dom4j.io.SAXReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.*;
+import soapproxy.components.wsdl.WsdlContextCache;
 import soapproxy.util.SoapMessageBuilder;
 
 import javax.wsdl.BindingOperation;
@@ -23,11 +24,14 @@ public class SMBMappingGenerator extends DefaultMappingGenerator {
   @Autowired
   private MappingDefaultValuesRepository mappingDefaultValuesRepository;
 
+  @Autowired
+  private WsdlContextCache wsdlContextCache;
+
   @Override
   public synchronized String getMapping(String wsdlUri, String operation, String jsonSchemaUrl) throws Exception {
     setWsdlUri(wsdlUri);
     setOperation(operation);
-    setWsdlContext(new WsdlContext(wsdlUri));
+    setWsdlContext(wsdlContextCache.getContextForWsdlDocument(wsdlUri));
     setJsonSchemaUrl(jsonSchemaUrl);
     setSmb(new SoapMessageBuilder(getWsdlContext()));
     return generateMapping();
